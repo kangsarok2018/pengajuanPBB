@@ -1185,10 +1185,12 @@
             const btnLogin = document.getElementById('btnLoginHeader');
             const kecSelect = document.getElementById('metaKecamatan');
             const desaSelect = document.getElementById('metaDesa');
+            const mainContentEl = document.querySelector('main');
 
             if (window.currentUser) {
                 if (badge) badge.classList.remove('hidden');
                 if (btnLogin) btnLogin.classList.add('hidden');
+                if (mainContentEl) mainContentEl.classList.remove('hidden');
 
                 const pName = document.getElementById('userProfileName');
                 const pScope = document.getElementById('userProfileScope');
@@ -1202,7 +1204,6 @@
                     if (pName) pName.innerText = window.currentUser.name || "PETUGAS DESA";
                     if (pScope) pScope.innerText = `${window.currentUser.desa} (${window.currentUser.kecamatan})`;
 
-                    // Lock Kecamatan & Desa Dropdowns for Petugas Desa
                     if (kecSelect) {
                         kecSelect.value = window.currentUser.kecamatan;
                         kecSelect.disabled = true;
@@ -1213,15 +1214,18 @@
                         desaSelect.disabled = true;
                     }
                 }
+                window.updateHeaderMetadataState();
+                window.renderCurrentTabTable();
             } else {
                 if (badge) badge.classList.add('hidden');
                 if (btnLogin) btnLogin.classList.remove('hidden');
                 if (kecSelect) kecSelect.disabled = false;
                 if (desaSelect) desaSelect.disabled = false;
-            }
+                if (mainContentEl) mainContentEl.classList.add('hidden');
 
-            window.updateHeaderMetadataState();
-            window.renderCurrentTabTable();
+                // Force show login modal immediately on load if not logged in
+                window.openLoginModal();
+            }
         };
 
         window.openLoginModal = function() {
@@ -1233,6 +1237,11 @@
         };
 
         window.closeLoginModal = function() {
+            // If user is not logged in, prevent closing the login modal
+            if (!window.currentUser) {
+                window.showToast("Anda harus login terlebih dahulu untuk mengakses sistem!", "error");
+                return;
+            }
             const modal = document.getElementById('loginModal');
             if (modal) modal.classList.add('hidden');
         };
@@ -1334,6 +1343,7 @@
             localStorage.removeItem('pbb_user_session');
             window.showToast("Anda telah keluar dari akun.", "info");
             window.initAuthSession();
+            window.openLoginModal();
         };
 
         document.addEventListener('DOMContentLoaded', () => {
