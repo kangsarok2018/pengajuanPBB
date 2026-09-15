@@ -1559,10 +1559,24 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
         };
 
         window.exportToExcel = function(category) {
-            const thn = (document.getElementById('metaTahun')?.value || '2026').toString().toUpperCase();
-            const kec = (document.getElementById('metaKecamatan')?.value || '-').toString().trim().toUpperCase();
-            const desa = (document.getElementById('metaDesa')?.value || '-').toString().trim().toUpperCase();
-            const rt = (document.getElementById('metaRT')?.value || '-').toString().trim().toUpperCase();
+            let thn = (document.getElementById('metaTahun')?.value || '').toString().toUpperCase();
+            let kec = (document.getElementById('metaKecamatan')?.value || '').toString().trim().toUpperCase();
+            let desa = (document.getElementById('metaDesa')?.value || '').toString().trim().toUpperCase();
+            let rt = (document.getElementById('metaRT')?.value || '').toString().trim().toUpperCase();
+
+            const list = window.recordsData[category] || [];
+
+            // Fallback to saved record data if header metadata inputs are empty
+            if (category !== 'laporan' && list.length > 0) {
+                if (!kec && list[0].kecamatan) kec = list[0].kecamatan;
+                if (!desa && list[0].desa) desa = list[0].desa;
+                if (!rt && list[0].rt) rt = list[0].rt;
+                if (!thn && list[0].tahun) thn = list[0].tahun;
+            }
+            if (!thn) thn = '2026';
+            if (!kec) kec = '-';
+            if (!desa) desa = '-';
+            if (!rt) rt = '-';
 
             let titleText = "PENDAFTARAN OBJEK DAN SUBJEK PAJAK PBB-P2";
             if (category === 'pemutakhiran') titleText = "PEMUTAKHIRAN / PEMBETULAN DATA OBJEK DAN SUBJEK PAJAK PBB-P2";
@@ -1753,10 +1767,24 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
         window.printReport = function(category) {
             const list = window.recordsData[category] || [];
-            const thn = (document.getElementById('metaTahun')?.value || '2026').toString().toUpperCase();
-            const rt = (document.getElementById('metaRT')?.value || '.......................').toString().toUpperCase();
-            const desa = (document.getElementById('metaDesa')?.value || '.......................').toString().toUpperCase();
-            const kec = (document.getElementById('metaKecamatan')?.value || '.......................').toString().toUpperCase();
+
+            // Dynamically detect metadata from header selection or fallback to saved data in records
+            let thn = (document.getElementById('metaTahun')?.value || '').toString().toUpperCase();
+            let rt = (document.getElementById('metaRT')?.value || '').toString().toUpperCase();
+            let desa = (document.getElementById('metaDesa')?.value || '').toString().toUpperCase();
+            let kec = (document.getElementById('metaKecamatan')?.value || '').toString().toUpperCase();
+
+            if (category !== 'laporan' && list.length > 0) {
+                if (!kec && list[0].kecamatan) kec = list[0].kecamatan;
+                if (!desa && list[0].desa) desa = list[0].desa;
+                if (!rt && list[0].rt) rt = list[0].rt;
+                if (!thn && list[0].tahun) thn = list[0].tahun;
+            }
+
+            if (!thn) thn = '2026';
+            if (!rt) rt = '.......................';
+            if (!desa) desa = '.......................';
+            if (!kec) kec = '.......................';
 
             window.safeSetText('printRT', rt);
             window.safeSetText('printDesa', desa);
