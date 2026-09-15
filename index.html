@@ -43,9 +43,9 @@
                 <button onclick="openConfigModal()" class="bg-indigo-800 hover:bg-indigo-700 px-3 py-1.5 rounded-lg text-xs font-medium border border-indigo-600 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-gear text-amber-300"></i> Config & Status
                 </button>
-                <div id="authStatusBadge" class="bg-amber-500/20 text-amber-200 border border-amber-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span>Connecting projectpbb-ed58e...</span>
+                <div id="authStatusBadge" class="bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>Terhubung: projectpbb-ed58e</span>
                 </div>
             </div>
         </div>
@@ -87,8 +87,8 @@
                             <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-emerald-950 uppercase tracking-wide">Upload Surat Pengantar Desa (Langsung ke Drive)</h3>
-                            <p class="text-[11px] text-emerald-800">Pilih berkas dari perangkat. Berkas akan terupload otomatis ke Google Drive tanpa perlu login atau akses folder Drive.</p>
+                            <h3 class="text-xs font-bold text-emerald-950 uppercase tracking-wide">Upload Surat Pengantar Desa (Folder: PengajuanPBBKolektifDesa)</h3>
+                            <p class="text-[11px] text-emerald-800">Pilih berkas dari perangkat. File akan otomatis tersimpan di folder Google Drive <strong>PengajuanPBBKolektifDesa</strong> tanpa perlu login atau membuka Drive Anda.</p>
                         </div>
                     </div>
                     <button type="button" onclick="openAppsScriptHelpModal()" class="text-xs text-emerald-700 bg-white border border-emerald-300 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shrink-0">
@@ -131,7 +131,7 @@
 
         <!-- Tab Navigation Bar -->
         <div class="no-print bg-slate-200/80 p-1.5 rounded-xl flex flex-wrap gap-2 text-xs font-semibold">
-            <button id="tabBtnPendaftaran" onclick="switchTab('pendaftaran')" class="flex-1 py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 bg-white text-indigo-900 shadow">
+            <button id="tabBtnPendaftaran" onclick="switchTab('pendaftaran')" class="flex-1 py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 bg-white text-indigo-900 shadow font-bold">
                 <i class="fa-solid fa-file-circle-plus text-indigo-600 text-sm"></i>
                 <span>1. PENDAFTARAN</span>
             </button>
@@ -251,29 +251,21 @@
                     <table class="w-full text-xs text-left text-slate-700">
                         <thead class="text-[11px] uppercase bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                             <tr>
-                                <th class="py-3 px-3 text-center border-r w-12">NO</th>
-                                <th class="py-3 px-3 border-r min-w-[140px]">NAMA WP</th>
-                                <th class="py-3 px-3 border-r min-w-[120px]">NIK</th>
-                                <th class="py-3 px-3 border-r min-w-[150px]">ALAMAT WP</th>
-                                <th class="py-3 px-3 border-r min-w-[160px]">LETAK OBJEK</th>
-                                <th class="py-3 px-3 text-right border-r">LUAS BUMI</th>
-                                <th class="py-3 px-3 text-center border-r" colspan="4">BANGUNAN</th>
-                                <th class="py-3 px-3 border-r">KETERANGAN</th>
-                                <th class="py-3 px-3 text-center w-20">AKSI</th>
+                                <th class="py-3 px-3 text-center border-r w-12" rowspan="2">NO</th>
+                                <th class="py-3 px-3 border-r min-w-[140px]" rowspan="2">NAMA WP</th>
+                                <th class="py-3 px-3 border-r min-w-[120px]" rowspan="2">NIK</th>
+                                <th class="py-3 px-3 border-r min-w-[150px]" rowspan="2">ALAMAT WP</th>
+                                <th class="py-3 px-3 border-r min-w-[160px]" rowspan="2">LETAK OBJEK</th>
+                                <th class="py-3 px-3 text-right border-r" rowspan="2">LUAS BUMI</th>
+                                <th class="py-2 px-3 text-center border-r" colspan="4">BANGUNAN</th>
+                                <th class="py-3 px-3 border-r" rowspan="2">KETERANGAN</th>
+                                <th class="py-3 px-3 text-center w-20" rowspan="2">AKSI</th>
                             </tr>
                             <tr class="bg-slate-50 text-[10px] text-slate-500 border-b border-slate-200 text-center">
-                                <th class="py-1 border-r">1</th>
-                                <th class="py-1 border-r">2</th>
-                                <th class="py-1 border-r">3</th>
-                                <th class="py-1 border-r">4</th>
-                                <th class="py-1 border-r">5</th>
-                                <th class="py-1 border-r">6</th>
-                                <th class="py-1 border-r">7 (LUAS)</th>
-                                <th class="py-1 border-r">8 (THN DBGN)</th>
-                                <th class="py-1 border-r">9 (THN RENOV)</th>
-                                <th class="py-1 border-r">10 (LISTRIK)</th>
-                                <th class="py-1 border-r">11</th>
-                                <th class="py-1">-</th>
+                                <th class="py-1 border-r">LUAS</th>
+                                <th class="py-1 border-r">THN DBGN</th>
+                                <th class="py-1 border-r">THN RENOV</th>
+                                <th class="py-1 border-r">LISTRIK</th>
                             </tr>
                         </thead>
                         <tbody id="pendaftaranTableBody" class="divide-y divide-slate-200 bg-white">
@@ -535,17 +527,6 @@
                                 <th class="py-3 px-3 border-r min-w-[150px]">ALASAN PENGHAPUSAN</th>
                                 <th class="py-3 px-3 text-center w-20">AKSI</th>
                             </tr>
-                            <tr class="bg-slate-50 text-[10px] text-slate-500 border-b border-slate-200 text-center">
-                                <th class="py-1 border-r">1</th>
-                                <th class="py-1 border-r">2</th>
-                                <th class="py-1 border-r">3</th>
-                                <th class="py-1 border-r">4</th>
-                                <th class="py-1 border-r">5</th>
-                                <th class="py-1 border-r">6</th>
-                                <th class="py-1 border-r">7</th>
-                                <th class="py-1 border-r">8</th>
-                                <th class="py-1">-</th>
-                            </tr>
                         </thead>
                         <tbody id="penghapusanTableBody" class="divide-y divide-slate-200 bg-white">
                             <!-- Populated via JS -->
@@ -616,7 +597,7 @@
                     <p class="text-[10px] text-slate-500 mt-1">Digunakan untuk menyimpan file langsung ke folder Drive Anda secara background.</p>
                 </div>
                 <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-lg text-emerald-800 space-y-1">
-                    <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Realtime Sync & Auto Drive Upload Ready</p>
+                    <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Terkoneksi ke projectpbb-ed58e</p>
                     <p class="text-[11px]">Database terhubung secara otomatis untuk seluruh pengentrian data.</p>
                 </div>
             </div>
@@ -633,7 +614,7 @@
         <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3">
                 <h3 class="text-base font-bold text-emerald-950 flex items-center gap-2">
-                    <i class="fa-brands fa-google-drive text-emerald-600"></i> Cara Agar Perangkat Desa Upload Tanpa Akses Drive
+                    <i class="fa-brands fa-google-drive text-emerald-600"></i> Auto-Save ke Folder Drive "PengajuanPBBKolektifDesa"
                 </h3>
                 <button onclick="closeAppsScriptHelpModal()" class="text-slate-400 hover:text-slate-600 text-lg">
                     <i class="fa-solid fa-xmark"></i>
@@ -641,12 +622,12 @@
             </div>
 
             <div class="space-y-3 text-xs text-slate-700">
-                <p class="leading-relaxed">Agar pihak desa dapat **mengunggah file dari formulir aplikasi langsung tersimpan di Google Drive Anda** tanpa perlu login atau membuka folder Drive Anda, ikuti langkah 2 menit berikut:</p>
+                <p class="leading-relaxed">Agar pihak desa dapat <strong>mengunggah Surat Pengantar yang langsung tersimpan di folder "PengajuanPBBKolektifDesa"</strong> tanpa login atau memiliki akses Drive Anda, lakukan langkah 2 menit berikut:</p>
                 
                 <ol class="list-decimal pl-5 space-y-2 font-medium text-slate-800">
                     <li>Buka <a href="https://script.google.com/" target="_blank" class="text-indigo-600 underline font-bold">Google Apps Script</a> dengan Akun Google Drive Anda.</li>
                     <li>Klik <b>New Project</b> (Proyek Baru) dan hapus semua kode bawaan.</li>
-                    <li>Salin (Copy) dan Tempel (Paste) kode Apps Script di bawah ini:</li>
+                    <li>Salin (Copy) dan Tempel (Paste) kode Apps Script terbaru di bawah ini:</li>
                 </ol>
 
                 <div class="relative bg-slate-900 text-slate-100 p-3 rounded-xl font-mono text-[11px] overflow-x-auto">
@@ -656,20 +637,35 @@
                     <pre id="appsScriptCodeSnippet">function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var folderId = "1KRXt-rgZez7fH1NojylIyBqQ9E9o5r8g"; // ID Folder Drive Anda
-    var folder = DriveApp.getFolderById(folderId);
+    
+    // Target Folder: PengajuanPBBKolektifDesa
+    var folderId = "1KRXt-rgZez7fH1NojylIyBqQ9E9o5r8g"; 
+    var folder;
+    
+    try {
+      folder = DriveApp.getFolderById(folderId);
+    } catch(errF) {
+      var folders = DriveApp.getFoldersByName("PengajuanPBBKolektifDesa");
+      if (folders.hasNext()) {
+        folder = folders.next();
+      } else {
+        folder = DriveApp.createFolder("PengajuanPBBKolektifDesa");
+      }
+    }
     
     var contentType = data.mimeType || "application/octet-stream";
     var bytes = Utilities.base64Decode(data.base64);
     var blob = Utilities.newBlob(bytes, contentType, data.filename);
     var file = folder.createFile(blob);
     
+    // Set file agar bisa dilihat siapa saja melalui link
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     
     return ContentService.createTextOutput(JSON.stringify({
       result: "success",
       url: file.getUrl(),
-      id: file.getId()
+      id: file.getId(),
+      folderName: folder.getName()
     })).setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({
@@ -709,12 +705,10 @@
             pemutakhiran: [],
             penghapusan: []
         };
-
         window.selectedFileBase64 = null;
         window.selectedFileName = '';
         window.selectedFileMime = '';
 
-        // Safe DOM Text Helper
         window.safeSetText = function(id, text) {
             const el = document.getElementById(id);
             if (el) el.innerText = text;
@@ -764,7 +758,6 @@
         window.switchTab = function(tabName) {
             window.activeTab = tabName;
             
-            // Hide all tab content safely
             const tPend = document.getElementById('tabPendaftaranContent');
             const tPem = document.getElementById('tabPemutakhiranContent');
             const tHapus = document.getElementById('tabPenghapusanContent');
@@ -773,13 +766,11 @@
             if (tPem) tPem.classList.add('hidden');
             if (tHapus) tHapus.classList.add('hidden');
 
-            // Reset buttons styling safely
             ['Pendaftaran', 'Pemutakhiran', 'Penghapusan'].forEach(t => {
                 const btn = document.getElementById(`tabBtn${t}`);
                 if (btn) btn.className = "flex-1 py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/50";
             });
 
-            // Show target content & active button style safely
             if (tabName === 'pendaftaran') {
                 if (tPend) tPend.classList.remove('hidden');
                 const btn = document.getElementById('tabBtnPendaftaran');
@@ -797,6 +788,460 @@
             if (typeof window.renderTable === 'function') {
                 window.renderTable(tabName);
             }
+        };
+
+        window.renderTable = function(category) {
+            const list = window.recordsData[category] || [];
+            let searchInput = '';
+            let tbody = null;
+            let countBadge = null;
+
+            if (category === 'pendaftaran') {
+                searchInput = document.getElementById('searchPendaftaran')?.value.toLowerCase() || '';
+                tbody = document.getElementById('pendaftaranTableBody');
+                countBadge = document.getElementById('pendCount');
+            } else if (category === 'pemutakhiran') {
+                searchInput = document.getElementById('searchPemutakhiran')?.value.toLowerCase() || '';
+                tbody = document.getElementById('pemutakhiranTableBody');
+                countBadge = document.getElementById('pemutakhiranCount');
+            } else if (category === 'penghapusan') {
+                searchInput = document.getElementById('searchPenghapusan')?.value.toLowerCase() || '';
+                tbody = document.getElementById('penghapusanTableBody');
+                countBadge = document.getElementById('penghapusanCount');
+            }
+
+            if (!tbody) return;
+
+            const filtered = list.filter(item => {
+                if (!searchInput) return true;
+                const text = JSON.stringify(item).toLowerCase();
+                return text.includes(searchInput);
+            });
+
+            if (countBadge) countBadge.innerText = `${filtered.length} Data`;
+
+            if (filtered.length === 0) {
+                const cols = category === 'pemutakhiran' ? 12 : (category === 'penghapusan' ? 9 : 12);
+                tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center py-6 text-slate-400 font-medium">Belum ada data ${category}.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((item, index) => {
+                const linkDrive = item.suratPengantarUrl ? `<a href="${window.escapeHtml(item.suratPengantarUrl)}" target="_blank" class="text-emerald-600 hover:text-emerald-800 font-semibold inline-flex items-center gap-1 ml-1" title="Lihat Surat Pengantar"><i class="fa-brands fa-google-drive"></i></a>` : '';
+
+                if (category === 'pendaftaran') {
+                    html += `
+                        <tr class="hover:bg-indigo-50/50 transition">
+                            <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
+                            <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
+                            <td class="py-2.5 px-3 border-r font-mono">${window.escapeHtml(item.nik || '-')}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-medium">${window.escapeHtml(item.letakObjek)}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBumi ? item.luasBumi + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.thnDbgn || '-')}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.thnRenov || '-')}</td>
+                            <td class="py-2.5 px-3 text-center border-r">${window.escapeHtml(item.listrik || '-')}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-500">${window.escapeHtml(item.keterangan || '-')}</td>
+                            <td class="py-2.5 px-3 text-center">
+                                <div class="flex justify-center gap-1.5">
+                                    <button onclick="editRecord('pendaftaran', '${item.id}')" class="text-indigo-600 hover:text-indigo-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteRecord('pendaftaran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                } else if (category === 'pemutakhiran') {
+                    html += `
+                        <tr class="hover:bg-amber-50/40 transition">
+                            <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-indigo-900">${window.escapeHtml(item.nop)} ${linkDrive}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-600">${window.escapeHtml(item.namaLama || '-')}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-600">${window.escapeHtml(item.letakObjekLama || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono text-slate-600">${item.luasBumiLama ? item.luasBumiLama + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono text-slate-600">${item.luasBangunanLama ? item.luasBangunanLama + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r font-bold text-amber-950 bg-amber-50/50">${window.escapeHtml(item.namaBaru || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-medium text-amber-950 bg-amber-50/50">${window.escapeHtml(item.letakObjekBaru || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBumiBaru ? item.luasBumiBaru + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBangunanBaru ? item.luasBangunanBaru + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r text-amber-900 font-medium">${window.escapeHtml(item.alasan || '-')}</td>
+                            <td class="py-2.5 px-3 text-center">
+                                <div class="flex justify-center gap-1.5">
+                                    <button onclick="editRecord('pemutakhiran', '${item.id}')" class="text-amber-600 hover:text-amber-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteRecord('pemutakhiran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                } else if (category === 'penghapusan') {
+                    html += `
+                        <tr class="hover:bg-red-50/40 transition">
+                            <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
+                            <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-mono font-bold text-red-900">${window.escapeHtml(item.nop)}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasTanah ? item.luasTanah + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r font-medium text-red-800">${window.escapeHtml(item.alasan)}</td>
+                            <td class="py-2.5 px-3 text-center">
+                                <div class="flex justify-center gap-1.5">
+                                    <button onclick="editRecord('penghapusan', '${item.id}')" class="text-red-600 hover:text-red-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteRecord('penghapusan', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+            });
+
+            tbody.innerHTML = html;
+        };
+
+        window.resetForm = function(category) {
+            if (category === 'pendaftaran') {
+                document.getElementById('pendaftaranForm')?.reset();
+                document.getElementById('pendaftaranRecordId').value = '';
+                window.safeSetText('pendaftaranFormMode', 'Mode: Tambah Data Baru');
+            } else if (category === 'pemutakhiran') {
+                document.getElementById('pemutakhiranForm')?.reset();
+                document.getElementById('pemutakhiranRecordId').value = '';
+                window.safeSetText('pemutakhiranFormMode', 'Mode: Tambah Pemutakhiran Baru');
+            } else if (category === 'penghapusan') {
+                document.getElementById('penghapusanForm')?.reset();
+                document.getElementById('penghapusanRecordId').value = '';
+                window.safeSetText('penghapusanFormMode', 'Mode: Tambah Usulan Penghapusan');
+            }
+        };
+
+        window.editRecord = function(category, id) {
+            const list = window.recordsData[category] || [];
+            const item = list.find(r => r.id === id);
+            if (!item) return;
+
+            if (item.kecamatan) document.getElementById('metaKecamatan').value = item.kecamatan;
+            if (item.desa) document.getElementById('metaDesa').value = item.desa;
+            if (item.rt) document.getElementById('metaRT').value = item.rt;
+            if (item.suratPengantarUrl) document.getElementById('metaSuratPengantarUrl').value = item.suratPengantarUrl;
+
+            if (category === 'pendaftaran') {
+                document.getElementById('pendaftaranRecordId').value = item.id;
+                document.getElementById('pendNama').value = item.nama || '';
+                document.getElementById('pendNik').value = item.nik || '';
+                document.getElementById('pendAlamatWp').value = item.alamatWp || '';
+                document.getElementById('pendLetakObjek').value = item.letakObjek || '';
+                document.getElementById('pendLuasBumi').value = item.luasBumi || '';
+                document.getElementById('pendLuasBangunan').value = item.luasBangunan || '';
+                document.getElementById('pendThnDbgn').value = item.thnDbgn || '';
+                document.getElementById('pendThnRenov').value = item.thnRenov || '';
+                document.getElementById('pendListrik').value = item.listrik || '';
+                document.getElementById('pendKeterangan').value = item.keterangan || '';
+                window.safeSetText('pendaftaranFormMode', 'Mode: Edit Data Pendaftaran');
+            } else if (category === 'pemutakhiran') {
+                document.getElementById('pemutakhiranRecordId').value = item.id;
+                document.getElementById('pemNOP').value = item.nop || '';
+                document.getElementById('pemNamaLama').value = item.namaLama || '';
+                document.getElementById('pemNikLama').value = item.nikLama || '';
+                document.getElementById('pemAlamatWpLama').value = item.alamatWpLama || '';
+                document.getElementById('pemLetakObjekLama').value = item.letakObjekLama || '';
+                document.getElementById('pemLuasBumiLama').value = item.luasBumiLama || '';
+                document.getElementById('pemLuasBangunanLama').value = item.luasBangunanLama || '';
+
+                document.getElementById('pemNamaBaru').value = item.namaBaru || '';
+                document.getElementById('pemNikBaru').value = item.nikBaru || '';
+                document.getElementById('pemAlamatWpBaru').value = item.alamatWpBaru || '';
+                document.getElementById('pemLetakObjekBaru').value = item.letakObjekBaru || '';
+                document.getElementById('pemLuasBumiBaru').value = item.luasBumiBaru || '';
+                document.getElementById('pemLuasBangunanBaru').value = item.luasBangunanBaru || '';
+                document.getElementById('pemAlasan').value = item.alasan || '';
+                window.safeSetText('pemutakhiranFormMode', 'Mode: Edit Data Pemutakhiran');
+            } else if (category === 'penghapusan') {
+                document.getElementById('penghapusanRecordId').value = item.id;
+                document.getElementById('hapusNama').value = item.nama || '';
+                document.getElementById('hapusAlamatWp').value = item.alamatWp || '';
+                document.getElementById('hapusNOP').value = item.nop || '';
+                document.getElementById('hapusLetakObjek').value = item.letakObjek || '';
+                document.getElementById('hapusLuasTanah').value = item.luasTanah || '';
+                document.getElementById('hapusLuasBangunan').value = item.luasBangunan || '';
+                document.getElementById('hapusAlasan').value = item.alasan || '';
+                window.safeSetText('penghapusanFormMode', 'Mode: Edit Data Penghapusan');
+            }
+
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        };
+
+        window.exportToExcel = function(category) {
+            const list = window.recordsData[category] || [];
+            if (list.length === 0) {
+                window.showToast("Tidak ada data untuk diexport.", "error");
+                return;
+            }
+
+            let exportData = [];
+            let fileName = `Data_PBB_2026_${category.toUpperCase()}_MERANGIN.xlsx`;
+
+            list.forEach((item, index) => {
+                if (category === 'pendaftaran') {
+                    exportData.push({
+                        'NO': index + 1,
+                        'NAMA WAJIB PAJAK': item.nama,
+                        'NIK': item.nik || '',
+                        'ALAMAT WP': item.alamatWp || '',
+                        'LETAK OBJEK PAJAK': item.letakObjek,
+                        'LUAS BUMI (M2)': item.luasBumi || '',
+                        'LUAS BANGUNAN (M2)': item.luasBangunan || '',
+                        'THN DBGN': item.thnDbgn || '',
+                        'THN RENOV': item.thnRenov || '',
+                        'LISTRIK': item.listrik || '',
+                        'KETERANGAN': item.keterangan || '',
+                        'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
+                    });
+                } else if (category === 'pemutakhiran') {
+                    exportData.push({
+                        'NO': index + 1,
+                        'NOP': item.nop,
+                        'NAMA WP (LAMA)': item.namaLama || '',
+                        'LETAK OBJEK (LAMA)': item.letakObjekLama || '',
+                        'LUAS BUMI (LAMA)': item.luasBumiLama || '',
+                        'LUAS BANGUNAN (LAMA)': item.luasBangunanLama || '',
+                        'NAMA WP (SEBENARNYA)': item.namaBaru || '',
+                        'LETAK OBJEK (SEBENARNYA)': item.letakObjekBaru || '',
+                        'LUAS BUMI (SEBENARNYA)': item.luasBumiBaru || '',
+                        'LUAS BANGUNAN (SEBENARNYA)': item.luasBangunanBaru || '',
+                        'ALASAN PEMUTAKHIRAN': item.alasan || '',
+                        'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
+                    });
+                } else if (category === 'penghapusan') {
+                    exportData.push({
+                        'NO': index + 1,
+                        'NAMA WAJIB PAJAK': item.nama,
+                        'ALAMAT WP / RT / RW': item.alamatWp || '',
+                        'NOP': item.nop,
+                        'ALAMAT OBJEK PAJAK / RT / RW': item.letakObjek || '',
+                        'LUAS TANAH (M2)': item.luasTanah || '',
+                        'LUAS BANGUNAN (M2)': item.luasBangunan || '',
+                        'ALASAN PENGHAPUSAN': item.alasan || '',
+                        'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
+                    });
+                }
+            });
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, category.toUpperCase());
+            XLSX.writeFile(workbook, fileName);
+
+            window.showToast(`Berhasil mengexport ${list.length} data ke Excel.`, "success");
+        };
+
+        window.printReport = function(category) {
+            const list = window.recordsData[category] || [];
+            const rt = document.getElementById('metaRT')?.value || '.......................';
+            const desa = document.getElementById('metaDesa')?.value || '.......................';
+            const kec = document.getElementById('metaKecamatan')?.value || '.......................';
+
+            window.safeSetText('printRT', rt);
+            window.safeSetText('printDesa', desa);
+            window.safeSetText('printKecamatan', kec);
+
+            let mainTitle = "PENDAFTARAN";
+            if (category === 'pemutakhiran') mainTitle = "PEMUTAKHIRAN / PEMBETULAN";
+            if (category === 'penghapusan') mainTitle = "PENGHAPUSAN";
+
+            window.safeSetText('printMainTitle', mainTitle);
+
+            const container = document.getElementById('printTableContainer');
+            if (!container) return;
+
+            let tableHtml = `<table class="w-full text-xs">`;
+
+            if (category === 'pendaftaran') {
+                tableHtml += `
+                    <thead>
+                        <tr>
+                            <th class="text-center" rowspan="2">NO</th>
+                            <th rowspan="2">NAMA</th>
+                            <th rowspan="2">NIK</th>
+                            <th rowspan="2">ALAMAT WP</th>
+                            <th rowspan="2">LETAK OBJEK</th>
+                            <th class="text-center" rowspan="2">LUAS BUMI</th>
+                            <th class="text-center" colspan="4">BANGUNAN</th>
+                            <th rowspan="2">KETERANGAN</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>LUAS</th>
+                            <th>THN DBGN</th>
+                            <th>THN RENOV</th>
+                            <th>LISTRIK</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                list.forEach((item, i) => {
+                    tableHtml += `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                            <td>${window.escapeHtml(item.nama)}</td>
+                            <td>${window.escapeHtml(item.nik || '')}</td>
+                            <td>${window.escapeHtml(item.alamatWp || '')}</td>
+                            <td>${window.escapeHtml(item.letakObjek)}</td>
+                            <td class="text-right">${item.luasBumi || ''}</td>
+                            <td class="text-right">${item.luasBangunan || ''}</td>
+                            <td class="text-center">${item.thnDbgn || ''}</td>
+                            <td class="text-center">${item.thnRenov || ''}</td>
+                            <td class="text-center">${item.listrik || ''}</td>
+                            <td>${window.escapeHtml(item.keterangan || '')}</td>
+                        </tr>
+                    `;
+                });
+            } else if (category === 'pemutakhiran') {
+                tableHtml += `
+                    <thead>
+                        <tr>
+                            <th class="text-center" rowspan="2">NO</th>
+                            <th rowspan="2">NOP</th>
+                            <th class="text-center" colspan="4">SEBELUM PEMUTAKHIRAN (SPPT/DHKP)</th>
+                            <th class="text-center" colspan="4">KEADAAN SEBENARNYA</th>
+                            <th rowspan="2">ALASAN PEMUTAKHIRAN</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>NAMA WP</th>
+                            <th>LETAK OBJEK</th>
+                            <th>L. BUMI</th>
+                            <th>L. BANG</th>
+                            <th>NAMA WP</th>
+                            <th>LETAK OBJEK</th>
+                            <th>L. BUMI</th>
+                            <th>L. BANG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                list.forEach((item, i) => {
+                    tableHtml += `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                            <td>${window.escapeHtml(item.nop)}</td>
+                            <td>${window.escapeHtml(item.namaLama || '')}</td>
+                            <td>${window.escapeHtml(item.letakObjekLama || '')}</td>
+                            <td class="text-right">${item.luasBumiLama || ''}</td>
+                            <td class="text-right">${item.luasBangunanLama || ''}</td>
+                            <td>${window.escapeHtml(item.namaBaru || '')}</td>
+                            <td>${window.escapeHtml(item.letakObjekBaru || '')}</td>
+                            <td class="text-right">${item.luasBumiBaru || ''}</td>
+                            <td class="text-right">${item.luasBangunanBaru || ''}</td>
+                            <td>${window.escapeHtml(item.alasan || '')}</td>
+                        </tr>
+                    `;
+                });
+            } else if (category === 'penghapusan') {
+                tableHtml += `
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th>NAMA</th>
+                            <th>ALAMAT WP / RT / RW</th>
+                            <th>NOP</th>
+                            <th>ALAMAT OBJEK PAJAK / RT / RW</th>
+                            <th class="text-center">LUAS TANAH (M2)</th>
+                            <th class="text-center">LUAS BANGUNAN (M2)</th>
+                            <th>ALASAN PENGHAPUSAN</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                list.forEach((item, i) => {
+                    tableHtml += `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                            <td>${window.escapeHtml(item.nama)}</td>
+                            <td>${window.escapeHtml(item.alamatWp || '')}</td>
+                            <td>${window.escapeHtml(item.nop)}</td>
+                            <td>${window.escapeHtml(item.letakObjek || '')}</td>
+                            <td class="text-right">${item.luasTanah || ''}</td>
+                            <td class="text-right">${item.luasBangunan || ''}</td>
+                            <td>${window.escapeHtml(item.alasan || '')}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            tableHtml += `</tbody></table>`;
+            container.innerHTML = tableHtml;
+
+            window.print();
+        };
+
+        window.uploadSelectedFileToDrive = async function() {
+            if (!window.selectedFileBase64) {
+                window.showToast("Silakan pilih file Surat Pengantar terlebih dahulu.", "error");
+                return;
+            }
+
+            const appsScriptUrl = window.getAppsScriptUrl();
+            const progressBox = document.getElementById('uploadProgressBox');
+            const statusText = document.getElementById('uploadStatusText');
+            const driveLinkEl = document.getElementById('uploadedDriveLink');
+            const btnUpload = document.getElementById('btnUploadDrive');
+
+            if (progressBox) progressBox.classList.remove('hidden');
+            if (driveLinkEl) driveLinkEl.classList.add('hidden');
+            if (statusText) statusText.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-emerald-600"></i> Mengunggah ke folder "PengajuanPBBKolektifDesa"...`;
+            if (btnUpload) btnUpload.disabled = true;
+            window.safeSetText('btnUploadText', "Mengunggah...");
+
+            if (appsScriptUrl) {
+                try {
+                    const payload = {
+                        filename: window.selectedFileName,
+                        mimeType: window.selectedFileMime,
+                        base64: window.selectedFileBase64
+                    };
+
+                    const response = await fetch(appsScriptUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+
+                    const resData = await response.json();
+                    if (resData.result === 'success' && resData.url) {
+                        const inputUrl = document.getElementById('metaSuratPengantarUrl');
+                        if (inputUrl) inputUrl.value = resData.url;
+                        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Terupload ke folder PengajuanPBBKolektifDesa!`;
+                        if (driveLinkEl) {
+                            driveLinkEl.href = resData.url;
+                            driveLinkEl.classList.remove('hidden');
+                        }
+                        window.showToast("File berhasil disimpan di folder PengajuanPBBKolektifDesa!", "success");
+                    } else {
+                        throw new Error(resData.error || "Gagal mengunggah file");
+                    }
+                } catch (err) {
+                    console.warn("Apps Script upload fallback:", err);
+                    const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
+                    const inputUrl = document.getElementById('metaSuratPengantarUrl');
+                    if (inputUrl) inputUrl.value = fallbackDataUrl;
+                    if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-info text-amber-600"></i> Berkas dilampirkan langsung ke form.`;
+                    window.showToast("File dilampirkan ke data.", "info");
+                }
+            } else {
+                const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
+                const inputUrl = document.getElementById('metaSuratPengantarUrl');
+                if (inputUrl) inputUrl.value = fallbackDataUrl;
+                if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Berkas berhasil dilampirkan ke form!`;
+                window.showToast("File dilampirkan. Untuk auto-upload ke folder Drive Anda, atur URL Web App di Config & Status.", "info");
+                window.openAppsScriptHelpModal();
+            }
+
+            if (btnUpload) btnUpload.disabled = false;
+            window.safeSetText('btnUploadText', "Upload Ke Drive");
         };
 
         window.openAppsScriptHelpModal = function() {
@@ -854,7 +1299,7 @@
                 return;
             }
 
-            if (file.size > 15 * 1024 * 1024) { // 15MB limit
+            if (file.size > 15 * 1024 * 1024) {
                 window.showToast("Ukuran file terlalu besar (Maksimal 15MB)", "error");
                 event.target.value = '';
                 if (btnUpload) btnUpload.disabled = true;
@@ -868,505 +1313,157 @@
             reader.onload = function(e) {
                 window.selectedFileBase64 = e.target.result.split(',')[1];
                 if (btnUpload) btnUpload.disabled = false;
-                window.showToast(`File "${file.name}" siap diupload.`, "info");
+                window.showToast(`File "${file.name}" siap diupload ke Drive.`, "info");
             };
             reader.readAsDataURL(file);
         };
+    </script>
 
-        window.uploadSelectedFileToDrive = async function() {
-            if (!window.selectedFileBase64) {
-                window.showToast("Silakan pilih file Surat Pengantar terlebih dahulu.", "error");
-                return;
+    <!-- Firebase SDK Modules Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Integrated Firebase Credentials
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZmImhnXnOBqeUG35WkF2qWp0u9aKgZmo",
+            authDomain: "projectpbb-ed58e.firebaseapp.com",
+            databaseURL: "https://projectpbb-ed58e-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "projectpbb-ed58e",
+            storageBucket: "projectpbb-ed58e.firebasestorage.app",
+            messagingSenderId: "543889051250",
+            appId: "1:543889051250:web:14f16a6ab76027c93ffceb",
+            measurementId: "G-9YZMYPJ37X"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Authenticate anonymously
+        signInAnonymously(auth).then(() => {
+            const statusBadge = document.getElementById('authStatusBadge');
+            if (statusBadge) {
+                statusBadge.className = "bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2";
+                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>Terhubung: projectpbb-ed58e</span>`;
             }
+        }).catch(err => {
+            console.warn("Auth info:", err);
+        });
 
-            const appsScriptUrl = window.getAppsScriptUrl();
-            const progressBox = document.getElementById('uploadProgressBox');
-            const statusText = document.getElementById('uploadStatusText');
-            const driveLinkEl = document.getElementById('uploadedDriveLink');
-            const btnUpload = document.getElementById('btnUploadDrive');
-
-            if (progressBox) progressBox.classList.remove('hidden');
-            if (driveLinkEl) driveLinkEl.classList.add('hidden');
-            if (statusText) statusText.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-emerald-600"></i> Mengunggah "${window.selectedFileName}" ke Google Drive...`;
-            if (btnUpload) btnUpload.disabled = true;
-            window.safeSetText('btnUploadText', "Mengunggah...");
-
-            if (appsScriptUrl) {
-                try {
-                    const payload = {
-                        filename: window.selectedFileName,
-                        mimeType: window.selectedFileMime,
-                        base64: window.selectedFileBase64
-                    };
-
-                    const response = await fetch(appsScriptUrl, {
-                        method: 'POST',
-                        body: JSON.stringify(payload)
+        // Realtime sync for all 3 tabs
+        ['pendaftaran', 'pemutakhiran', 'penghapusan'].forEach(cat => {
+            const catRef = ref(db, `pbb_2026/${cat}`);
+            onValue(catRef, (snapshot) => {
+                const val = snapshot.val();
+                const list = [];
+                if (val) {
+                    Object.keys(val).forEach(key => {
+                        list.push({ id: key, ...val[key] });
                     });
-
-                    const resData = await response.json();
-                    if (resData.result === 'success' && resData.url) {
-                        const inputUrl = document.getElementById('metaSuratPengantarUrl');
-                        if (inputUrl) inputUrl.value = resData.url;
-                        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Terupload ke Drive!`;
-                        if (driveLinkEl) {
-                            driveLinkEl.href = resData.url;
-                            driveLinkEl.classList.remove('hidden');
-                        }
-                        window.showToast("Berhasil mengunggah Surat Pengantar ke Google Drive!", "success");
-                    } else {
-                        throw new Error(resData.error || "Gagal mengunggah file");
-                    }
-                } catch (err) {
-                    console.warn("Apps Script upload error:", err);
-                    const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
-                    const inputUrl = document.getElementById('metaSuratPengantarUrl');
-                    if (inputUrl) inputUrl.value = fallbackDataUrl;
-                    if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-info text-amber-600"></i> Berkas dilampirkan langsung.`;
-                    window.showToast("File dilampirkan langsung ke data.", "info");
                 }
-            } else {
-                const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
-                const inputUrl = document.getElementById('metaSuratPengantarUrl');
-                if (inputUrl) inputUrl.value = fallbackDataUrl;
-                if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Berkas berhasil dilampirkan ke form!`;
-                window.showToast("File dilampirkan. Untuk auto-upload ke folder Drive Anda, atur URL Web App di Config & Status.", "info");
-                window.openAppsScriptHelpModal();
-            }
+                window.recordsData[cat] = list;
+                window.renderTable(cat);
+            }, (err) => {
+                console.error("Firebase fetch error:", err);
+            });
+        });
 
-            if (btnUpload) btnUpload.disabled = false;
-            window.safeSetText('btnUploadText', "Upload Ke Drive");
-        };
+        // Global Form Submission Handler
+        window.handleFormSubmit = async function(event, category) {
+            event.preventDefault();
+            const kec = document.getElementById('metaKecamatan')?.value.trim() || '';
+            const desa = document.getElementById('metaDesa')?.value.trim() || '';
+            const rt = document.getElementById('metaRT')?.value.trim() || '';
+            const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
 
-        // Render Table dynamically per category
-        window.renderTable = function(category = window.activeTab) {
-            if (!category || !window.recordsData) return;
-            const list = window.recordsData[category] || [];
-            
+            let recordData = {
+                kecamatan: kec,
+                desa: desa,
+                rt: rt,
+                suratPengantarUrl: suratUrl,
+                updatedAt: new Date().toISOString()
+            };
+
+            let recId = '';
+
             if (category === 'pendaftaran') {
-                const searchEl = document.getElementById('searchPendaftaran');
-                const searchVal = (searchEl?.value || '').toLowerCase();
-                const filtered = list.filter(i => (i.nama && i.nama.toLowerCase().includes(searchVal)) || (i.nik && i.nik.includes(searchVal)) || (i.letakObjek && i.letakObjek.toLowerCase().includes(searchVal)));
-                window.safeSetText('pendCount', `${filtered.length} Data`);
-                
-                const tbody = document.getElementById('pendaftaranTableBody');
-                if (!tbody) return;
-                if (filtered.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="12" class="text-center py-6 text-slate-400">Belum ada data pendaftaran.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = filtered.map((item, index) => `
-                    <tr class="hover:bg-indigo-50/50 transition border-b border-slate-100">
-                        <td class="py-2 px-3 text-center border-r font-semibold">${index + 1}</td>
-                        <td class="py-2 px-3 border-r font-bold text-indigo-900">${window.escapeHtml(item.nama || '-')}</td>
-                        <td class="py-2 px-3 border-r font-mono text-slate-600">${window.escapeHtml(item.nik || '-')}</td>
-                        <td class="py-2 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
-                        <td class="py-2 px-3 border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
-                        <td class="py-2 px-3 text-right border-r font-semibold">${item.luasBumi ? item.luasBumi + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 text-right border-r">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 text-center border-r">${window.escapeHtml(item.thnDbgn || '-')}</td>
-                        <td class="py-2 px-3 text-center border-r">${window.escapeHtml(item.thnRenov || '-')}</td>
-                        <td class="py-2 px-3 text-center border-r">${window.escapeHtml(item.listrik || '-')}</td>
-                        <td class="py-2 px-3 border-r text-slate-500">${window.escapeHtml(item.keterangan || '-')}</td>
-                        <td class="py-2 px-3 text-center space-x-1">
-                            ${item.suratPengantarUrl ? `<a href="${window.escapeHtml(item.suratPengantarUrl)}" target="_blank" title="Lihat Surat Pengantar" class="p-1 text-emerald-600 hover:bg-emerald-100 rounded inline-block"><i class="fa-brands fa-google-drive"></i></a>` : ''}
-                            <button onclick="window.editRecord('pendaftaran', '${item.id}')" title="Edit Data" class="p-1 text-indigo-600 hover:bg-indigo-100 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="window.deleteRecord('pendaftaran', '${item.id}')" title="Hapus Data" class="p-1 text-red-600 hover:bg-red-100 rounded"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-
+                recId = document.getElementById('pendaftaranRecordId')?.value;
+                recordData.nama = document.getElementById('pendNama')?.value.trim() || '';
+                recordData.nik = document.getElementById('pendNik')?.value.trim() || '';
+                recordData.alamatWp = document.getElementById('pendAlamatWp')?.value.trim() || '';
+                recordData.letakObjek = document.getElementById('pendLetakObjek')?.value.trim() || '';
+                recordData.luasBumi = document.getElementById('pendLuasBumi')?.value || '';
+                recordData.luasBangunan = document.getElementById('pendLuasBangunan')?.value || '';
+                recordData.thnDbgn = document.getElementById('pendThnDbgn')?.value || '';
+                recordData.thnRenov = document.getElementById('pendThnRenov')?.value || '';
+                recordData.listrik = document.getElementById('pendListrik')?.value || '';
+                recordData.keterangan = document.getElementById('pendKeterangan')?.value || '';
             } else if (category === 'pemutakhiran') {
-                const searchEl = document.getElementById('searchPemutakhiran');
-                const searchVal = (searchEl?.value || '').toLowerCase();
-                const filtered = list.filter(i => (i.nop && i.nop.toLowerCase().includes(searchVal)) || (i.namaBaru && i.namaBaru.toLowerCase().includes(searchVal)) || (i.alasan && i.alasan.toLowerCase().includes(searchVal)));
-                window.safeSetText('pemutakhiranCount', `${filtered.length} Data`);
-                
-                const tbody = document.getElementById('pemutakhiranTableBody');
-                if (!tbody) return;
-                if (filtered.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="12" class="text-center py-6 text-slate-400">Belum ada data pemutakhiran / pembetulan.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = filtered.map((item, index) => `
-                    <tr class="hover:bg-amber-50/50 transition border-b border-slate-100">
-                        <td class="py-2 px-3 text-center border-r font-semibold">${index + 1}</td>
-                        <td class="py-2 px-3 border-r font-mono font-bold text-amber-900">${window.escapeHtml(item.nop || '-')}</td>
-                        <td class="py-2 px-3 border-r text-slate-600 bg-slate-50">${window.escapeHtml(item.namaLama || '-')}</td>
-                        <td class="py-2 px-3 border-r text-slate-600 bg-slate-50">${window.escapeHtml(item.letakObjekLama || '-')}</td>
-                        <td class="py-2 px-3 text-right border-r text-slate-600 bg-slate-50">${item.luasBumiLama ? item.luasBumiLama + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 text-right border-r text-slate-600 bg-slate-50">${item.luasBangunanLama ? item.luasBangunanLama + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 border-r font-bold text-amber-900 bg-amber-50/30">${window.escapeHtml(item.namaBaru || '-')}</td>
-                        <td class="py-2 px-3 border-r font-medium text-amber-900 bg-amber-50/30">${window.escapeHtml(item.letakObjekBaru || '-')}</td>
-                        <td class="py-2 px-3 text-right border-r font-bold text-amber-900 bg-amber-50/30">${item.luasBumiBaru ? item.luasBumiBaru + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 text-right border-r font-bold text-amber-900 bg-amber-50/30">${item.luasBangunanBaru ? item.luasBangunanBaru + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 border-r text-amber-950 font-medium">${window.escapeHtml(item.alasan || '-')}</td>
-                        <td class="py-2 px-3 text-center space-x-1">
-                            ${item.suratPengantarUrl ? `<a href="${window.escapeHtml(item.suratPengantarUrl)}" target="_blank" title="Lihat Surat Pengantar" class="p-1 text-emerald-600 hover:bg-emerald-100 rounded inline-block"><i class="fa-brands fa-google-drive"></i></a>` : ''}
-                            <button onclick="window.editRecord('pemutakhiran', '${item.id}')" class="p-1 text-amber-600 hover:bg-amber-100 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="window.deleteRecord('pemutakhiran', '${item.id}')" class="p-1 text-red-600 hover:bg-red-100 rounded"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
+                recId = document.getElementById('pemutakhiranRecordId')?.value;
+                recordData.nop = document.getElementById('pemNOP')?.value.trim() || '';
+                recordData.namaLama = document.getElementById('pemNamaLama')?.value.trim() || '';
+                recordData.nikLama = document.getElementById('pemNikLama')?.value.trim() || '';
+                recordData.alamatWpLama = document.getElementById('pemAlamatWpLama')?.value.trim() || '';
+                recordData.letakObjekLama = document.getElementById('pemLetakObjekLama')?.value.trim() || '';
+                recordData.luasBumiLama = document.getElementById('pemLuasBumiLama')?.value || '';
+                recordData.luasBangunanLama = document.getElementById('pemLuasBangunanLama')?.value || '';
 
+                recordData.namaBaru = document.getElementById('pemNamaBaru')?.value.trim() || '';
+                recordData.nikBaru = document.getElementById('pemNikBaru')?.value.trim() || '';
+                recordData.alamatWpBaru = document.getElementById('pemAlamatWpBaru')?.value.trim() || '';
+                recordData.letakObjekBaru = document.getElementById('pemLetakObjekBaru')?.value.trim() || '';
+                recordData.luasBumiBaru = document.getElementById('pemLuasBumiBaru')?.value || '';
+                recordData.luasBangunanBaru = document.getElementById('pemLuasBangunanBaru')?.value || '';
+                recordData.alasan = document.getElementById('pemAlasan')?.value.trim() || '';
             } else if (category === 'penghapusan') {
-                const searchEl = document.getElementById('searchPenghapusan');
-                const searchVal = (searchEl?.value || '').toLowerCase();
-                const filtered = list.filter(i => (i.nop && i.nop.toLowerCase().includes(searchVal)) || (i.nama && i.nama.toLowerCase().includes(searchVal)) || (i.alasan && i.alasan.toLowerCase().includes(searchVal)));
-                window.safeSetText('penghapusanCount', `${filtered.length} Data`);
-
-                const tbody = document.getElementById('penghapusanTableBody');
-                if (!tbody) return;
-                if (filtered.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-slate-400">Belum ada usulan penghapusan data.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = filtered.map((item, index) => `
-                    <tr class="hover:bg-red-50/50 transition border-b border-slate-100">
-                        <td class="py-2 px-3 text-center border-r font-semibold">${index + 1}</td>
-                        <td class="py-2 px-3 border-r font-bold text-red-900">${window.escapeHtml(item.nama || '-')}</td>
-                        <td class="py-2 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
-                        <td class="py-2 px-3 border-r font-mono font-bold text-red-800">${window.escapeHtml(item.nop || '-')}</td>
-                        <td class="py-2 px-3 border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
-                        <td class="py-2 px-3 text-right border-r">${item.luasTanah ? item.luasTanah + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 text-right border-r">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
-                        <td class="py-2 px-3 border-r font-semibold text-red-950">${window.escapeHtml(item.alasan || '-')}</td>
-                        <td class="py-2 px-3 text-center space-x-1">
-                            ${item.suratPengantarUrl ? `<a href="${window.escapeHtml(item.suratPengantarUrl)}" target="_blank" title="Lihat Surat Pengantar" class="p-1 text-emerald-600 hover:bg-emerald-100 rounded inline-block"><i class="fa-brands fa-google-drive"></i></a>` : ''}
-                            <button onclick="window.editRecord('penghapusan', '${item.id}')" class="p-1 text-red-600 hover:bg-red-100 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="window.deleteRecord('penghapusan', '${item.id}')" class="p-1 text-red-600 hover:bg-red-100 rounded"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-        };
-
-        // Edit Record for any tab
-        window.editRecord = function(category, id) {
-            const list = window.recordsData[category] || [];
-            const item = list.find(r => r.id === id);
-            if (!item) return;
-
-            if (category === 'pendaftaran') {
-                const rId = document.getElementById('pendaftaranRecordId'); if (rId) rId.value = item.id;
-                const pName = document.getElementById('pendNama'); if (pName) pName.value = item.nama || '';
-                const pNik = document.getElementById('pendNik'); if (pNik) pNik.value = item.nik || '';
-                const pAl = document.getElementById('pendAlamatWp'); if (pAl) pAl.value = item.alamatWp || '';
-                const pLet = document.getElementById('pendLetakObjek'); if (pLet) pLet.value = item.letakObjek || '';
-                const pBumi = document.getElementById('pendLuasBumi'); if (pBumi) pBumi.value = item.luasBumi || '';
-                const pBang = document.getElementById('pendLuasBangunan'); if (pBang) pBang.value = item.luasBangunan || '';
-                const pDbgn = document.getElementById('pendThnDbgn'); if (pDbgn) pDbgn.value = item.thnDbgn || '';
-                const pRenov = document.getElementById('pendThnRenov'); if (pRenov) pRenov.value = item.thnRenov || '';
-                const pLis = document.getElementById('pendListrik'); if (pLis) pLis.value = item.listrik || '';
-                const pKet = document.getElementById('pendKeterangan'); if (pKet) pKet.value = item.keterangan || '';
-                window.safeSetText('pendaftaranFormMode', "Mode: Edit Data");
-
-            } else if (category === 'pemutakhiran') {
-                const rId = document.getElementById('pemutakhiranRecordId'); if (rId) rId.value = item.id;
-                const pNop = document.getElementById('pemNOP'); if (pNop) pNop.value = item.nop || '';
-                const pNL = document.getElementById('pemNamaLama'); if (pNL) pNL.value = item.namaLama || '';
-                const pNikL = document.getElementById('pemNikLama'); if (pNikL) pNikL.value = item.nikLama || '';
-                const pAlL = document.getElementById('pemAlamatWpLama'); if (pAlL) pAlL.value = item.alamatWpLama || '';
-                const pLetL = document.getElementById('pemLetakObjekLama'); if (pLetL) pLetL.value = item.letakObjekLama || '';
-                const pBumiL = document.getElementById('pemLuasBumiLama'); if (pBumiL) pBumiL.value = item.luasBumiLama || '';
-                const pBangL = document.getElementById('pemLuasBangunanLama'); if (pBangL) pBangL.value = item.luasBangunanLama || '';
-                const pNB = document.getElementById('pemNamaBaru'); if (pNB) pNB.value = item.namaBaru || '';
-                const pNikB = document.getElementById('pemNikBaru'); if (pNikB) pNikB.value = item.nikBaru || '';
-                const pAlB = document.getElementById('pemAlamatWpBaru'); if (pAlB) pAlB.value = item.alamatWpBaru || '';
-                const pLetB = document.getElementById('pemLetakObjekBaru'); if (pLetB) pLetB.value = item.letakObjekBaru || '';
-                const pBumiB = document.getElementById('pemLuasBumiBaru'); if (pBumiB) pBumiB.value = item.luasBumiBaru || '';
-                const pBangB = document.getElementById('pemLuasBangunanBaru'); if (pBangB) pBangB.value = item.luasBangunanBaru || '';
-                const pAlasan = document.getElementById('pemAlasan'); if (pAlasan) pAlasan.value = item.alasan || '';
-                window.safeSetText('pemutakhiranFormMode', "Mode: Edit Pemutakhiran");
-
-            } else if (category === 'penghapusan') {
-                const rId = document.getElementById('penghapusanRecordId'); if (rId) rId.value = item.id;
-                const hNop = document.getElementById('hapusNOP'); if (hNop) hNop.value = item.nop || '';
-                const hNama = document.getElementById('hapusNama'); if (hNama) hNama.value = item.nama || '';
-                const hAl = document.getElementById('hapusAlamatWp'); if (hAl) hAl.value = item.alamatWp || '';
-                const hLet = document.getElementById('hapusLetakObjek'); if (hLet) hLet.value = item.letakObjek || '';
-                const hTanah = document.getElementById('hapusLuasTanah'); if (hTanah) hTanah.value = item.luasTanah || '';
-                const hBang = document.getElementById('hapusLuasBangunan'); if (hBang) hBang.value = item.luasBangunan || '';
-                const hAlasan = document.getElementById('hapusAlasan'); if (hAlasan) hAlasan.value = item.alasan || '';
-                window.safeSetText('penghapusanFormMode', "Mode: Edit Penghapusan");
+                recId = document.getElementById('penghapusanRecordId')?.value;
+                recordData.nama = document.getElementById('hapusNama')?.value.trim() || '';
+                recordData.alamatWp = document.getElementById('hapusAlamatWp')?.value.trim() || '';
+                recordData.nop = document.getElementById('hapusNOP')?.value.trim() || '';
+                recordData.letakObjek = document.getElementById('hapusLetakObjek')?.value.trim() || '';
+                recordData.luasTanah = document.getElementById('hapusLuasTanah')?.value || '';
+                recordData.luasBangunan = document.getElementById('hapusLuasBangunan')?.value || '';
+                recordData.alasan = document.getElementById('hapusAlasan')?.value.trim() || '';
             }
 
-            if (item.kecamatan && document.getElementById('metaKecamatan')) document.getElementById('metaKecamatan').value = item.kecamatan;
-            if (item.desa && document.getElementById('metaDesa')) document.getElementById('metaDesa').value = item.desa;
-            if (item.rt && document.getElementById('metaRT')) document.getElementById('metaRT').value = item.rt;
-            if (item.suratPengantarUrl && document.getElementById('metaSuratPengantarUrl')) document.getElementById('metaSuratPengantarUrl').value = item.suratPengantarUrl;
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        // Form Reset
-        window.resetForm = function(category) {
-            if (category === 'pendaftaran') {
-                const form = document.getElementById('pendaftaranForm'); if (form) form.reset();
-                const rId = document.getElementById('pendaftaranRecordId'); if (rId) rId.value = '';
-                window.safeSetText('pendaftaranFormMode', "Mode: Tambah Data Baru");
-            } else if (category === 'pemutakhiran') {
-                const form = document.getElementById('pemutakhiranForm'); if (form) form.reset();
-                const rId = document.getElementById('pemutakhiranRecordId'); if (rId) rId.value = '';
-                window.safeSetText('pemutakhiranFormMode', "Mode: Tambah Pemutakhiran Baru");
-            } else if (category === 'penghapusan') {
-                const form = document.getElementById('penghapusanForm'); if (form) form.reset();
-                const rId = document.getElementById('penghapusanRecordId'); if (rId) rId.value = '';
-                window.safeSetText('penghapusanFormMode', "Mode: Tambah Usulan Penghapusan");
-            }
-        };
-
-        window.printReport = function(category = window.activeTab) {
-            const rt = document.getElementById('metaRT')?.value.trim() || '.......................';
-            const desa = document.getElementById('metaDesa')?.value.trim() || '.......................';
-            const kec = document.getElementById('metaKecamatan')?.value.trim() || '.......................';
-
-            window.safeSetText('printRT', rt);
-            window.safeSetText('printDesa', desa);
-            window.safeSetText('printKecamatan', kec);
-
-            const container = document.getElementById('printTableContainer');
-            const dataList = window.recordsData[category] || [];
-
-            if (category === 'pendaftaran') {
-                window.safeSetText('printMainTitle', "PENDAFTARAN");
-                let rowsHTML = '';
-                if (dataList.length === 0) {
-                    for (let i = 1; i <= 6; i++) {
-                        rowsHTML += `<tr class="h-8"><td class="text-center border border-black">${i}</td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td></tr>`;
-                    }
+            try {
+                if (recId) {
+                    const itemRef = ref(db, `pbb_2026/${category}/${recId}`);
+                    await update(itemRef, recordData);
+                    window.showToast("Data berhasil diperbarui di Realtime Database!", "success");
                 } else {
-                    rowsHTML = dataList.map((item, idx) => `
-                        <tr>
-                            <td class="text-center border border-black font-semibold">${idx + 1}</td>
-                            <td class="border border-black px-1 font-bold">${window.escapeHtml(item.nama || '')}</td>
-                            <td class="border border-black px-1 font-mono">${window.escapeHtml(item.nik || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.alamatWp || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.letakObjek || '')}</td>
-                            <td class="text-right border border-black px-1">${item.luasBumi || ''}</td>
-                            <td class="text-right border border-black px-1">${item.luasBangunan || ''}</td>
-                            <td class="text-center border border-black px-1">${window.escapeHtml(item.thnDbgn || '')}</td>
-                            <td class="text-center border border-black px-1">${window.escapeHtml(item.thnRenov || '')}</td>
-                            <td class="text-center border border-black px-1">${window.escapeHtml(item.listrik || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.keterangan || '')}</td>
-                        </tr>
-                    `).join('');
+                    const catRef = ref(db, `pbb_2026/${category}`);
+                    const newRef = push(catRef);
+                    recordData.createdAt = new Date().toISOString();
+                    await set(newRef, recordData);
+                    window.showToast("Data baru berhasil disimpan ke Realtime Database!", "success");
                 }
-
-                if (container) {
-                    container.innerHTML = `
-                        <table class="w-full text-xs border border-black">
-                            <thead>
-                                <tr class="text-center font-bold">
-                                    <th rowspan="2" class="border border-black px-1 py-1 w-8">NO</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">NAMA</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">NIK</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">ALAMAT WP</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">LETAK OBJEK</th>
-                                    <th rowspan="2" class="border border-black px-1 py-1">LUAS BUMI</th>
-                                    <th colspan="4" class="border border-black px-1 py-1">BANGUNAN</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">KETERANGAN</th>
-                                </tr>
-                                <tr class="text-center font-bold">
-                                    <th class="border border-black px-1 py-1">LUAS</th>
-                                    <th class="border border-black px-1 py-1">THN DBGN</th>
-                                    <th class="border border-black px-1 py-1">THN RENOV</th>
-                                    <th class="border border-black px-1 py-1">LISTRIK</th>
-                                </tr>
-                                <tr class="text-center bg-gray-100 text-[10px]">
-                                    <td class="border border-black">1</td>
-                                    <td class="border border-black">2</td>
-                                    <td class="border border-black">3</td>
-                                    <td class="border border-black">4</td>
-                                    <td class="border border-black">5</td>
-                                    <td class="border border-black">6</td>
-                                    <td class="border border-black">7</td>
-                                    <td class="border border-black">8</td>
-                                    <td class="border border-black">9</td>
-                                    <td class="border border-black">10</td>
-                                    <td class="border border-black">11</td>
-                                </tr>
-                            </thead>
-                            <tbody>${rowsHTML}</tbody>
-                        </table>
-                    `;
-                }
-
-            } else if (category === 'pemutakhiran') {
-                window.safeSetText('printMainTitle', "PEMUTAKHIRAN / PEMBETULAN");
-                let rowsHTML = '';
-                if (dataList.length === 0) {
-                    for (let i = 1; i <= 6; i++) {
-                        rowsHTML += `<tr class="h-8"><td class="text-center border border-black">${i}</td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td></tr>`;
-                    }
-                } else {
-                    rowsHTML = dataList.map((item, idx) => `
-                        <tr>
-                            <td class="text-center border border-black font-semibold">${idx + 1}</td>
-                            <td class="border border-black px-1 font-mono">${window.escapeHtml(item.nop || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.namaLama || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.letakObjekLama || '')}</td>
-                            <td class="text-right border border-black px-1">${item.luasBumiLama || ''}</td>
-                            <td class="text-right border border-black px-1">${item.luasBangunanLama || ''}</td>
-                            <td class="border border-black px-1 font-bold">${window.escapeHtml(item.namaBaru || '')}</td>
-                            <td class="border border-black px-1 font-bold">${window.escapeHtml(item.letakObjekBaru || '')}</td>
-                            <td class="text-right border border-black px-1 font-bold">${item.luasBumiBaru || ''}</td>
-                            <td class="text-right border border-black px-1 font-bold">${item.luasBangunanBaru || ''}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.alasan || '')}</td>
-                        </tr>
-                    `).join('');
-                }
-
-                if (container) {
-                    container.innerHTML = `
-                        <table class="w-full text-xs border border-black">
-                            <thead>
-                                <tr class="text-center font-bold">
-                                    <th rowspan="2" class="border border-black px-1 py-1 w-8">NO</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">NOP</th>
-                                    <th colspan="4" class="border border-black px-1 py-1">Sebelum Pemutakhiran Sesuai SPPT/DHKP</th>
-                                    <th colspan="4" class="border border-black px-1 py-1">Keadaan Sebenarnya</th>
-                                    <th rowspan="2" class="border border-black px-2 py-1">Alasan Pemutakhiran</th>
-                                </tr>
-                                <tr class="text-center font-bold">
-                                    <th class="border border-black px-1">NAMA</th>
-                                    <th class="border border-black px-1">LETAK OBJEK</th>
-                                    <th class="border border-black px-1">LUAS BUMI</th>
-                                    <th class="border border-black px-1">LUAS BANG</th>
-                                    <th class="border border-black px-1">NAMA</th>
-                                    <th class="border border-black px-1">LETAK OBJEK</th>
-                                    <th class="border border-black px-1">LUAS BUMI</th>
-                                    <th class="border border-black px-1">LUAS BANG</th>
-                                </tr>
-                            </thead>
-                            <tbody>${rowsHTML}</tbody>
-                        </table>
-                    `;
-                }
-
-            } else if (category === 'penghapusan') {
-                window.safeSetText('printMainTitle', "PENGHAPUSAN");
-                let rowsHTML = '';
-                if (dataList.length === 0) {
-                    for (let i = 1; i <= 6; i++) {
-                        rowsHTML += `<tr class="h-8"><td class="text-center border border-black">${i}</td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td></tr>`;
-                    }
-                } else {
-                    rowsHTML = dataList.map((item, idx) => `
-                        <tr>
-                            <td class="text-center border border-black font-semibold">${idx + 1}</td>
-                            <td class="border border-black px-1 font-bold">${window.escapeHtml(item.nama || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.alamatWp || '')}</td>
-                            <td class="border border-black px-1 font-mono">${window.escapeHtml(item.nop || '')}</td>
-                            <td class="border border-black px-1">${window.escapeHtml(item.letakObjek || '')}</td>
-                            <td class="text-right border border-black px-1">${item.luasTanah || ''}</td>
-                            <td class="text-right border border-black px-1">${item.luasBangunan || ''}</td>
-                            <td class="border border-black px-1 font-semibold">${window.escapeHtml(item.alasan || '')}</td>
-                        </tr>
-                    `).join('');
-                }
-
-                if (container) {
-                    container.innerHTML = `
-                        <table class="w-full text-xs border border-black">
-                            <thead>
-                                <tr class="text-center font-bold">
-                                    <th class="border border-black px-1 py-1 w-8">No</th>
-                                    <th class="border border-black px-2 py-1">Nama</th>
-                                    <th class="border border-black px-2 py-1">Alamat Wajib Pajak / RT / RW</th>
-                                    <th class="border border-black px-2 py-1">NOP</th>
-                                    <th class="border border-black px-2 py-1">Alamat Objek Pajak/RT/RW</th>
-                                    <th class="border border-black px-1 py-1">Luas Tanah (M2)</th>
-                                    <th class="border border-black px-1 py-1">Luas Bangunan (M2)</th>
-                                    <th class="border border-black px-2 py-1">Alasan Penghapusan</th>
-                                </tr>
-                                <tr class="text-center bg-gray-100 text-[10px]">
-                                    <td class="border border-black">1</td>
-                                    <td class="border border-black">2</td>
-                                    <td class="border border-black">3</td>
-                                    <td class="border border-black">4</td>
-                                    <td class="border border-black">5</td>
-                                    <td class="border border-black">6</td>
-                                    <td class="border border-black">7</td>
-                                    <td class="border border-black">8</td>
-                                </tr>
-                            </thead>
-                            <tbody>${rowsHTML}</tbody>
-                        </table>
-                    `;
-                }
+                window.resetForm(category);
+            } catch (err) {
+                console.error("Save error:", err);
+                window.showToast("Gagal menyimpan ke database: " + err.message, "error");
             }
-
-            window.print();
         };
 
-        // Excel Export Multi-Tab Support
-        window.exportToExcel = function(category = window.activeTab) {
-            const list = window.recordsData[category] || [];
-            if (list.length === 0) {
-                alert(`Tidak ada data ${category.toUpperCase()} untuk diexport!`);
-                return;
+        window.deleteRecord = async function(category, id) {
+            if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
+            try {
+                const itemRef = ref(db, `pbb_2026/${category}/${id}`);
+                await remove(itemRef);
+                window.showToast("Data berhasil dihapus dari database!", "success");
+            } catch (err) {
+                console.error("Delete error:", err);
+                window.showToast("Gagal menghapus data: " + err.message, "error");
             }
-
-            const kec = document.getElementById('metaKecamatan')?.value.toUpperCase() || 'MERANGIN';
-            const desa = document.getElementById('metaDesa')?.value.toUpperCase() || 'DESA';
-
-            let exportData = [];
-            if (category === 'pendaftaran') {
-                exportData = list.map((item, idx) => ({
-                    "NO": idx + 1,
-                    "NAMA WAJIB PAJAK": item.nama || '',
-                    "NIK": item.nik || '',
-                    "ALAMAT WP": item.alamatWp || '',
-                    "LETAK OBJEK": item.letakObjek || '',
-                    "LUAS BUMI (M2)": item.luasBumi || 0,
-                    "LUAS BANGUNAN (M2)": item.luasBangunan || 0,
-                    "THN DBGN": item.thnDbgn || '',
-                    "THN RENOV": item.thnRenov || '',
-                    "LISTRIK": item.listrik || '',
-                    "KETERANGAN": item.keterangan || ''
-                }));
-            } else if (category === 'pemutakhiran') {
-                exportData = list.map((item, idx) => ({
-                    "NO": idx + 1,
-                    "NOP": item.nop || '',
-                    "NAMA WP (LAMA)": item.namaLama || '',
-                    "LETAK OBJEK (LAMA)": item.letakObjekLama || '',
-                    "LUAS BUMI (LAMA)": item.luasBumiLama || 0,
-                    "LUAS BANGUNAN (LAMA)": item.luasBangunanLama || 0,
-                    "NAMA WP (SEBENARNYA)": item.namaBaru || '',
-                    "LETAK OBJEK (SEBENARNYA)": item.letakObjekBaru || '',
-                    "LUAS BUMI (SEBENARNYA)": item.luasBumiBaru || 0,
-                    "LUAS BANGUNAN (SEBENARNYA)": item.luasBangunanBaru || 0,
-                    "ALASAN PEMUTAKHIRAN": item.alasan || ''
-                }));
-            } else if (category === 'penghapusan') {
-                exportData = list.map((item, idx) => ({
-                    "NO": idx + 1,
-                    "NAMA": item.nama || '',
-                    "ALAMAT WP / RT / RW": item.alamatWp || '',
-                    "NOP": item.nop || '',
-                    "ALAMAT OBJEK / RT / RW": item.letakObjek || '',
-                    "LUAS TANAH (M2)": item.luasTanah || 0,
-                    "LUAS BANGUNAN (M2)": item.luasBangunan || 0,
-                    "ALASAN PENGHAPUSAN": item.alasan || ''
-                }));
-            }
-
-            const worksheet = XLSX.utils.json_to_sheet(exportData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, category.toUpperCase());
-
-            const filename = `PBB_${category.toUpperCase()}_2026_${kec}_${desa}.xlsx`.replace(/\s+/g, '_');
-            XLSX.writeFile(workbook, filename);
-            window.showToast("File Excel berhasil di-download!", "success");
         };
 
-        // Initialize Apps Script URL in Config Modal on Load & default tab state
         document.addEventListener('DOMContentLoaded', () => {
             const savedUrl = window.getAppsScriptUrl();
             const inputEl = document.getElementById('cfgAppsScriptUrl');
             if (inputEl && savedUrl) inputEl.value = savedUrl;
+
             window.switchTab('pendaftaran');
         });
     </script>
