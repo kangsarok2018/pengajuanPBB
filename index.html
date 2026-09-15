@@ -685,13 +685,9 @@
                 <!-- Table injected dynamically for print -->
             </div>
 
-            <div class="grid grid-cols-2 gap-8 text-center text-xs mt-12 pt-4">
-                <div>
-                    <p class="mb-14">Mengetahui,<br>Ketua RT / Kepala Desa / Lurah</p>
-                    <p class="font-bold underline">( ..................................................... )</p>
-                </div>
-                <div>
-                    <p class="mb-14">Bangko, .................................. <span id="printTahunSignText">2026</span><br>Petugas Pendata</p>
+            <div class="flex justify-end text-center text-xs mt-12 pt-4">
+                <div class="w-80">
+                    <p class="mb-14"><span id="printPlaceName">BANGKO</span>, .................................. <span id="printTahunSignText">2026</span><br>Mengetahui,<br>Ketua RT / Kepala Desa / Lurah</p>
                     <p class="font-bold underline">( ..................................................... )</p>
                 </div>
             </div>
@@ -1539,6 +1535,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             window.safeSetText('printKecamatan', kec);
             window.safeSetText('printTahunText', thn);
             window.safeSetText('printTahunSignText', thn);
+            window.safeSetText('printPlaceName', desa && desa !== '.......................' ? desa : 'BANGKO');
 
             let mainTitle = "PENDAFTARAN";
             if (category === 'pemutakhiran') mainTitle = "PEMUTAKHIRAN / PEMBETULAN";
