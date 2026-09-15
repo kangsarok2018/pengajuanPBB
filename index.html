@@ -36,13 +36,10 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-lg tracking-wide leading-tight">PENDATAAN OBJEK & SUBJEK PBB - P2</h1>
-                    <p class="text-xs text-indigo-200">TAHUN 2026 • KABUPATEN MERANGIN</p>
+                    <p class="text-xs text-indigo-200"><span id="headerTahunDisplay">TAHUN 2026</span> • KABUPATEN MERANGIN</p>
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <button onclick="openConfigModal()" class="bg-indigo-800 hover:bg-indigo-700 px-3 py-1.5 rounded-lg text-xs font-medium border border-indigo-600 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-gear text-amber-300"></i> Config & Status
-                </button>
                 <div id="authStatusBadge" class="bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span>Terhubung: projectpbb-ed58e</span>
@@ -64,7 +61,11 @@
                     KABUPATEN : MERANGIN
                 </span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">TAHUN PAJAK <span class="text-red-500">*</span></label>
+                    <input type="number" id="metaTahun" value="2026" min="1900" max="2100" placeholder="Contoh: 2026" oninput="updateTahunHeader()" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold text-indigo-900">
+                </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">KECAMATAN</label>
                     <input type="text" id="metaKecamatan" placeholder="Contoh: Bangko" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
@@ -91,9 +92,6 @@
                             <p class="text-[11px] text-emerald-800">Pilih berkas dari perangkat. File akan otomatis tersimpan di folder Google Drive <strong>PengajuanPBBKolektifDesa</strong> tanpa perlu login atau membuka Drive Anda.</p>
                         </div>
                     </div>
-                    <button type="button" onclick="openAppsScriptHelpModal()" class="text-xs text-emerald-700 bg-white border border-emerald-300 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shrink-0">
-                        <i class="fa-solid fa-code text-emerald-600"></i> Panduan Script Auto-Drive
-                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
@@ -119,13 +117,8 @@
                     </a>
                 </div>
 
-                <div class="mt-2">
-                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">LINK / URL GOOGLE DRIVE (TERISI OTOMATIS SAAT UPLOAD)</label>
-                    <div class="relative">
-                        <input type="url" id="metaSuratPengantarUrl" placeholder="Link Google Drive akan muncul di sini setelah diupload..." class="w-full pl-9 pr-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50 font-mono">
-                        <i class="fa-solid fa-link absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                    </div>
-                </div>
+                <!-- Hidden input for holding generated Google Drive URL -->
+                <input type="hidden" id="metaSuratPengantarUrl">
             </div>
         </section>
 
@@ -551,7 +544,7 @@
                     KABUPATEN : MERANGIN
                 </div>
             </div>
-            <div class="text-xs font-bold mb-2">DATA OBJEK DAN SUBJEK PBB - P2 TAHUN 2026</div>
+            <div class="text-xs font-bold mb-2">DATA OBJEK DAN SUBJEK PBB - P2 TAHUN <span id="printTahunText">2026</span></div>
 
             <div id="printTableContainer">
                 <!-- Table injected dynamically for print -->
@@ -564,135 +557,12 @@
                     <p class="font-bold underline">( ..................................................... )</p>
                 </div>
                 <div>
-                    <p class="mb-14">Bangko, .................................. 2026<br>Petugas Pendata</p>
+                    <p class="mb-14">Bangko, .................................. <span id="printTahunSignText">2026</span><br>Petugas Pendata</p>
                     <p class="font-bold underline">( ..................................................... )</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <!-- Config Modal -->
-    <div id="configModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
-        <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 space-y-4 border border-slate-100">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-base font-bold text-indigo-900 flex items-center gap-2">
-                    <i class="fa-solid fa-database text-amber-500"></i> Status Firebase Database & Drive API
-                </h3>
-                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-600 text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">FIREBASE RTDB URL</label>
-                    <input type="text" id="cfgRtdbUrl" readonly value="https://projectpbb-ed58e-default-rtdb.asia-southeast1.firebasedatabase.app/" class="w-full px-3 py-2 border rounded-lg bg-slate-100 font-mono text-xs text-slate-700">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">PROJECT ID</label>
-                    <input type="text" id="cfgProjectId" readonly value="projectpbb-ed58e" class="w-full px-3 py-2 border rounded-lg bg-slate-100 font-mono text-xs text-slate-700">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">GOOGLE APPS SCRIPT WEB APP URL (PENGUNGGAHAN OTOMATIS)</label>
-                    <input type="text" id="cfgAppsScriptUrl" onchange="saveAppsScriptUrl(this.value)" placeholder="Tempel URL Web App Google Apps Script di sini..." class="w-full px-3 py-2 border border-emerald-300 rounded-lg font-mono text-xs text-slate-800 bg-emerald-50/40">
-                    <p class="text-[10px] text-slate-500 mt-1">Digunakan untuk menyimpan file langsung ke folder Drive Anda secara background.</p>
-                </div>
-                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-lg text-emerald-800 space-y-1">
-                    <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Terkoneksi ke projectpbb-ed58e</p>
-                    <p class="text-[11px]">Database terhubung secara otomatis untuk seluruh pengentrian data.</p>
-                </div>
-            </div>
-            <div class="flex justify-end border-t pt-3">
-                <button onclick="closeConfigModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
-                    Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Instructions Google Apps Script Auto Drive -->
-    <div id="appsScriptHelpModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
-        <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 space-y-4 border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-base font-bold text-emerald-950 flex items-center gap-2">
-                    <i class="fa-brands fa-google-drive text-emerald-600"></i> Auto-Save ke Folder Drive "PengajuanPBBKolektifDesa"
-                </h3>
-                <button onclick="closeAppsScriptHelpModal()" class="text-slate-400 hover:text-slate-600 text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="space-y-3 text-xs text-slate-700">
-                <p class="leading-relaxed">Agar pihak desa dapat <strong>mengunggah Surat Pengantar yang langsung tersimpan di folder "PengajuanPBBKolektifDesa"</strong> tanpa login atau memiliki akses Drive Anda, lakukan langkah 2 menit berikut:</p>
-                
-                <ol class="list-decimal pl-5 space-y-2 font-medium text-slate-800">
-                    <li>Buka <a href="https://script.google.com/" target="_blank" class="text-indigo-600 underline font-bold">Google Apps Script</a> dengan Akun Google Drive Anda.</li>
-                    <li>Klik <b>New Project</b> (Proyek Baru) dan hapus semua kode bawaan.</li>
-                    <li>Salin (Copy) dan Tempel (Paste) kode Apps Script terbaru di bawah ini:</li>
-                </ol>
-
-                <div class="relative bg-slate-900 text-slate-100 p-3 rounded-xl font-mono text-[11px] overflow-x-auto">
-                    <button onclick="copyAppsScriptCode()" class="absolute top-2 right-2 bg-slate-700 hover:bg-slate-600 text-white px-2 py-1 rounded text-[10px]">
-                        <i class="fa-solid fa-copy"></i> Salin Kode
-                    </button>
-                    <pre id="appsScriptCodeSnippet">function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
-    
-    // Target Folder: PengajuanPBBKolektifDesa
-    var folderId = "1KRXt-rgZez7fH1NojylIyBqQ9E9o5r8g"; 
-    var folder;
-    
-    try {
-      folder = DriveApp.getFolderById(folderId);
-    } catch(errF) {
-      var folders = DriveApp.getFoldersByName("PengajuanPBBKolektifDesa");
-      if (folders.hasNext()) {
-        folder = folders.next();
-      } else {
-        folder = DriveApp.createFolder("PengajuanPBBKolektifDesa");
-      }
-    }
-    
-    var contentType = data.mimeType || "application/octet-stream";
-    var bytes = Utilities.base64Decode(data.base64);
-    var blob = Utilities.newBlob(bytes, contentType, data.filename);
-    var file = folder.createFile(blob);
-    
-    // Set file agar bisa dilihat siapa saja melalui link
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    
-    return ContentService.createTextOutput(JSON.stringify({
-      result: "success",
-      url: file.getUrl(),
-      id: file.getId(),
-      folderName: folder.getName()
-    })).setMimeType(ContentService.MimeType.JSON);
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      result: "error",
-      error: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-}</pre>
-                </div>
-
-                <ol start="4" class="list-decimal pl-5 space-y-2 font-medium text-slate-800">
-                    <li>Klik tombol <b>Deploy</b> (Terapkan) &rarr; <b>New Deployment</b> (Terapkan Baru).</li>
-                    <li>Pilih Jenis: <b>Web App</b>.</li>
-                    <li>Set <b>Execute as</b>: <i>Me (Email Anda)</i>.</li>
-                    <li>Set <b>Who has access</b>: <i>Anyone (Siapa Saja)</i>.</li>
-                    <li>Klik <b>Deploy</b>, beri izin akses, lalu **Salin URL Web App** yang dihasilkan.</li>
-                    <li>Tempel URL Web App tersebut ke tombol <b>Config & Status</b> di aplikasi ini. Selesai!</li>
-                </ol>
-            </div>
-
-            <div class="flex justify-end border-t pt-3">
-                <button onclick="closeAppsScriptHelpModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
-                    Saya Mengerti
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 no-print"></div>
@@ -708,6 +578,11 @@
         window.selectedFileBase64 = null;
         window.selectedFileName = '';
         window.selectedFileMime = '';
+
+        window.updateTahunHeader = function() {
+            const thn = document.getElementById('metaTahun')?.value || '2026';
+            window.safeSetText('headerTahunDisplay', `TAHUN ${thn}`);
+        };
 
         window.safeSetText = function(id, text) {
             const el = document.getElementById(id);
@@ -920,6 +795,10 @@
             const item = list.find(r => r.id === id);
             if (!item) return;
 
+            if (item.tahun) {
+                document.getElementById('metaTahun').value = item.tahun;
+                window.updateTahunHeader();
+            }
             if (item.kecamatan) document.getElementById('metaKecamatan').value = item.kecamatan;
             if (item.desa) document.getElementById('metaDesa').value = item.desa;
             if (item.rt) document.getElementById('metaRT').value = item.rt;
@@ -978,13 +857,15 @@
                 return;
             }
 
+            const thn = document.getElementById('metaTahun')?.value || '2026';
             let exportData = [];
-            let fileName = `Data_PBB_2026_${category.toUpperCase()}_MERANGIN.xlsx`;
+            let fileName = `Data_PBB_${thn}_${category.toUpperCase()}_MERANGIN.xlsx`;
 
             list.forEach((item, index) => {
                 if (category === 'pendaftaran') {
                     exportData.push({
                         'NO': index + 1,
+                        'TAHUN PAJAK': item.tahun || thn,
                         'NAMA WAJIB PAJAK': item.nama,
                         'NIK': item.nik || '',
                         'ALAMAT WP': item.alamatWp || '',
@@ -1000,6 +881,7 @@
                 } else if (category === 'pemutakhiran') {
                     exportData.push({
                         'NO': index + 1,
+                        'TAHUN PAJAK': item.tahun || thn,
                         'NOP': item.nop,
                         'NAMA WP (LAMA)': item.namaLama || '',
                         'LETAK OBJEK (LAMA)': item.letakObjekLama || '',
@@ -1015,6 +897,7 @@
                 } else if (category === 'penghapusan') {
                     exportData.push({
                         'NO': index + 1,
+                        'TAHUN PAJAK': item.tahun || thn,
                         'NAMA WAJIB PAJAK': item.nama,
                         'ALAMAT WP / RT / RW': item.alamatWp || '',
                         'NOP': item.nop,
@@ -1037,6 +920,7 @@
 
         window.printReport = function(category) {
             const list = window.recordsData[category] || [];
+            const thn = document.getElementById('metaTahun')?.value || '2026';
             const rt = document.getElementById('metaRT')?.value || '.......................';
             const desa = document.getElementById('metaDesa')?.value || '.......................';
             const kec = document.getElementById('metaKecamatan')?.value || '.......................';
@@ -1044,6 +928,8 @@
             window.safeSetText('printRT', rt);
             window.safeSetText('printDesa', desa);
             window.safeSetText('printKecamatan', kec);
+            window.safeSetText('printTahunText', thn);
+            window.safeSetText('printTahunSignText', thn);
 
             let mainTitle = "PENDAFTARAN";
             if (category === 'pemutakhiran') mainTitle = "PEMUTAKHIRAN / PEMBETULAN";
@@ -1236,39 +1122,11 @@
                 const inputUrl = document.getElementById('metaSuratPengantarUrl');
                 if (inputUrl) inputUrl.value = fallbackDataUrl;
                 if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Berkas berhasil dilampirkan ke form!`;
-                window.showToast("File dilampirkan. Untuk auto-upload ke folder Drive Anda, atur URL Web App di Config & Status.", "info");
-                window.openAppsScriptHelpModal();
+                window.showToast("File dilampirkan ke form.", "info");
             }
 
             if (btnUpload) btnUpload.disabled = false;
             window.safeSetText('btnUploadText', "Upload Ke Drive");
-        };
-
-        window.openAppsScriptHelpModal = function() {
-            const modal = document.getElementById('appsScriptHelpModal');
-            if (modal) modal.classList.remove('hidden');
-        };
-
-        window.closeAppsScriptHelpModal = function() {
-            const modal = document.getElementById('appsScriptHelpModal');
-            if (modal) modal.classList.add('hidden');
-        };
-
-        window.copyAppsScriptCode = function() {
-            const snippet = document.getElementById('appsScriptCodeSnippet');
-            if (!snippet) return;
-            const code = snippet.innerText;
-            navigator.clipboard.writeText(code).then(() => {
-                window.showToast("Kode Apps Script berhasil disalin!", "success");
-            }).catch(() => {
-                const textAttr = document.createElement('textarea');
-                textAttr.value = code;
-                document.body.appendChild(textAttr);
-                textAttr.select();
-                document.execCommand('copy');
-                document.body.removeChild(textAttr);
-                window.showToast("Kode Apps Script berhasil disalin!", "success");
-            });
         };
 
         window.saveAppsScriptUrl = function(url) {
@@ -1277,17 +1135,7 @@
         };
 
         window.getAppsScriptUrl = function() {
-            return localStorage.getItem('pbb_apps_script_url') || '';
-        };
-
-        window.openConfigModal = function() {
-            const modal = document.getElementById('configModal');
-            if (modal) modal.classList.remove('hidden');
-        };
-
-        window.closeConfigModal = function() {
-            const modal = document.getElementById('configModal');
-            if (modal) modal.classList.add('hidden');
+            return 'https://script.google.com/macros/s/AKfycbxSvsH1TLiHXBqhBWvhaWEjkLmbcvey1-IUfLCvXAcmsEeEqxAHODUKsys1kznDHowa3A/exec';
         };
 
         window.handleFileSelect = function(event) {
@@ -1373,12 +1221,14 @@
         // Global Form Submission Handler
         window.handleFormSubmit = async function(event, category) {
             event.preventDefault();
+            const tahun = document.getElementById('metaTahun')?.value.trim() || '2026';
             const kec = document.getElementById('metaKecamatan')?.value.trim() || '';
             const desa = document.getElementById('metaDesa')?.value.trim() || '';
             const rt = document.getElementById('metaRT')?.value.trim() || '';
             const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
 
             let recordData = {
+                tahun: tahun,
                 kecamatan: kec,
                 desa: desa,
                 rt: rt,
