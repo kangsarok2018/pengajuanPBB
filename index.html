@@ -26,6 +26,7 @@
             body { background: white; color: black; font-size: 11px; }
             table { border-collapse: collapse; width: 100%; }
             th, td { border: 1px solid #000 !important; padding: 4px 6px !important; text-align: left; }
+            th { text-align: center !important; vertical-align: middle !important; }
             .print-header { margin-bottom: 15px; }
         }
         .print-only { display: none; }
@@ -68,15 +69,19 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">TAHUN PAJAK <span class="text-red-500">*</span></label>
-                    <input type="number" id="metaTahun" value="2026" min="1900" max="2100" placeholder="Contoh: 2026" oninput="updateTahunHeader()" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold text-indigo-900">
+                    <input type="number" id="metaTahun" value="2026" min="1900" max="2100" placeholder="Contoh: 2026" oninput="updateTahunHeader(); updateHeaderMetadataState();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold text-indigo-900">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">KECAMATAN</label>
-                    <input type="text" id="metaKecamatan" placeholder="Contoh: BANGKO" oninput="this.value = this.value.toUpperCase()" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
+                    <label class="block text-xs font-medium text-slate-600 mb-1">KECAMATAN <span class="text-red-500">*</span></label>
+                    <select id="metaKecamatan" onchange="handleKecamatanHeaderChange(); updateHeaderMetadataState();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
+                        <option value="">-- PILIH KECAMATAN --</option>
+                    </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">DESA / KELURAHAN</label>
-                    <input type="text" id="metaDesa" placeholder="Contoh: PEMATANG KANDIS" oninput="this.value = this.value.toUpperCase()" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
+                    <label class="block text-xs font-medium text-slate-600 mb-1">DESA / KELURAHAN <span class="text-red-500">*</span></label>
+                    <select id="metaDesa" onchange="updateHeaderMetadataState();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
+                        <option value="">-- PILIH DESA / KELURAHAN --</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">RT / RW</label>
@@ -151,6 +156,12 @@
                         <i class="fa-solid fa-pen-to-square text-indigo-600"></i> Form Pendaftaran Objek & Subjek PBB
                     </h2>
                     <span id="pendaftaranFormMode" class="text-xs font-medium px-2 py-1 bg-green-100 text-green-800 rounded">Mode: Tambah Data Baru</span>
+                </div>
+
+                <!-- Warning Banner for Incomplete Metadata Header -->
+                <div class="metadata-warning-banner hidden bg-amber-50 border border-amber-300 text-amber-900 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
+                    <span>HARAP PILIH TAHUN PAJAK, KECAMATAN, DAN DESA / KELURAHAN DAHULU PADA BAGIAN ATAS SEBELUM SIMPAN DATA.</span>
                 </div>
 
                 <form id="pendaftaranForm" onsubmit="handleFormSubmit(event, 'pendaftaran')" class="space-y-4">
@@ -269,20 +280,20 @@
                         <thead class="text-[11px] uppercase bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                             <tr>
                                 <th class="py-3 px-3 text-center border-r w-12" rowspan="2">NO</th>
-                                <th class="py-3 px-3 border-r min-w-[140px]" rowspan="2">NAMA WP</th>
-                                <th class="py-3 px-3 border-r min-w-[120px]" rowspan="2">NIK</th>
-                                <th class="py-3 px-3 border-r min-w-[150px]" rowspan="2">ALAMAT WP</th>
-                                <th class="py-3 px-3 border-r min-w-[160px]" rowspan="2">LETAK OBJEK</th>
-                                <th class="py-3 px-3 text-right border-r" rowspan="2">LUAS BUMI</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[140px]" rowspan="2">NAMA WP</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[120px]" rowspan="2">NIK</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[150px]" rowspan="2">ALAMAT WP</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[160px]" rowspan="2">LETAK OBJEK</th>
+                                <th class="py-3 px-3 text-center border-r" rowspan="2">LUAS BUMI</th>
                                 <th class="py-2 px-3 text-center border-r" colspan="4">BANGUNAN</th>
-                                <th class="py-3 px-3 border-r" rowspan="2">KETERANGAN</th>
+                                <th class="py-3 px-3 text-center border-r" rowspan="2">KETERANGAN</th>
                                 <th class="py-3 px-3 text-center w-20" rowspan="2">AKSI</th>
                             </tr>
                             <tr class="bg-slate-50 text-[10px] text-slate-500 border-b border-slate-200 text-center">
-                                <th class="py-1 border-r">LUAS</th>
-                                <th class="py-1 border-r">THN DBGN</th>
-                                <th class="py-1 border-r">THN RENOV</th>
-                                <th class="py-1 border-r">LISTRIK</th>
+                                <th class="py-1 text-center border-r">LUAS</th>
+                                <th class="py-1 text-center border-r">THN DBGN</th>
+                                <th class="py-1 text-center border-r">THN RENOV</th>
+                                <th class="py-1 text-center border-r">LISTRIK</th>
                             </tr>
                         </thead>
                         <tbody id="pendaftaranTableBody" class="divide-y divide-slate-200 bg-white">
@@ -300,6 +311,12 @@
                         <i class="fa-solid fa-pen-to-square text-amber-600"></i> Form Pemutakhiran / Pembetulan Data PBB
                     </h2>
                     <span id="pemutakhiranFormMode" class="text-xs font-medium px-2 py-1 bg-amber-100 text-amber-800 rounded">Mode: Tambah Pemutakhiran Baru</span>
+                </div>
+
+                <!-- Warning Banner for Incomplete Metadata Header -->
+                <div class="metadata-warning-banner hidden bg-amber-50 border border-amber-300 text-amber-900 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
+                    <span>HARAP PILIH TAHUN PAJAK, KECAMATAN, DAN DESA / KELURAHAN DAHULU PADA BAGIAN ATAS SEBELUM SIMPAN DATA.</span>
                 </div>
 
                 <form id="pemutakhiranForm" onsubmit="handleFormSubmit(event, 'pemutakhiran')" class="space-y-4">
@@ -433,18 +450,18 @@
                                 <th class="py-2.5 px-3 text-center border-r min-w-[140px]" rowspan="2">NOP</th>
                                 <th class="py-2 px-3 text-center border-r bg-slate-200" colspan="4">SEBELUM PEMUTAKHIRAN (SPPT/DHKP)</th>
                                 <th class="py-2 px-3 text-center border-r bg-amber-100/70" colspan="4">KEADAAN SEBENARNYA</th>
-                                <th class="py-2.5 px-3 border-r min-w-[150px]" rowspan="2">ALASAN PEMUTAKHIRAN</th>
+                                <th class="py-2.5 px-3 text-center border-r min-w-[150px]" rowspan="2">ALASAN PEMUTAKHIRAN</th>
                                 <th class="py-2.5 px-3 text-center w-20" rowspan="2">AKSI</th>
                             </tr>
                             <tr class="bg-slate-50 text-[10px] text-slate-500 border-b border-slate-200 text-center">
-                                <th class="py-1 border-r">NAMA WP</th>
-                                <th class="py-1 border-r">LETAK OBJEK</th>
-                                <th class="py-1 border-r">L. BUMI</th>
-                                <th class="py-1 border-r">L. BANG</th>
-                                <th class="py-1 border-r bg-amber-50">NAMA WP</th>
-                                <th class="py-1 border-r bg-amber-50">LETAK OBJEK</th>
-                                <th class="py-1 border-r bg-amber-50">L. BUMI</th>
-                                <th class="py-1 border-r bg-amber-50">L. BANG</th>
+                                <th class="py-1 text-center border-r">NAMA WP</th>
+                                <th class="py-1 text-center border-r">LETAK OBJEK</th>
+                                <th class="py-1 text-center border-r">L. BUMI</th>
+                                <th class="py-1 text-center border-r">L. BANG</th>
+                                <th class="py-1 text-center border-r bg-amber-50">NAMA WP</th>
+                                <th class="py-1 text-center border-r bg-amber-50">LETAK OBJEK</th>
+                                <th class="py-1 text-center border-r bg-amber-50">L. BUMI</th>
+                                <th class="py-1 text-center border-r bg-amber-50">L. BANG</th>
                             </tr>
                         </thead>
                         <tbody id="pemutakhiranTableBody" class="divide-y divide-slate-200 bg-white">
@@ -462,6 +479,12 @@
                         <i class="fa-solid fa-file-circle-xmark text-red-600"></i> Form Usulan Penghapusan Objek & Subjek PBB
                     </h2>
                     <span id="penghapusanFormMode" class="text-xs font-medium px-2 py-1 bg-red-100 text-red-800 rounded">Mode: Tambah Usulan Penghapusan</span>
+                </div>
+
+                <!-- Warning Banner for Incomplete Metadata Header -->
+                <div class="metadata-warning-banner hidden bg-amber-50 border border-amber-300 text-amber-900 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
+                    <span>HARAP PILIH TAHUN PAJAK, KECAMATAN, DAN DESA / KELURAHAN DAHULU PADA BAGIAN ATAS SEBELUM SIMPAN DATA.</span>
                 </div>
 
                 <form id="penghapusanForm" onsubmit="handleFormSubmit(event, 'penghapusan')" class="space-y-4">
@@ -547,13 +570,13 @@
                         <thead class="text-[11px] uppercase bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                             <tr>
                                 <th class="py-3 px-3 text-center border-r w-12">NO</th>
-                                <th class="py-3 px-3 border-r min-w-[140px]">NAMA WAJIB PAJAK</th>
-                                <th class="py-3 px-3 border-r min-w-[140px]">ALAMAT WP</th>
-                                <th class="py-3 px-3 border-r min-w-[130px]">NOP</th>
-                                <th class="py-3 px-3 border-r min-w-[150px]">LETAK OBJEK PAJAK</th>
-                                <th class="py-3 px-3 text-right border-r">LUAS TANAH</th>
-                                <th class="py-3 px-3 text-right border-r">LUAS BANGUNAN</th>
-                                <th class="py-3 px-3 border-r min-w-[150px]">ALASAN PENGHAPUSAN</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[140px]">NAMA WAJIB PAJAK</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[140px]">ALAMAT WP</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[130px]">NOP</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[150px]">LETAK OBJEK PAJAK</th>
+                                <th class="py-3 px-3 text-center border-r">LUAS TANAH (M²)</th>
+                                <th class="py-3 px-3 text-center border-r">LUAS BANGUNAN (M²)</th>
+                                <th class="py-3 px-3 text-center border-r min-w-[150px]">ALASAN PENGHAPUSAN</th>
                                 <th class="py-3 px-3 text-center w-20">AKSI</th>
                             </tr>
                         </thead>
@@ -735,7 +758,7 @@
             penghapusan: []
         };
         
-        // Data Default Master Wilayah Kabupaten Merangin (Berdasarkan Gambar)
+        // Data Default Master Wilayah Kabupaten Merangin
         const defaultMeranginWilayahStr = `BANGKO: DESA MUDO, DESA SUNGAI KAPAS, KEL. DUSUN BANGKO, KEL. PASAR BANGKO, DESA KUNGKAI, DESA LANGLING, KEL. PASAR ATAS BANGKO, KEL. PEMATANG KANDIS
 BANGKO BARAT: DESA BEDENG REJO, DESA BIUKU TANJUNG, DESA BUKIT BERINGIN, DESA PULAU RENGAS, DESA PULAU RENGAS ULU, DESA SUNGAI PUTIH
 BATANG MASUMAI: DESA KEDERASAN PANJANG, DESA LUBUK GAUNG, DESA NIBUNG, DESA PELANGKI, DESA PULU BARU, DESA PULAU LAYANG, DESA RANTAU ALAI, DESA SALAM BUKU, DESA TAMBANG BESI, DESA TITIAN TERAS
@@ -778,7 +801,6 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
         window.masterWilayahList = [];
 
-        // Load saved master wilayah from localStorage if exists, else use default Merangin
         try {
             const savedWilayah = localStorage.getItem('merangin_master_wilayah');
             if (savedWilayah && JSON.parse(savedWilayah).length > 0) {
@@ -790,9 +812,79 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             window.masterWilayahList = loadDefaultWilayah();
         }
 
-        window.selectedFileBase64 = null;
-        window.selectedFileName = '';
-        window.selectedFileMime = '';
+        // Helper to normalize village names for smart matching
+        window.normalizeVillageName = function(name) {
+            if (!name) return '';
+            return name.toString().toUpperCase()
+                .replace(/^(DESA|KELURAHAN|KEL\.|DUSUN)\s+/i, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+
+        // Populate Header Kecamatan & Desa Dropdowns
+        window.initHeaderWilayahDropdowns = function() {
+            const kecSelect = document.getElementById('metaKecamatan');
+            if (!kecSelect) return;
+
+            const currentKec = kecSelect.value;
+            const uniqueKec = [...new Set((window.masterWilayahList || []).map(item => item.kecamatan))].sort();
+
+            let html = `<option value="">-- PILIH KECAMATAN --</option>`;
+            uniqueKec.forEach(k => {
+                const sel = (k === currentKec) ? 'selected' : '';
+                html += `<option value="${window.escapeHtml(k)}" ${sel}>KEC. ${window.escapeHtml(k)}</option>`;
+            });
+            kecSelect.innerHTML = html;
+
+            window.handleKecamatanHeaderChange();
+        };
+
+        window.handleKecamatanHeaderChange = function() {
+            const kecSelect = document.getElementById('metaKecamatan');
+            const desaSelect = document.getElementById('metaDesa');
+            if (!kecSelect || !desaSelect) return;
+
+            const selectedKec = kecSelect.value.toUpperCase();
+            const currentDesa = desaSelect.value;
+
+            if (!selectedKec) {
+                desaSelect.innerHTML = `<option value="">-- PILIH KECAMATAN DAHULU --</option>`;
+                return;
+            }
+
+            const desasInKec = (window.masterWilayahList || [])
+                .filter(item => item.kecamatan === selectedKec)
+                .map(item => item.desa)
+                .sort();
+
+            let html = `<option value="">-- PILIH DESA / KELURAHAN --</option>`;
+            desasInKec.forEach(d => {
+                const sel = (d === currentDesa) ? 'selected' : '';
+                html += `<option value="${window.escapeHtml(d)}" ${sel}>${window.escapeHtml(d)}</option>`;
+            });
+            desaSelect.innerHTML = html;
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initHeaderWilayahDropdowns();
+            window.updateHeaderMetadataState();
+        });
+
+        window.updateHeaderMetadataState = function() {
+            const thn = document.getElementById('metaTahun')?.value.trim();
+            const kec = document.getElementById('metaKecamatan')?.value.trim();
+            const desa = document.getElementById('metaDesa')?.value.trim();
+            const isValid = Boolean(thn && kec && desa);
+
+            const banners = document.querySelectorAll('.metadata-warning-banner');
+            banners.forEach(b => {
+                if (isValid) {
+                    b.classList.add('hidden');
+                } else {
+                    b.classList.remove('hidden');
+                }
+            });
+        };
 
         window.formatRtInput = function(inputEl) {
             if (!inputEl) return;
@@ -1036,13 +1128,22 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
             if (!tbody) return;
 
-            // Compute aggregations across all 3 data categories
-            let mapWilayah = {}; // key: KECAMATAN__DESA
+            let mapWilayah = {}; // key: KECAMATAN__DESA (actual name in master)
+            let normMap = {};   // key: KECAMATAN__NORMALIZED_DESA -> KECAMATAN__DESA
 
             // Helper to get or create map entry
             function getEntry(kec, desa) {
                 let k = (kec || 'TANPA KECAMATAN').trim().toUpperCase();
-                let d = (desa || 'TANPA DESA').trim().toUpperCase();
+                let d = (desa || 'DESA / WILAYAH BELUM DIISI').trim().toUpperCase();
+                
+                let normDesa = window.normalizeVillageName(d);
+                let normKey = `${k}__${normDesa}`;
+
+                // Check if matching master village key exists
+                if (normMap[normKey]) {
+                    return mapWilayah[normMap[normKey]];
+                }
+
                 let key = `${k}__${d}`;
                 if (!mapWilayah[key]) {
                     mapWilayah[key] = {
@@ -1053,32 +1154,33 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         penghapusan: 0,
                         total: 0
                     };
+                    normMap[normKey] = key;
                 }
                 return mapWilayah[key];
             }
 
-            // Populate from Master Wilayah list first (if user pasted any)
+            // 1. Populate from Master Wilayah list first
             (window.masterWilayahList || []).forEach(m => {
                 if (m.kecamatan && m.desa) {
                     getEntry(m.kecamatan, m.desa);
                 }
             });
 
-            // Aggregate Pendaftaran
+            // 2. Aggregate Pendaftaran
             (window.recordsData.pendaftaran || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.pendaftaran += 1;
                 entry.total += 1;
             });
 
-            // Aggregate Pemutakhiran
+            // 3. Aggregate Pemutakhiran
             (window.recordsData.pemutakhiran || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.pemutakhiran += 1;
                 entry.total += 1;
             });
 
-            // Aggregate Penghapusan
+            // 4. Aggregate Penghapusan
             (window.recordsData.penghapusan || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.penghapusan += 1;
@@ -1087,10 +1189,10 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
             let rawList = Object.values(mapWilayah);
 
-            // Populate Dropdown Kecamatan Filter options
+            // Populate Dropdown Kecamatan Filter options in Laporan tab
             if (selectKec) {
                 let currentKecVal = selectKec.value;
-                let uniqueKec = [...new Set(rawList.map(item => item.kecamatan))].sort();
+                let uniqueKec = [...new Set(rawList.map(item => item.kecamatan))].filter(k => k !== 'TANPA KECAMATAN').sort();
                 let optHtml = `<option value="">-- SEMUA KECAMATAN (${uniqueKec.length}) --</option>`;
                 uniqueKec.forEach(k => {
                     let sel = (k === currentKecVal) ? 'selected' : '';
@@ -1117,13 +1219,12 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             window.safeSetText('statGrandTotal', grandTotal);
 
             if (!filterKecVal) {
-                // --- MODE 1: SEMUA KECAMATAN (Tampilkan hanya Per Kecamatan) ---
+                // --- MODE 1: SEMUA KECAMATAN ---
                 if (colHeader) colHeader.innerText = "KECAMATAN";
                 if (bannerText) {
                     bannerText.innerHTML = `<i class="fa-solid fa-building-columns text-amber-400 text-sm"></i> KECAMATAN : <span class="text-amber-300">SEMUA KECAMATAN (KABUPATEN MERANGIN)</span>`;
                 }
 
-                // Aggregate per Kecamatan
                 let mapKec = {};
                 rawList.forEach(item => {
                     let k = item.kecamatan;
@@ -1191,7 +1292,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                 }
 
             } else {
-                // --- MODE 2: SPESIFIK KECAMATAN (Tampilkan Nama-nama Desa dari Kecamatan tersebut) ---
+                // --- MODE 2: SPESIFIK KECAMATAN ---
                 if (colHeader) colHeader.innerText = "DESA / KELURAHAN";
                 if (bannerText) {
                     bannerText.innerHTML = `<i class="fa-solid fa-building-columns text-amber-400 text-sm"></i> KECAMATAN : <span class="text-amber-300">${window.escapeHtml(filterKecVal)}</span>`;
@@ -1302,7 +1403,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         <tr class="hover:bg-indigo-50/50 transition">
                             <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
                             <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
-                            <td class="py-2.5 px-3 border-r font-mono">${window.escapeHtml(item.nik || '-')}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.nik || '-')}</td>
                             <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
                             <td class="py-2.5 px-3 border-r font-medium">${window.escapeHtml(item.letakObjek)}</td>
                             <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBumi ? item.luasBumi + ' m²' : '-'}</td>
@@ -1347,7 +1448,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                             <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
                             <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
                             <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
-                            <td class="py-2.5 px-3 border-r font-mono font-bold text-red-900">${window.escapeHtml(item.nop)}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-red-900">${window.escapeHtml(item.nop)}</td>
                             <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
                             <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasTanah ? item.luasTanah + ' m²' : '-'}</td>
                             <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
@@ -1391,7 +1492,10 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                 document.getElementById('metaTahun').value = item.tahun;
                 window.updateTahunHeader();
             }
-            if (item.kecamatan) document.getElementById('metaKecamatan').value = item.kecamatan;
+            if (item.kecamatan) {
+                document.getElementById('metaKecamatan').value = item.kecamatan;
+                window.handleKecamatanHeaderChange();
+            }
             if (item.desa) document.getElementById('metaDesa').value = item.desa;
             if (item.rt) document.getElementById('metaRT').value = item.rt;
             if (item.suratPengantarUrl) document.getElementById('metaSuratPengantarUrl').value = item.suratPengantarUrl;
@@ -1604,6 +1708,17 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         } else {
                             // Style Baris Header & Isi Data Tabel
                             const isHeader = (R === headerRowIndex);
+                            const headerVal = String(rows[headerRowIndex]?.[C] || '').toUpperCase();
+
+                            let horizAlign = 'left';
+                            if (isHeader) {
+                                horizAlign = 'center';
+                            } else if (C === 0 || headerVal.includes('NOP') || headerVal.includes('NIK') || headerVal.includes('TAHUN') || headerVal.includes('THN') || headerVal.includes('LISTRIK')) {
+                                horizAlign = 'center';
+                            } else if (headerVal.includes('LUAS') || headerVal.includes('BUMI') || headerVal.includes('BANGUNAN') || headerVal.includes('TANAH') || headerVal.includes('PENDAFTARAN') || headerVal.includes('PEMUTAKHIRAN') || headerVal.includes('PENGHAPUSAN') || headerVal.includes('TOTAL')) {
+                                horizAlign = 'right';
+                            }
+
                             worksheet[cellAddress].s = {
                                 border: {
                                     top: { style: 'thin', color: { rgb: '000000' } },
@@ -1618,7 +1733,8 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                                 },
                                 alignment: {
                                     vertical: 'center',
-                                    horizontal: isHeader ? 'center' : (C === 0 ? 'center' : 'left')
+                                    horizontal: horizAlign,
+                                    wrapText: isHeader
                                 },
                                 fill: isHeader ? { fgColor: { rgb: 'E2E8F0' } } : undefined
                             };
@@ -1699,19 +1815,19 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         <thead>
                             <tr>
                                 <th class="text-center" rowspan="2">NO</th>
-                                <th rowspan="2">NAMA</th>
-                                <th rowspan="2">NIK</th>
-                                <th rowspan="2">ALAMAT WP</th>
-                                <th rowspan="2">LETAK OBJEK</th>
+                                <th class="text-center" rowspan="2">NAMA</th>
+                                <th class="text-center" rowspan="2">NIK</th>
+                                <th class="text-center" rowspan="2">ALAMAT WP</th>
+                                <th class="text-center" rowspan="2">LETAK OBJEK</th>
                                 <th class="text-center" rowspan="2">LUAS BUMI</th>
                                 <th class="text-center" colspan="4">BANGUNAN</th>
-                                <th rowspan="2">KETERANGAN</th>
+                                <th class="text-center" rowspan="2">KETERANGAN</th>
                             </tr>
                             <tr class="text-center">
-                                <th>LUAS</th>
-                                <th>THN DBGN</th>
-                                <th>THN RENOV</th>
-                                <th>LISTRIK</th>
+                                <th class="text-center">LUAS</th>
+                                <th class="text-center">THN DBGN</th>
+                                <th class="text-center">THN RENOV</th>
+                                <th class="text-center">LISTRIK</th>
                             </tr>
                             <tr class="text-center">
                                 <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th>
@@ -1724,7 +1840,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                             <tr>
                                 <td class="text-center">${i + 1}</td>
                                 <td>${window.escapeHtml(item.nama)}</td>
-                                <td>${window.escapeHtml(item.nik || '')}</td>
+                                <td class="text-center">${window.escapeHtml(item.nik || '')}</td>
                                 <td>${window.escapeHtml(item.alamatWp || '')}</td>
                                 <td>${window.escapeHtml(item.letakObjek)}</td>
                                 <td class="text-right">${item.luasBumi || ''}</td>
@@ -1741,20 +1857,20 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         <thead>
                             <tr>
                                 <th class="text-center" rowspan="2">NO</th>
-                                <th rowspan="2">NOP</th>
+                                <th class="text-center" rowspan="2">NOP</th>
                                 <th class="text-center" colspan="4">SEBELUM PEMUTAKHIRAN (SPPT/DHKP)</th>
                                 <th class="text-center" colspan="4">KEADAAN SEBENARNYA</th>
-                                <th rowspan="2">ALASAN PEMUTAKHIRAN</th>
+                                <th class="text-center" rowspan="2">ALASAN PEMUTAKHIRAN</th>
                             </tr>
                             <tr class="text-center">
-                                <th>NAMA WP</th>
-                                <th>LETAK OBJEK</th>
-                                <th>L. BUMI</th>
-                                <th>L. BANG</th>
-                                <th>NAMA WP</th>
-                                <th>LETAK OBJEK</th>
-                                <th>L. BUMI</th>
-                                <th>L. BANG</th>
+                                <th class="text-center">NAMA WP</th>
+                                <th class="text-center">LETAK OBJEK</th>
+                                <th class="text-center">L. BUMI</th>
+                                <th class="text-center">L. BANG</th>
+                                <th class="text-center">NAMA WP</th>
+                                <th class="text-center">LETAK OBJEK</th>
+                                <th class="text-center">L. BUMI</th>
+                                <th class="text-center">L. BANG</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1763,7 +1879,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         tableHtml += `
                             <tr>
                                 <td class="text-center">${i + 1}</td>
-                                <td>${window.escapeHtml(item.nop)}</td>
+                                <td class="text-center">${window.escapeHtml(item.nop)}</td>
                                 <td>${window.escapeHtml(item.namaLama || '')}</td>
                                 <td>${window.escapeHtml(item.letakObjekLama || '')}</td>
                                 <td class="text-right">${item.luasBumiLama || ''}</td>
@@ -1781,13 +1897,13 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                         <thead>
                             <tr>
                                 <th class="text-center">NO</th>
-                                <th>NAMA</th>
-                                <th>ALAMAT WP / RT / RW</th>
-                                <th>NOP</th>
-                                <th>ALAMAT OBJEK PAJAK / RT / RW</th>
+                                <th class="text-center">NAMA</th>
+                                <th class="text-center">ALAMAT WP / RT / RW</th>
+                                <th class="text-center">NOP</th>
+                                <th class="text-center">ALAMAT OBJEK PAJAK / RT / RW</th>
                                 <th class="text-center">LUAS TANAH (M2)</th>
                                 <th class="text-center">LUAS BANGUNAN (M2)</th>
-                                <th>ALASAN PENGHAPUSAN</th>
+                                <th class="text-center">ALASAN PENGHAPUSAN</th>
                             </tr>
                             <tr class="text-center">
                                 <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
@@ -1801,7 +1917,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                                 <td class="text-center">${i + 1}</td>
                                 <td>${window.escapeHtml(item.nama)}</td>
                                 <td>${window.escapeHtml(item.alamatWp || '')}</td>
-                                <td>${window.escapeHtml(item.nop)}</td>
+                                <td class="text-center">${window.escapeHtml(item.nop)}</td>
                                 <td>${window.escapeHtml(item.letakObjek || '')}</td>
                                 <td class="text-right">${item.luasTanah || ''}</td>
                                 <td class="text-right">${item.luasBangunan || ''}</td>
@@ -1960,11 +2076,19 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
         window.handleFormSubmit = async function(event, category) {
             event.preventDefault();
             try {
-                const tahun = document.getElementById('metaTahun')?.value.trim() || '2026';
+                const tahun = document.getElementById('metaTahun')?.value.trim() || '';
                 const kec = (document.getElementById('metaKecamatan')?.value.trim() || '').toUpperCase();
                 const desa = (document.getElementById('metaDesa')?.value.trim() || '').toUpperCase();
                 const rt = (document.getElementById('metaRT')?.value.trim() || '').toUpperCase();
                 const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
+
+                if (!tahun || !kec || !desa) {
+                    window.showToast("WAJIB MEMILIH TAHUN PAJAK, KECAMATAN, DAN DESA/KELURAHAN TERLEBIH DAHULU!", "error");
+                    if (!tahun) document.getElementById('metaTahun')?.focus();
+                    else if (!kec) document.getElementById('metaKecamatan')?.focus();
+                    else if (!desa) document.getElementById('metaDesa')?.focus();
+                    return;
+                }
 
                 let recordData = {
                     tahun: tahun,
