@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SheetJS for Excel Export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- SheetJS with Styling for Excel Export Borders -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -308,7 +308,7 @@
                     <!-- NOP Identifikasi -->
                     <div>
                         <label class="block text-xs font-bold text-indigo-900 mb-1 uppercase">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                        <input type="text" id="pemNOP" required placeholder="CONTOH: 15.02.XXX.XXX.XXX-XXXX.0" oninput="this.value = this.value.toUpperCase()" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                        <input type="text" id="pemNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                     </div>
 
                     <!-- Comparison Grid: Before vs Actual -->
@@ -483,7 +483,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-red-900 mb-1 uppercase">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX-XXXX.0" oninput="this.value = this.value.toUpperCase()" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                     </div>
 
@@ -808,6 +808,32 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             if (val.length > 0) {
                 inputEl.value = val.padStart(2, '0').slice(-2);
             }
+        };
+
+        window.formatNopInput = function(inputEl) {
+            if (!inputEl) return;
+            let digits = inputEl.value.replace(/\D/g, '');
+            if (digits.length > 18) digits = digits.slice(0, 18);
+            
+            let formatted = '';
+            if (digits.length > 0) {
+                let p1 = digits.substring(0, 2);
+                let p2 = digits.substring(2, 4);
+                let p3 = digits.substring(4, 7);
+                let p4 = digits.substring(7, 10);
+                let p5 = digits.substring(10, 13);
+                let p6 = digits.substring(13, 17);
+                let p7 = digits.substring(17, 18);
+
+                formatted = p1;
+                if (p2) formatted += '.' + p2;
+                if (p3) formatted += '.' + p3;
+                if (p4) formatted += '.' + p4;
+                if (p5) formatted += '.' + p5;
+                if (p6) formatted += '.' + p6;
+                if (p7) formatted += '.' + p7;
+            }
+            inputEl.value = formatted;
         };
 
         window.combineAddressWithRtRw = function(alamat, rt, rw) {
@@ -1429,34 +1455,59 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
         };
 
         window.exportToExcel = function(category) {
-            const thn = document.getElementById('metaTahun')?.value || '2026';
-            let exportData = [];
-            let fileName = `Data_PBB_${thn}_${category.toUpperCase()}_MERANGIN.xlsx`;
+            const thn = (document.getElementById('metaTahun')?.value || '2026').toString().toUpperCase();
+            const kec = (document.getElementById('metaKecamatan')?.value || '-').toString().trim().toUpperCase();
+            const desa = (document.getElementById('metaDesa')?.value || '-').toString().trim().toUpperCase();
+            const rt = (document.getElementById('metaRT')?.value || '-').toString().trim().toUpperCase();
 
+            let titleText = "PENDAFTARAN OBJEK DAN SUBJEK PAJAK PBB-P2";
+            if (category === 'pemutakhiran') titleText = "PEMUTAKHIRAN / PEMBETULAN DATA OBJEK DAN SUBJEK PAJAK PBB-P2";
+            if (category === 'penghapusan') titleText = "USULAN PENGHAPUSAN OBJEK DAN SUBJEK PAJAK PBB-P2";
+            if (category === 'laporan') titleText = "REKAPITULASI PENDAFTARAN, PEMUTAKHIRAN, DAN PENGHAPUSAN PBB-P2";
+
+            let rows = [];
+
+            // 1. Kop / Header Laporan Excel
+            rows.push([`DATA ${titleText} TAHUN ${thn}`]);
+            rows.push(["KABUPATEN MERANGIN"]);
+            if (category !== 'laporan') {
+                rows.push([`KECAMATAN: ${kec}    |    DESA / KELURAHAN: ${desa}    |    RT / RW: ${rt}`]);
+            } else {
+                const selectKec = document.getElementById('filterKecamatanLaporan');
+                const selectedKec = (selectKec && selectKec.value) ? selectKec.value.toUpperCase() : 'SEMUA KECAMATAN (KABUPATEN MERANGIN)';
+                rows.push([`KECAMATAN: ${selectedKec}`]);
+            }
+            rows.push([]); // Baris kosong pembatas Kop dan Tabel
+
+            const headerRowIndex = rows.length; // Index baris header tabel
+
+            // 2. Baris Header Tabel & Data
             if (category === 'laporan') {
-                // Export Rekap Laporan
                 const selectKec = document.getElementById('filterKecamatanLaporan');
                 const isSemua = !(selectKec && selectKec.value);
                 const colTitle = isSemua ? 'KECAMATAN' : 'DESA / KELURAHAN';
+
+                rows.push(['NO', colTitle, 'JUMLAH PENDAFTARAN', 'JUMLAH PEMUTAKHIRAN', 'JUMLAH PENGHAPUSAN', 'TOTAL DATA']);
+
                 const tbody = document.getElementById('laporanTableBody');
-                if (!tbody) return;
-                const rows = tbody.querySelectorAll('tr');
-                if (rows.length === 0 || rows[0].innerText.includes('Belum ada data')) {
+                const trs = tbody ? tbody.querySelectorAll('tr') : [];
+                if (trs.length === 0 || (trs[0] && trs[0].innerText.includes('Belum ada data'))) {
                     window.showToast("Tidak ada data laporan untuk diexport.", "error");
                     return;
                 }
-                rows.forEach(r => {
+                trs.forEach(r => {
                     const cols = r.querySelectorAll('td');
                     if (cols.length >= 6) {
                         let nameVal = cols[1].innerText.trim();
                         if (isSemua) nameVal = nameVal.split('\n')[0].replace(/^KEC\.\s*/i, '').trim();
-                        let itemObj = { 'NO': cols[0].innerText.trim() };
-                        itemObj[colTitle] = nameVal;
-                        itemObj['JUMLAH PENDAFTARAN'] = parseInt(cols[2].innerText.trim()) || 0;
-                        itemObj['JUMLAH PEMUTAKHIRAN'] = parseInt(cols[3].innerText.trim()) || 0;
-                        itemObj['JUMLAH PENGHAPUSAN'] = parseInt(cols[4].innerText.trim()) || 0;
-                        itemObj['TOTAL DATA'] = parseInt(cols[5].innerText.trim()) || 0;
-                        exportData.push(itemObj);
+                        rows.push([
+                            cols[0].innerText.trim(),
+                            nameVal,
+                            parseInt(cols[2].innerText.trim()) || 0,
+                            parseInt(cols[3].innerText.trim()) || 0,
+                            parseInt(cols[4].innerText.trim()) || 0,
+                            parseInt(cols[5].innerText.trim()) || 0
+                        ]);
                     }
                 });
             } else {
@@ -1465,62 +1516,123 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                     window.showToast("Tidak ada data untuk diexport.", "error");
                     return;
                 }
-                list.forEach((item, index) => {
-                    if (category === 'pendaftaran') {
-                        exportData.push({
-                            'NO': index + 1,
-                            'TAHUN PAJAK': item.tahun || thn,
-                            'NAMA WAJIB PAJAK': item.nama,
-                            'NIK': item.nik || '',
-                            'ALAMAT WP': item.alamatWp || '',
-                            'LETAK OBJEK PAJAK': item.letakObjek,
-                            'LUAS BUMI (M2)': item.luasBumi || '',
-                            'LUAS BANGUNAN (M2)': item.luasBangunan || '',
-                            'THN DBGN': item.thnDbgn || '',
-                            'THN RENOV': item.thnRenov || '',
-                            'LISTRIK': item.listrik || '',
-                            'KETERANGAN': item.keterangan || '',
-                            'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
-                        });
-                    } else if (category === 'pemutakhiran') {
-                        exportData.push({
-                            'NO': index + 1,
-                            'TAHUN PAJAK': item.tahun || thn,
-                            'NOP': item.nop,
-                            'NAMA WP (LAMA)': item.namaLama || '',
-                            'LETAK OBJEK (LAMA)': item.letakObjekLama || '',
-                            'LUAS BUMI (LAMA)': item.luasBumiLama || '',
-                            'LUAS BANGUNAN (LAMA)': item.luasBangunanLama || '',
-                            'NAMA WP (SEBENARNYA)': item.namaBaru || '',
-                            'LETAK OBJEK (SEBENARNYA)': item.letakObjekBaru || '',
-                            'LUAS BUMI (SEBENARNYA)': item.luasBumiBaru || '',
-                            'LUAS BANGUNAN (SEBENARNYA)': item.luasBangunanBaru || '',
-                            'ALASAN PEMUTAKHIRAN': item.alasan || '',
-                            'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
-                        });
-                    } else if (category === 'penghapusan') {
-                        exportData.push({
-                            'NO': index + 1,
-                            'TAHUN PAJAK': item.tahun || thn,
-                            'NAMA WAJIB PAJAK': item.nama,
-                            'ALAMAT WP / RT / RW': item.alamatWp || '',
-                            'NOP': item.nop,
-                            'ALAMAT OBJEK PAJAK / RT / RW': item.letakObjek || '',
-                            'LUAS TANAH (M2)': item.luasTanah || '',
-                            'LUAS BANGUNAN (M2)': item.luasBangunan || '',
-                            'ALASAN PENGHAPUSAN': item.alasan || '',
-                            'SURAT PENGANTAR DRIVE': item.suratPengantarUrl || ''
-                        });
-                    }
-                });
+
+                if (category === 'pendaftaran') {
+                    rows.push(['NO', 'TAHUN PAJAK', 'NAMA WAJIB PAJAK', 'NIK', 'ALAMAT WP', 'LETAK OBJEK PAJAK', 'LUAS BUMI (M2)', 'LUAS BANGUNAN (M2)', 'THN DBGN', 'THN RENOV', 'LISTRIK', 'KETERANGAN']);
+                    list.forEach((item, index) => {
+                        rows.push([
+                            index + 1,
+                            item.tahun || thn,
+                            item.nama || '',
+                            item.nik || '',
+                            item.alamatWp || '',
+                            item.letakObjek || '',
+                            item.luasBumi || '',
+                            item.luasBangunan || '',
+                            item.thnDbgn || '',
+                            item.thnRenov || '',
+                            item.listrik || '',
+                            item.keterangan || ''
+                        ]);
+                    });
+                } else if (category === 'pemutakhiran') {
+                    rows.push(['NO', 'TAHUN PAJAK', 'NOP', 'NAMA WP (LAMA)', 'LETAK OBJEK (LAMA)', 'LUAS BUMI (LAMA)', 'LUAS BANGUNAN (LAMA)', 'NAMA WP (SEBENARNYA)', 'LETAK OBJEK (SEBENARNYA)', 'LUAS BUMI (SEBENARNYA)', 'LUAS BANGUNAN (SEBENARNYA)', 'ALASAN PEMUTAKHIRAN']);
+                    list.forEach((item, index) => {
+                        rows.push([
+                            index + 1,
+                            item.tahun || thn,
+                            item.nop || '',
+                            item.namaLama || '',
+                            item.letakObjekLama || '',
+                            item.luasBumiLama || '',
+                            item.luasBangunanLama || '',
+                            item.namaBaru || '',
+                            item.letakObjekBaru || '',
+                            item.luasBumiBaru || '',
+                            item.luasBangunanBaru || '',
+                            item.alasan || ''
+                        ]);
+                    });
+                } else if (category === 'penghapusan') {
+                    rows.push(['NO', 'TAHUN PAJAK', 'NAMA WAJIB PAJAK', 'ALAMAT WP / RT / RW', 'NOP', 'ALAMAT OBJEK PAJAK / RT / RW', 'LUAS TANAH (M2)', 'LUAS BANGUNAN (M2)', 'ALASAN PENGHAPUSAN']);
+                    list.forEach((item, index) => {
+                        rows.push([
+                            index + 1,
+                            item.tahun || thn,
+                            item.nama || '',
+                            item.alamatWp || '',
+                            item.nop || '',
+                            item.letakObjek || '',
+                            item.luasTanah || '',
+                            item.luasBangunan || '',
+                            item.alasan || ''
+                        ]);
+                    });
+                }
             }
 
-            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const worksheet = XLSX.utils.aoa_to_sheet(rows);
+
+            // Styling Kop & Garis Tabel Excel
+            if (worksheet['!ref']) {
+                const range = XLSX.utils.decode_range(worksheet['!ref']);
+                const colCount = range.e.c - range.s.c + 1;
+
+                // Merge baris Kop Title sejajar kolom tabel
+                worksheet['!merges'] = [
+                    { s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } },
+                    { s: { r: 1, c: 0 }, e: { r: 1, c: colCount - 1 } },
+                    { s: { r: 2, c: 0 }, e: { r: 2, c: colCount - 1 } }
+                ];
+
+                for (let R = range.s.r; R <= range.e.r; ++R) {
+                    for (let C = range.s.c; C <= range.e.c; ++C) {
+                        const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+                        if (!worksheet[cellAddress]) {
+                            worksheet[cellAddress] = { t: 's', v: '' };
+                        }
+
+                        if (R < 3) {
+                            // Style Kop Judul (Baris 1, 2, 3)
+                            worksheet[cellAddress].s = {
+                                font: { name: 'Calibri', sz: R === 0 ? 13 : 11, bold: true },
+                                alignment: { horizontal: 'center', vertical: 'center' }
+                            };
+                        } else if (R === 3) {
+                            // Baris kosong
+                            worksheet[cellAddress].s = {};
+                        } else {
+                            // Style Baris Header & Isi Data Tabel
+                            const isHeader = (R === headerRowIndex);
+                            worksheet[cellAddress].s = {
+                                border: {
+                                    top: { style: 'thin', color: { rgb: '000000' } },
+                                    bottom: { style: 'thin', color: { rgb: '000000' } },
+                                    left: { style: 'thin', color: { rgb: '000000' } },
+                                    right: { style: 'thin', color: { rgb: '000000' } }
+                                },
+                                font: {
+                                    name: 'Calibri',
+                                    sz: 11,
+                                    bold: isHeader
+                                },
+                                alignment: {
+                                    vertical: 'center',
+                                    horizontal: isHeader ? 'center' : (C === 0 ? 'center' : 'left')
+                                },
+                                fill: isHeader ? { fgColor: { rgb: 'E2E8F0' } } : undefined
+                            };
+                        }
+                    }
+                }
+            }
+
+            const fileName = `Data_PBB_${thn}_${category.toUpperCase()}_MERANGIN.xlsx`;
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, category.toUpperCase());
             XLSX.writeFile(workbook, fileName);
 
-            window.showToast(`Berhasil mengexport data ${category.toUpperCase()} ke Excel.`, "success");
+            window.showToast(`Berhasil mengexport data ${category.toUpperCase()} ke Excel lengkap dengan Kop.`, "success");
         };
 
         window.printReport = function(category) {
