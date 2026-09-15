@@ -15,6 +15,10 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         @media print {
+            @page {
+                size: landscape;
+                margin: 10mm;
+            }
             .no-print { display: none !important; }
             .print-only { display: block !important; }
             body { background: white; color: black; font-size: 11px; }
@@ -156,15 +160,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">NAMA WAJIB PAJAK (WP) <span class="text-red-500">*</span></label>
-                            <input type="text" id="pendNama" required placeholder="Nama Lengkap Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <input type="text" id="pendNama" required placeholder="Nama Lengkap Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">NIK (Nomor Induk Kependudukan)</label>
-                            <input type="text" id="pendNik" maxlength="16" placeholder="16 Digit NIK" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <input type="text" id="pendNik" maxlength="16" placeholder="16 Digit NIK" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WAJIB PAJAK (WP)</label>
-                            <input type="text" id="pendAlamatWp" placeholder="Alamat Domisili WP" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <input type="text" id="pendAlamatWp" placeholder="Alamat Domisili WP" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                     </div>
 
@@ -172,7 +176,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1">LETAK OBJEK PAJAK <span class="text-red-500">*</span></label>
-                            <input type="text" id="pendLetakObjek" required placeholder="Jalan / Gang / No. Rumah Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <input type="text" id="pendLetakObjek" required placeholder="Jalan / Gang / No. Rumah Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">LUAS BUMI (m²)</label>
@@ -200,7 +204,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">LISTRIK (VA / Daya)</label>
-                                <input type="text" id="pendListrik" placeholder="Contoh: 900 VA" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <input type="text" id="pendListrik" placeholder="Contoh: 900 VA" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                             </div>
                         </div>
                     </div>
@@ -209,7 +213,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1">KETERANGAN</label>
-                            <input type="text" id="pendKeterangan" placeholder="Catatan tambahan (opsional)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <input type="text" id="pendKeterangan" placeholder="Catatan tambahan (opsional)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePendaftaran" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -286,7 +290,7 @@
                     <!-- NOP Identifikasi -->
                     <div>
                         <label class="block text-xs font-bold text-indigo-900 mb-1">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                        <input type="text" id="pemNOP" required placeholder="Contoh: 15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <input type="text" id="pemNOP" required placeholder="Contoh: 15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                     </div>
 
                     <!-- Comparison Grid: Before vs Actual -->
@@ -299,19 +303,19 @@
                             </h3>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama WP (SPPT)</label>
-                                <input type="text" id="pemNamaLama" placeholder="Nama pada SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
+                                <input type="text" id="pemNamaLama" placeholder="Nama pada SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">NIK (SPPT)</label>
-                                <input type="text" id="pemNikLama" placeholder="NIK SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
+                                <input type="text" id="pemNikLama" placeholder="NIK SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Alamat WP (SPPT)</label>
-                                <input type="text" id="pemAlamatWpLama" placeholder="Alamat WP SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
+                                <input type="text" id="pemAlamatWpLama" placeholder="Alamat WP SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Letak Objek (SPPT)</label>
-                                <input type="text" id="pemLetakObjekLama" placeholder="Letak Objek SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
+                                <input type="text" id="pemLetakObjekLama" placeholder="Letak Objek SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -333,19 +337,19 @@
                             </h3>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Nama WP Sebenarnya</label>
-                                <input type="text" id="pemNamaBaru" placeholder="Nama WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500">
+                                <input type="text" id="pemNamaBaru" placeholder="Nama WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">NIK Sebenarnya</label>
-                                <input type="text" id="pemNikBaru" placeholder="NIK Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500">
+                                <input type="text" id="pemNikBaru" placeholder="NIK Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Alamat WP Sebenarnya</label>
-                                <input type="text" id="pemAlamatWpBaru" placeholder="Alamat WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500">
+                                <input type="text" id="pemAlamatWpBaru" placeholder="Alamat WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Letak Objek Sebenarnya</label>
-                                <input type="text" id="pemLetakObjekBaru" placeholder="Letak Objek Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500">
+                                <input type="text" id="pemLetakObjekBaru" placeholder="Letak Objek Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -364,7 +368,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-2 border-t">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-slate-800 mb-1">ALASAN PEMUTAKHIRAN / PEMBETULAN <span class="text-red-500">*</span></label>
-                            <input type="text" id="pemAlasan" required placeholder="Contoh: Perbaikan Luas Tanah, Balik Nama WP, Pecah Objek Pajak, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                            <input type="text" id="pemAlasan" required placeholder="Contoh: Perbaikan Luas Tanah, Balik Nama WP, Pecah Objek Pajak, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePemutakhiran" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -443,15 +447,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">NAMA WAJIB PAJAK <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusNama" required placeholder="Nama Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <input type="text" id="hapusNama" required placeholder="Nama Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WAJIB PAJAK / RT / RW</label>
-                            <input type="text" id="hapusAlamatWp" placeholder="Alamat WP / RT / RW" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <input type="text" id="hapusAlamatWp" placeholder="Alamat WP / RT / RW" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-red-900 mb-1">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                     </div>
 
@@ -459,7 +463,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT OBJEK PAJAK / RT / RW</label>
-                            <input type="text" id="hapusLetakObjek" placeholder="Letak Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <input type="text" id="hapusLetakObjek" placeholder="Letak Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">LUAS TANAH (m²)</label>
@@ -475,7 +479,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-2 border-t">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-slate-800 mb-1">ALASAN PENGHAPUSAN <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusAlasan" required placeholder="Contoh: Objek Pajak Ganda, Bencana Alam, Objek Tidak Ditemukan, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <input type="text" id="hapusAlasan" required placeholder="Contoh: Objek Pajak Ganda, Bencana Alam, Objek Tidak Ditemukan, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePenghapusan" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -1222,9 +1226,9 @@
         window.handleFormSubmit = async function(event, category) {
             event.preventDefault();
             const tahun = document.getElementById('metaTahun')?.value.trim() || '2026';
-            const kec = document.getElementById('metaKecamatan')?.value.trim() || '';
-            const desa = document.getElementById('metaDesa')?.value.trim() || '';
-            const rt = document.getElementById('metaRT')?.value.trim() || '';
+            const kec = (document.getElementById('metaKecamatan')?.value.trim() || '').toUpperCase();
+            const desa = (document.getElementById('metaDesa')?.value.trim() || '').toUpperCase();
+            const rt = (document.getElementById('metaRT')?.value.trim() || '').toUpperCase();
             const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
 
             let recordData = {
@@ -1240,42 +1244,42 @@
 
             if (category === 'pendaftaran') {
                 recId = document.getElementById('pendaftaranRecordId')?.value;
-                recordData.nama = document.getElementById('pendNama')?.value.trim() || '';
-                recordData.nik = document.getElementById('pendNik')?.value.trim() || '';
-                recordData.alamatWp = document.getElementById('pendAlamatWp')?.value.trim() || '';
-                recordData.letakObjek = document.getElementById('pendLetakObjek')?.value.trim() || '';
+                recordData.nama = (document.getElementById('pendNama')?.value.trim() || '').toUpperCase();
+                recordData.nik = (document.getElementById('pendNik')?.value.trim() || '').toUpperCase();
+                recordData.alamatWp = (document.getElementById('pendAlamatWp')?.value.trim() || '').toUpperCase();
+                recordData.letakObjek = (document.getElementById('pendLetakObjek')?.value.trim() || '').toUpperCase();
                 recordData.luasBumi = document.getElementById('pendLuasBumi')?.value || '';
                 recordData.luasBangunan = document.getElementById('pendLuasBangunan')?.value || '';
                 recordData.thnDbgn = document.getElementById('pendThnDbgn')?.value || '';
                 recordData.thnRenov = document.getElementById('pendThnRenov')?.value || '';
-                recordData.listrik = document.getElementById('pendListrik')?.value || '';
-                recordData.keterangan = document.getElementById('pendKeterangan')?.value || '';
+                recordData.listrik = (document.getElementById('pendListrik')?.value || '').toUpperCase();
+                recordData.keterangan = (document.getElementById('pendKeterangan')?.value || '').toUpperCase();
             } else if (category === 'pemutakhiran') {
                 recId = document.getElementById('pemutakhiranRecordId')?.value;
-                recordData.nop = document.getElementById('pemNOP')?.value.trim() || '';
-                recordData.namaLama = document.getElementById('pemNamaLama')?.value.trim() || '';
-                recordData.nikLama = document.getElementById('pemNikLama')?.value.trim() || '';
-                recordData.alamatWpLama = document.getElementById('pemAlamatWpLama')?.value.trim() || '';
-                recordData.letakObjekLama = document.getElementById('pemLetakObjekLama')?.value.trim() || '';
+                recordData.nop = (document.getElementById('pemNOP')?.value.trim() || '').toUpperCase();
+                recordData.namaLama = (document.getElementById('pemNamaLama')?.value.trim() || '').toUpperCase();
+                recordData.nikLama = (document.getElementById('pemNikLama')?.value.trim() || '').toUpperCase();
+                recordData.alamatWpLama = (document.getElementById('pemAlamatWpLama')?.value.trim() || '').toUpperCase();
+                recordData.letakObjekLama = (document.getElementById('pemLetakObjekLama')?.value.trim() || '').toUpperCase();
                 recordData.luasBumiLama = document.getElementById('pemLuasBumiLama')?.value || '';
                 recordData.luasBangunanLama = document.getElementById('pemLuasBangunanLama')?.value || '';
 
-                recordData.namaBaru = document.getElementById('pemNamaBaru')?.value.trim() || '';
-                recordData.nikBaru = document.getElementById('pemNikBaru')?.value.trim() || '';
-                recordData.alamatWpBaru = document.getElementById('pemAlamatWpBaru')?.value.trim() || '';
-                recordData.letakObjekBaru = document.getElementById('pemLetakObjekBaru')?.value.trim() || '';
+                recordData.namaBaru = (document.getElementById('pemNamaBaru')?.value.trim() || '').toUpperCase();
+                recordData.nikBaru = (document.getElementById('pemNikBaru')?.value.trim() || '').toUpperCase();
+                recordData.alamatWpBaru = (document.getElementById('pemAlamatWpBaru')?.value.trim() || '').toUpperCase();
+                recordData.letakObjekBaru = (document.getElementById('pemLetakObjekBaru')?.value.trim() || '').toUpperCase();
                 recordData.luasBumiBaru = document.getElementById('pemLuasBumiBaru')?.value || '';
                 recordData.luasBangunanBaru = document.getElementById('pemLuasBangunanBaru')?.value || '';
-                recordData.alasan = document.getElementById('pemAlasan')?.value.trim() || '';
+                recordData.alasan = (document.getElementById('pemAlasan')?.value.trim() || '').toUpperCase();
             } else if (category === 'penghapusan') {
                 recId = document.getElementById('penghapusanRecordId')?.value;
-                recordData.nama = document.getElementById('hapusNama')?.value.trim() || '';
-                recordData.alamatWp = document.getElementById('hapusAlamatWp')?.value.trim() || '';
-                recordData.nop = document.getElementById('hapusNOP')?.value.trim() || '';
-                recordData.letakObjek = document.getElementById('hapusLetakObjek')?.value.trim() || '';
+                recordData.nama = (document.getElementById('hapusNama')?.value.trim() || '').toUpperCase();
+                recordData.alamatWp = (document.getElementById('hapusAlamatWp')?.value.trim() || '').toUpperCase();
+                recordData.nop = (document.getElementById('hapusNOP')?.value.trim() || '').toUpperCase();
+                recordData.letakObjek = (document.getElementById('hapusLetakObjek')?.value.trim() || '').toUpperCase();
                 recordData.luasTanah = document.getElementById('hapusLuasTanah')?.value || '';
                 recordData.luasBangunan = document.getElementById('hapusLuasBangunan')?.value || '';
-                recordData.alasan = document.getElementById('hapusAlasan')?.value.trim() || '';
+                recordData.alasan = (document.getElementById('hapusAlasan')?.value.trim() || '').toUpperCase();
             }
 
             try {
