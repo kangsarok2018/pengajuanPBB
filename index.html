@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Inter', sans-serif; }
         @media print {
@@ -31,7 +32,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Top Navigation Bar -->
     <header class="bg-indigo-900 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
@@ -52,7 +52,6 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow space-y-6">
 
         <!-- Location Metadata Header Form -->
@@ -72,11 +71,11 @@
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">KECAMATAN</label>
-                    <input type="text" id="metaKecamatan" placeholder="Contoh: Bangko" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
+                    <input type="text" id="metaKecamatan" placeholder="Contoh: BANGKO" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">DESA / KELURAHAN</label>
-                    <input type="text" id="metaDesa" placeholder="Contoh: Pematang Kandis" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
+                    <input type="text" id="metaDesa" placeholder="Contoh: PEMATANG KANDIS" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">RT / RW</label>
@@ -84,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- Upload Surat Pengantar Desa Section (Google Drive Integration) -->
             <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 space-y-3">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-emerald-200/60 pb-3">
                     <div class="flex items-start gap-3">
@@ -111,7 +109,7 @@
                     </div>
                 </div>
 
-                <!-- Status Progress Upload -->
+                <!-- Progress Upload Box -->
                 <div id="uploadProgressBox" class="hidden text-xs bg-white p-2.5 rounded-lg border border-emerald-200 flex items-center justify-between">
                     <span id="uploadStatusText" class="text-emerald-800 font-medium flex items-center gap-2">
                         <i class="fa-solid fa-spinner animate-spin text-emerald-600"></i> Mengunggah berkas...
@@ -126,7 +124,6 @@
             </div>
         </section>
 
-        <!-- Tab Navigation Bar -->
         <div class="no-print bg-slate-200/80 p-1.5 rounded-xl flex flex-wrap gap-2 text-xs font-semibold">
             <button id="tabBtnPendaftaran" onclick="switchTab('pendaftaran')" class="flex-1 py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 bg-white text-indigo-900 shadow font-bold">
                 <i class="fa-solid fa-file-circle-plus text-indigo-600 text-sm"></i>
@@ -142,9 +139,7 @@
             </button>
         </div>
 
-        <!-- ==================== TAB 1: PENDAFTARAN ==================== -->
         <div id="tabPendaftaranContent" class="space-y-6">
-            <!-- Entry Form Card -->
             <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 no-print">
                 <div class="flex items-center justify-between mb-4 border-b pb-3">
                     <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
@@ -156,27 +151,47 @@
                 <form id="pendaftaranForm" onsubmit="handleFormSubmit(event, 'pendaftaran')" class="space-y-4">
                     <input type="hidden" id="pendaftaranRecordId">
 
-                    <!-- Row 1: Subjek Pajak -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
+                    <!-- Subjek Pajak -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-1">
                             <label class="block text-xs font-medium text-slate-700 mb-1">NAMA WAJIB PAJAK (WP) <span class="text-red-500">*</span></label>
-                            <input type="text" id="pendNama" required placeholder="Nama Lengkap Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                            <input type="text" id="pendNama" required placeholder="NAMA LENGKAP WP" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">NIK (Nomor Induk Kependudukan)</label>
-                            <input type="text" id="pendNik" maxlength="16" placeholder="16 Digit NIK" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                        <div class="md:col-span-1">
+                            <label class="block text-xs font-medium text-slate-700 mb-1">NIK</label>
+                            <input type="text" id="pendNik" maxlength="16" placeholder="16 DIGIT NIK" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WAJIB PAJAK (WP)</label>
-                            <input type="text" id="pendAlamatWp" placeholder="Alamat Domisili WP" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                        <div class="md:col-span-2 grid grid-cols-6 gap-2">
+                            <div class="col-span-4">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WP</label>
+                                <input type="text" id="pendAlamatWp" placeholder="JALAN / DUSUN" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">RT WP</label>
+                                <input type="text" id="pendRtWp" maxlength="3" onblur="formatRtInput(this)" placeholder="001" class="w-full px-2 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">RW WP</label>
+                                <input type="text" id="pendRwWp" maxlength="2" onblur="formatRwInput(this)" placeholder="01" class="w-full px-2 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono focus:ring-2 focus:ring-indigo-500">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Row 2: Objek Pajak -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-medium text-slate-700 mb-1">LETAK OBJEK PAJAK <span class="text-red-500">*</span></label>
-                            <input type="text" id="pendLetakObjek" required placeholder="Jalan / Gang / No. Rumah Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                    <!-- Objek Pajak -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3 grid grid-cols-6 gap-2">
+                            <div class="col-span-4">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">LETAK OBJEK PAJAK <span class="text-red-500">*</span></label>
+                                <input type="text" id="pendLetakObjek" required placeholder="JALAN / GANG / NO. RUMAH" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">RT OBJEK</label>
+                                <input type="text" id="pendRtObjek" maxlength="3" onblur="formatRtInput(this)" placeholder="001" class="w-full px-2 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-medium text-slate-700 mb-1">RW OBJEK</label>
+                                <input type="text" id="pendRwObjek" maxlength="2" onblur="formatRwInput(this)" placeholder="01" class="w-full px-2 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono focus:ring-2 focus:ring-indigo-500">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">LUAS BUMI (m²)</label>
@@ -184,7 +199,7 @@
                         </div>
                     </div>
 
-                    <!-- Row 3: Detail Bangunan -->
+                    <!-- Detail Bangunan -->
                     <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
                         <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                             <i class="fa-solid fa-house font-normal"></i> Detail Bangunan
@@ -204,16 +219,16 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">LISTRIK (VA / Daya)</label>
-                                <input type="text" id="pendListrik" placeholder="Contoh: 900 VA" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                                <input type="text" id="pendListrik" placeholder="CONTOH: 900 VA" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 4: Keterangan & Buttons -->
+                    <!-- Keterangan & Buttons -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-medium text-slate-700 mb-1">KETERANGAN</label>
-                            <input type="text" id="pendKeterangan" placeholder="Catatan tambahan (opsional)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                            <input type="text" id="pendKeterangan" placeholder="CATATAN TAMBAHAN (OPSIONAL)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePendaftaran" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -273,9 +288,7 @@
             </section>
         </div>
 
-        <!-- ==================== TAB 2: PEMUTAKHIRAN / PEMBETULAN ==================== -->
         <div id="tabPemutakhiranContent" class="space-y-6 hidden">
-            <!-- Entry Form Card -->
             <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 no-print">
                 <div class="flex items-center justify-between mb-4 border-b pb-3">
                     <h2 class="text-base font-bold text-amber-900 flex items-center gap-2">
@@ -290,12 +303,12 @@
                     <!-- NOP Identifikasi -->
                     <div>
                         <label class="block text-xs font-bold text-indigo-900 mb-1">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                        <input type="text" id="pemNOP" required placeholder="Contoh: 15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
+                        <input type="text" id="pemNOP" required placeholder="CONTOH: 15.02.XXX.XXX.XXX-XXXX.0" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                     </div>
 
                     <!-- Comparison Grid: Before vs Actual -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Left Box: Sebelum Pemutakhiran (SPPT/DHKP) -->
+                        <!-- Left Box: Sebelum Pemutakhiran -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider border-b pb-2 flex items-center justify-between">
                                 <span>1. Sebelum Pemutakhiran Sesuai SPPT/DHKP</span>
@@ -303,7 +316,7 @@
                             </h3>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama WP (SPPT)</label>
-                                <input type="text" id="pemNamaLama" placeholder="Nama pada SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
+                                <input type="text" id="pemNamaLama" placeholder="NAMA PADA SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">NIK (SPPT)</label>
@@ -311,11 +324,11 @@
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Alamat WP (SPPT)</label>
-                                <input type="text" id="pemAlamatWpLama" placeholder="Alamat WP SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
+                                <input type="text" id="pemAlamatWpLama" placeholder="ALAMAT WP SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1">Letak Objek (SPPT)</label>
-                                <input type="text" id="pemLetakObjekLama" placeholder="Letak Objek SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
+                                <input type="text" id="pemLetakObjekLama" placeholder="LETAK OBJEK SPPT" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -337,19 +350,27 @@
                             </h3>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Nama WP Sebenarnya</label>
-                                <input type="text" id="pemNamaBaru" placeholder="Nama WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                <input type="text" id="pemNamaBaru" placeholder="NAMA WP SEBENARNYA" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">NIK Sebenarnya</label>
-                                <input type="text" id="pemNikBaru" placeholder="NIK Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                <input type="text" id="pemNikBaru" placeholder="NIK SEBENARNYA" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Alamat WP Sebenarnya</label>
-                                <input type="text" id="pemAlamatWpBaru" placeholder="Alamat WP Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                <div class="grid grid-cols-6 gap-2">
+                                    <input type="text" id="pemAlamatWpBaru" placeholder="ALAMAT WP SEBENARNYA" class="col-span-4 px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                    <input type="text" id="pemRtWpBaru" maxlength="3" onblur="formatRtInput(this)" placeholder="RT 001" class="col-span-1 px-1 py-1.5 text-xs border border-amber-300 rounded-md font-mono text-center">
+                                    <input type="text" id="pemRwWpBaru" maxlength="2" onblur="formatRwInput(this)" placeholder="RW 01" class="col-span-1 px-1 py-1.5 text-xs border border-amber-300 rounded-md font-mono text-center">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1">Letak Objek Sebenarnya</label>
-                                <input type="text" id="pemLetakObjekBaru" placeholder="Letak Objek Sebenarnya" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                <div class="grid grid-cols-6 gap-2">
+                                    <input type="text" id="pemLetakObjekBaru" placeholder="LETAK OBJEK SEBENARNYA" class="col-span-4 px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
+                                    <input type="text" id="pemRtObjekBaru" maxlength="3" onblur="formatRtInput(this)" placeholder="RT 001" class="col-span-1 px-1 py-1.5 text-xs border border-amber-300 rounded-md font-mono text-center">
+                                    <input type="text" id="pemRwObjekBaru" maxlength="2" onblur="formatRwInput(this)" placeholder="RW 01" class="col-span-1 px-1 py-1.5 text-xs border border-amber-300 rounded-md font-mono text-center">
+                                </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -368,7 +389,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-2 border-t">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-slate-800 mb-1">ALASAN PEMUTAKHIRAN / PEMBETULAN <span class="text-red-500">*</span></label>
-                            <input type="text" id="pemAlasan" required placeholder="Contoh: Perbaikan Luas Tanah, Balik Nama WP, Pecah Objek Pajak, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none uppercase">
+                            <input type="text" id="pemAlasan" required placeholder="CONTOH: PERBAIKAN LUAS TANAH, BALIK NAMA WP, PECAH OBJEK PAJAK, DLL." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePemutakhiran" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -429,9 +450,7 @@
             </section>
         </div>
 
-        <!-- ==================== TAB 3: PENGHAPUSAN ==================== -->
         <div id="tabPenghapusanContent" class="space-y-6 hidden">
-            <!-- Entry Form Card -->
             <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 no-print">
                 <div class="flex items-center justify-between mb-4 border-b pb-3">
                     <h2 class="text-base font-bold text-red-900 flex items-center gap-2">
@@ -443,15 +462,19 @@
                 <form id="penghapusanForm" onsubmit="handleFormSubmit(event, 'penghapusan')" class="space-y-4">
                     <input type="hidden" id="penghapusanRecordId">
 
-                    <!-- Row 1: Subjek & NOP -->
+                    <!-- Subjek & NOP -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">NAMA WAJIB PAJAK <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusNama" required placeholder="Nama Wajib Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                            <input type="text" id="hapusNama" required placeholder="NAMA WAJIB PAJAK" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WAJIB PAJAK / RT / RW</label>
-                            <input type="text" id="hapusAlamatWp" placeholder="Alamat WP / RT / RW" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                            <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT WAJIB PAJAK</label>
+                            <div class="grid grid-cols-6 gap-2">
+                                <input type="text" id="hapusAlamatWp" placeholder="ALAMAT WP" class="col-span-4 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                                <input type="text" id="hapusRtWp" maxlength="3" onblur="formatRtInput(this)" placeholder="001" class="col-span-1 px-1 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono">
+                                <input type="text" id="hapusRwWp" maxlength="2" onblur="formatRwInput(this)" placeholder="01" class="col-span-1 px-1 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-red-900 mb-1">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
@@ -459,11 +482,15 @@
                         </div>
                     </div>
 
-                    <!-- Row 2: Objek Pajak & Luas -->
+                    <!-- Objek Pajak & Luas -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT OBJEK PAJAK / RT / RW</label>
-                            <input type="text" id="hapusLetakObjek" placeholder="Letak Objek Pajak" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                            <label class="block text-xs font-medium text-slate-700 mb-1">ALAMAT OBJEK PAJAK</label>
+                            <div class="grid grid-cols-6 gap-2">
+                                <input type="text" id="hapusLetakObjek" placeholder="LETAK OBJEK PAJAK" class="col-span-4 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                                <input type="text" id="hapusRtObjek" maxlength="3" onblur="formatRtInput(this)" placeholder="001" class="col-span-1 px-1 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono">
+                                <input type="text" id="hapusRwObjek" maxlength="2" onblur="formatRwInput(this)" placeholder="01" class="col-span-1 px-1 py-2 text-sm border border-slate-300 rounded-lg text-center font-mono">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">LUAS TANAH (m²)</label>
@@ -475,11 +502,11 @@
                         </div>
                     </div>
 
-                    <!-- Row 3: Alasan & Buttons -->
+                    <!-- Alasan & Buttons -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-2 border-t">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-slate-800 mb-1">ALASAN PENGHAPUSAN <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusAlasan" required placeholder="Contoh: Objek Pajak Ganda, Bencana Alam, Objek Tidak Ditemukan, dll." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
+                            <input type="text" id="hapusAlasan" required placeholder="CONTOH: OBJEK PAJAK GANDA, BENCANA ALAM, OBJEK TIDAK DITEMUKAN, DLL." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                         <div class="flex gap-2">
                             <button type="submit" id="btnSavePenghapusan" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
@@ -533,7 +560,6 @@
             </section>
         </div>
 
-        <!-- Printable Layout Header (Hidden during interactive usage) -->
         <div id="printTemplate" class="print-only">
             <div class="text-center font-bold text-base mb-4 tracking-wider">
                 <h2 id="printMainTitle">PENDAFTARAN</h2>
@@ -554,7 +580,6 @@
                 <!-- Table injected dynamically for print -->
             </div>
 
-            <!-- Printable Signatures Footer -->
             <div class="grid grid-cols-2 gap-8 text-center text-xs mt-12 pt-4">
                 <div>
                     <p class="mb-14">Mengetahui,<br>Ketua RT / Kepala Desa / Lurah</p>
@@ -571,7 +596,6 @@
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 no-print"></div>
 
-    <!-- Global Interface Scripts & Helpers -->
     <script>
         window.activeTab = 'pendaftaran';
         window.recordsData = {
@@ -582,6 +606,35 @@
         window.selectedFileBase64 = null;
         window.selectedFileName = '';
         window.selectedFileMime = '';
+
+        window.formatRtInput = function(inputEl) {
+            if (!inputEl) return;
+            let val = inputEl.value.replace(/\D/g, '');
+            if (val.length > 0) {
+                inputEl.value = val.padStart(3, '0').slice(-3);
+            }
+        };
+
+        window.formatRwInput = function(inputEl) {
+            if (!inputEl) return;
+            let val = inputEl.value.replace(/\D/g, '');
+            if (val.length > 0) {
+                inputEl.value = val.padStart(2, '0').slice(-2);
+            }
+        };
+
+        window.combineAddressWithRtRw = function(alamat, rt, rw) {
+            let res = alamat ? alamat.trim() : '';
+            let rtFormatted = rt ? rt.toString().replace(/\D/g, '').padStart(3, '0').slice(-3) : '';
+            let rwFormatted = rw ? rw.toString().replace(/\D/g, '').padStart(2, '0').slice(-2) : '';
+
+            let parts = [];
+            if (res) parts.push(res);
+            if (rtFormatted) parts.push(`RT ${rtFormatted}`);
+            if (rwFormatted) parts.push(`RW ${rwFormatted}`);
+
+            return parts.join(' / ');
+        };
 
         window.updateTahunHeader = function() {
             const thn = document.getElementById('metaTahun')?.value || '2026';
@@ -670,6 +723,8 @@
         };
 
         window.renderTable = function(category) {
+            if (document.readyState === 'loading') return;
+
             const list = window.recordsData[category] || [];
             let searchInput = '';
             let tbody = null;
@@ -812,8 +867,12 @@
                 document.getElementById('pendaftaranRecordId').value = item.id;
                 document.getElementById('pendNama').value = item.nama || '';
                 document.getElementById('pendNik').value = item.nik || '';
-                document.getElementById('pendAlamatWp').value = item.alamatWp || '';
-                document.getElementById('pendLetakObjek').value = item.letakObjek || '';
+                document.getElementById('pendAlamatWp').value = item.alamatWpBase || item.alamatWp || '';
+                document.getElementById('pendRtWp').value = item.rtWp || '';
+                document.getElementById('pendRwWp').value = item.rwWp || '';
+                document.getElementById('pendLetakObjek').value = item.letakObjekBase || item.letakObjek || '';
+                document.getElementById('pendRtObjek').value = item.rtObjek || '';
+                document.getElementById('pendRwObjek').value = item.rwObjek || '';
                 document.getElementById('pendLuasBumi').value = item.luasBumi || '';
                 document.getElementById('pendLuasBangunan').value = item.luasBangunan || '';
                 document.getElementById('pendThnDbgn').value = item.thnDbgn || '';
@@ -833,8 +892,12 @@
 
                 document.getElementById('pemNamaBaru').value = item.namaBaru || '';
                 document.getElementById('pemNikBaru').value = item.nikBaru || '';
-                document.getElementById('pemAlamatWpBaru').value = item.alamatWpBaru || '';
-                document.getElementById('pemLetakObjekBaru').value = item.letakObjekBaru || '';
+                document.getElementById('pemAlamatWpBaru').value = item.alamatWpBaruBase || item.alamatWpBaru || '';
+                document.getElementById('pemRtWpBaru').value = item.rtWpBaru || '';
+                document.getElementById('pemRwWpBaru').value = item.rwWpBaru || '';
+                document.getElementById('pemLetakObjekBaru').value = item.letakObjekBaruBase || item.letakObjekBaru || '';
+                document.getElementById('pemRtObjekBaru').value = item.rtObjekBaru || '';
+                document.getElementById('pemRwObjekBaru').value = item.rwObjekBaru || '';
                 document.getElementById('pemLuasBumiBaru').value = item.luasBumiBaru || '';
                 document.getElementById('pemLuasBangunanBaru').value = item.luasBangunanBaru || '';
                 document.getElementById('pemAlasan').value = item.alasan || '';
@@ -842,9 +905,13 @@
             } else if (category === 'penghapusan') {
                 document.getElementById('penghapusanRecordId').value = item.id;
                 document.getElementById('hapusNama').value = item.nama || '';
-                document.getElementById('hapusAlamatWp').value = item.alamatWp || '';
+                document.getElementById('hapusAlamatWp').value = item.alamatWpBase || item.alamatWp || '';
+                document.getElementById('hapusRtWp').value = item.rtWp || '';
+                document.getElementById('hapusRwWp').value = item.rwWp || '';
                 document.getElementById('hapusNOP').value = item.nop || '';
-                document.getElementById('hapusLetakObjek').value = item.letakObjek || '';
+                document.getElementById('hapusLetakObjek').value = item.letakObjekBase || item.letakObjek || '';
+                document.getElementById('hapusRtObjek').value = item.rtObjek || '';
+                document.getElementById('hapusRwObjek').value = item.rwObjek || '';
                 document.getElementById('hapusLuasTanah').value = item.luasTanah || '';
                 document.getElementById('hapusLuasBangunan').value = item.luasBangunan || '';
                 document.getElementById('hapusAlasan').value = item.alasan || '';
@@ -1075,7 +1142,7 @@
                 return;
             }
 
-            const appsScriptUrl = window.getAppsScriptUrl();
+            const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbxSvsH1TLiHXBqhBWvhaWEjkLmbcvey1-IUfLCvXAcmsEeEqxAHODUKsys1kznDHowa3A/exec';
             const progressBox = document.getElementById('uploadProgressBox');
             const statusText = document.getElementById('uploadStatusText');
             const driveLinkEl = document.getElementById('uploadedDriveLink');
@@ -1087,59 +1154,42 @@
             if (btnUpload) btnUpload.disabled = true;
             window.safeSetText('btnUploadText', "Mengunggah...");
 
-            if (appsScriptUrl) {
-                try {
-                    const payload = {
-                        filename: window.selectedFileName,
-                        mimeType: window.selectedFileMime,
-                        base64: window.selectedFileBase64
-                    };
+            try {
+                const payload = {
+                    filename: window.selectedFileName,
+                    mimeType: window.selectedFileMime,
+                    base64: window.selectedFileBase64
+                };
 
-                    const response = await fetch(appsScriptUrl, {
-                        method: 'POST',
-                        body: JSON.stringify(payload)
-                    });
+                const response = await fetch(appsScriptUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
 
-                    const resData = await response.json();
-                    if (resData.result === 'success' && resData.url) {
-                        const inputUrl = document.getElementById('metaSuratPengantarUrl');
-                        if (inputUrl) inputUrl.value = resData.url;
-                        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Terupload ke folder PengajuanPBBKolektifDesa!`;
-                        if (driveLinkEl) {
-                            driveLinkEl.href = resData.url;
-                            driveLinkEl.classList.remove('hidden');
-                        }
-                        window.showToast("File berhasil disimpan di folder PengajuanPBBKolektifDesa!", "success");
-                    } else {
-                        throw new Error(resData.error || "Gagal mengunggah file");
-                    }
-                } catch (err) {
-                    console.warn("Apps Script upload fallback:", err);
-                    const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
+                const resData = await response.json();
+                if (resData.result === 'success' && resData.url) {
                     const inputUrl = document.getElementById('metaSuratPengantarUrl');
-                    if (inputUrl) inputUrl.value = fallbackDataUrl;
-                    if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-info text-amber-600"></i> Berkas dilampirkan langsung ke form.`;
-                    window.showToast("File dilampirkan ke data.", "info");
+                    if (inputUrl) inputUrl.value = resData.url;
+                    if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Terupload ke folder PengajuanPBBKolektifDesa!`;
+                    if (driveLinkEl) {
+                        driveLinkEl.href = resData.url;
+                        driveLinkEl.classList.remove('hidden');
+                    }
+                    window.showToast("File berhasil disimpan di folder PengajuanPBBKolektifDesa!", "success");
+                } else {
+                    throw new Error(resData.error || "Gagal mengunggah file");
                 }
-            } else {
+            } catch (err) {
+                console.warn("Apps Script upload fallback:", err);
                 const fallbackDataUrl = `data:${window.selectedFileMime};base64,${window.selectedFileBase64}`;
                 const inputUrl = document.getElementById('metaSuratPengantarUrl');
                 if (inputUrl) inputUrl.value = fallbackDataUrl;
-                if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Berkas berhasil dilampirkan ke form!`;
-                window.showToast("File dilampirkan ke form.", "info");
+                if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-info text-amber-600"></i> Berkas dilampirkan langsung ke form.`;
+                window.showToast("File dilampirkan ke data.", "info");
             }
 
             if (btnUpload) btnUpload.disabled = false;
             window.safeSetText('btnUploadText', "Upload Ke Drive");
-        };
-
-        window.saveAppsScriptUrl = function(url) {
-            localStorage.setItem('pbb_apps_script_url', url.trim());
-            window.showToast("URL Google Apps Script disimpan!", "success");
-        };
-
-        window.getAppsScriptUrl = function() {
-            return 'https://script.google.com/macros/s/AKfycbxSvsH1TLiHXBqhBWvhaWEjkLmbcvey1-IUfLCvXAcmsEeEqxAHODUKsys1kznDHowa3A/exec';
         };
 
         window.handleFileSelect = function(event) {
@@ -1171,13 +1221,12 @@
         };
     </script>
 
-    <!-- Firebase SDK Modules Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Integrated Firebase Credentials
+        // Integrated Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAZmImhnXnOBqeUG35WkF2qWp0u9aKgZmo",
             authDomain: "projectpbb-ed58e.firebaseapp.com",
@@ -1204,7 +1253,7 @@
             console.warn("Auth info:", err);
         });
 
-        // Realtime sync for all 3 tabs
+        // Realtime sync for all 3 categories
         ['pendaftaran', 'pemutakhiran', 'penghapusan'].forEach(cat => {
             const catRef = ref(db, `pbb_2026/${cat}`);
             onValue(catRef, (snapshot) => {
@@ -1222,78 +1271,102 @@
             });
         });
 
-        // Global Form Submission Handler
         window.handleFormSubmit = async function(event, category) {
             event.preventDefault();
-            const tahun = document.getElementById('metaTahun')?.value.trim() || '2026';
-            const kec = (document.getElementById('metaKecamatan')?.value.trim() || '').toUpperCase();
-            const desa = (document.getElementById('metaDesa')?.value.trim() || '').toUpperCase();
-            const rt = (document.getElementById('metaRT')?.value.trim() || '').toUpperCase();
-            const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
-
-            let recordData = {
-                tahun: tahun,
-                kecamatan: kec,
-                desa: desa,
-                rt: rt,
-                suratPengantarUrl: suratUrl,
-                updatedAt: new Date().toISOString()
-            };
-
-            let recId = '';
-
-            if (category === 'pendaftaran') {
-                recId = document.getElementById('pendaftaranRecordId')?.value;
-                recordData.nama = (document.getElementById('pendNama')?.value.trim() || '').toUpperCase();
-                recordData.nik = (document.getElementById('pendNik')?.value.trim() || '').toUpperCase();
-                recordData.alamatWp = (document.getElementById('pendAlamatWp')?.value.trim() || '').toUpperCase();
-                recordData.letakObjek = (document.getElementById('pendLetakObjek')?.value.trim() || '').toUpperCase();
-                recordData.luasBumi = document.getElementById('pendLuasBumi')?.value || '';
-                recordData.luasBangunan = document.getElementById('pendLuasBangunan')?.value || '';
-                recordData.thnDbgn = document.getElementById('pendThnDbgn')?.value || '';
-                recordData.thnRenov = document.getElementById('pendThnRenov')?.value || '';
-                recordData.listrik = (document.getElementById('pendListrik')?.value || '').toUpperCase();
-                recordData.keterangan = (document.getElementById('pendKeterangan')?.value || '').toUpperCase();
-            } else if (category === 'pemutakhiran') {
-                recId = document.getElementById('pemutakhiranRecordId')?.value;
-                recordData.nop = (document.getElementById('pemNOP')?.value.trim() || '').toUpperCase();
-                recordData.namaLama = (document.getElementById('pemNamaLama')?.value.trim() || '').toUpperCase();
-                recordData.nikLama = (document.getElementById('pemNikLama')?.value.trim() || '').toUpperCase();
-                recordData.alamatWpLama = (document.getElementById('pemAlamatWpLama')?.value.trim() || '').toUpperCase();
-                recordData.letakObjekLama = (document.getElementById('pemLetakObjekLama')?.value.trim() || '').toUpperCase();
-                recordData.luasBumiLama = document.getElementById('pemLuasBumiLama')?.value || '';
-                recordData.luasBangunanLama = document.getElementById('pemLuasBangunanLama')?.value || '';
-
-                recordData.namaBaru = (document.getElementById('pemNamaBaru')?.value.trim() || '').toUpperCase();
-                recordData.nikBaru = (document.getElementById('pemNikBaru')?.value.trim() || '').toUpperCase();
-                recordData.alamatWpBaru = (document.getElementById('pemAlamatWpBaru')?.value.trim() || '').toUpperCase();
-                recordData.letakObjekBaru = (document.getElementById('pemLetakObjekBaru')?.value.trim() || '').toUpperCase();
-                recordData.luasBumiBaru = document.getElementById('pemLuasBumiBaru')?.value || '';
-                recordData.luasBangunanBaru = document.getElementById('pemLuasBangunanBaru')?.value || '';
-                recordData.alasan = (document.getElementById('pemAlasan')?.value.trim() || '').toUpperCase();
-            } else if (category === 'penghapusan') {
-                recId = document.getElementById('penghapusanRecordId')?.value;
-                recordData.nama = (document.getElementById('hapusNama')?.value.trim() || '').toUpperCase();
-                recordData.alamatWp = (document.getElementById('hapusAlamatWp')?.value.trim() || '').toUpperCase();
-                recordData.nop = (document.getElementById('hapusNOP')?.value.trim() || '').toUpperCase();
-                recordData.letakObjek = (document.getElementById('hapusLetakObjek')?.value.trim() || '').toUpperCase();
-                recordData.luasTanah = document.getElementById('hapusLuasTanah')?.value || '';
-                recordData.luasBangunan = document.getElementById('hapusLuasBangunan')?.value || '';
-                recordData.alasan = (document.getElementById('hapusAlasan')?.value.trim() || '').toUpperCase();
-            }
-
             try {
+                const tahun = document.getElementById('metaTahun')?.value.trim() || '2026';
+                const kec = (document.getElementById('metaKecamatan')?.value.trim() || '').toUpperCase();
+                const desa = (document.getElementById('metaDesa')?.value.trim() || '').toUpperCase();
+                const rt = (document.getElementById('metaRT')?.value.trim() || '').toUpperCase();
+                const suratUrl = document.getElementById('metaSuratPengantarUrl')?.value.trim() || '';
+
+                let recordData = {
+                    tahun: tahun,
+                    kecamatan: kec,
+                    desa: desa,
+                    rt: rt,
+                    suratPengantarUrl: suratUrl,
+                    updatedAt: new Date().toISOString()
+                };
+
+                let recId = '';
+
+                if (category === 'pendaftaran') {
+                    recId = document.getElementById('pendaftaranRecordId')?.value;
+                    recordData.nama = (document.getElementById('pendNama')?.value.trim() || '').toUpperCase();
+                    recordData.nik = (document.getElementById('pendNik')?.value.trim() || '').toUpperCase();
+                    recordData.alamatWpBase = (document.getElementById('pendAlamatWp')?.value.trim() || '').toUpperCase();
+                    recordData.rtWp = (document.getElementById('pendRtWp')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwWp = (document.getElementById('pendRwWp')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.alamatWp = window.combineAddressWithRtRw(recordData.alamatWpBase, recordData.rtWp, recordData.rwWp);
+
+                    recordData.letakObjekBase = (document.getElementById('pendLetakObjek')?.value.trim() || '').toUpperCase();
+                    recordData.rtObjek = (document.getElementById('pendRtObjek')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwObjek = (document.getElementById('pendRwObjek')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.letakObjek = window.combineAddressWithRtRw(recordData.letakObjekBase, recordData.rtObjek, recordData.rwObjek);
+
+                    recordData.luasBumi = document.getElementById('pendLuasBumi')?.value || '';
+                    recordData.luasBangunan = document.getElementById('pendLuasBangunan')?.value || '';
+                    recordData.thnDbgn = document.getElementById('pendThnDbgn')?.value || '';
+                    recordData.thnRenov = document.getElementById('pendThnRenov')?.value || '';
+                    recordData.listrik = (document.getElementById('pendListrik')?.value || '').toUpperCase();
+                    recordData.keterangan = (document.getElementById('pendKeterangan')?.value || '').toUpperCase();
+                } else if (category === 'pemutakhiran') {
+                    recId = document.getElementById('pemutakhiranRecordId')?.value;
+                    recordData.nop = (document.getElementById('pemNOP')?.value.trim() || '').toUpperCase();
+                    recordData.namaLama = (document.getElementById('pemNamaLama')?.value.trim() || '').toUpperCase();
+                    recordData.nikLama = (document.getElementById('pemNikLama')?.value.trim() || '').toUpperCase();
+                    recordData.alamatWpLama = (document.getElementById('pemAlamatWpLama')?.value.trim() || '').toUpperCase();
+                    recordData.letakObjekLama = (document.getElementById('pemLetakObjekLama')?.value.trim() || '').toUpperCase();
+                    recordData.luasBumiLama = document.getElementById('pemLuasBumiLama')?.value || '';
+                    recordData.luasBangunanLama = document.getElementById('pemLuasBangunanLama')?.value || '';
+
+                    recordData.namaBaru = (document.getElementById('pemNamaBaru')?.value.trim() || '').toUpperCase();
+                    recordData.nikBaru = (document.getElementById('pemNikBaru')?.value.trim() || '').toUpperCase();
+                    recordData.alamatWpBaruBase = (document.getElementById('pemAlamatWpBaru')?.value.trim() || '').toUpperCase();
+                    recordData.rtWpBaru = (document.getElementById('pemRtWpBaru')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwWpBaru = (document.getElementById('pemRwWpBaru')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.alamatWpBaru = window.combineAddressWithRtRw(recordData.alamatWpBaruBase, recordData.rtWpBaru, recordData.rwWpBaru);
+
+                    recordData.letakObjekBaruBase = (document.getElementById('pemLetakObjekBaru')?.value.trim() || '').toUpperCase();
+                    recordData.rtObjekBaru = (document.getElementById('pemRtObjekBaru')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwObjekBaru = (document.getElementById('pemRwObjekBaru')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.letakObjekBaru = window.combineAddressWithRtRw(recordData.letakObjekBaruBase, recordData.rtObjekBaru, recordData.rwObjekBaru);
+
+                    recordData.luasBumiBaru = document.getElementById('pemLuasBumiBaru')?.value || '';
+                    recordData.luasBangunanBaru = document.getElementById('pemLuasBangunanBaru')?.value || '';
+                    recordData.alasan = (document.getElementById('pemAlasan')?.value.trim() || '').toUpperCase();
+                } else if (category === 'penghapusan') {
+                    recId = document.getElementById('penghapusanRecordId')?.value;
+                    recordData.nama = (document.getElementById('hapusNama')?.value.trim() || '').toUpperCase();
+                    recordData.alamatWpBase = (document.getElementById('hapusAlamatWp')?.value.trim() || '').toUpperCase();
+                    recordData.rtWp = (document.getElementById('hapusRtWp')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwWp = (document.getElementById('hapusRwWp')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.alamatWp = window.combineAddressWithRtRw(recordData.alamatWpBase, recordData.rtWp, recordData.rwWp);
+
+                    recordData.nop = (document.getElementById('hapusNOP')?.value.trim() || '').toUpperCase();
+                    recordData.letakObjekBase = (document.getElementById('hapusLetakObjek')?.value.trim() || '').toUpperCase();
+                    recordData.rtObjek = (document.getElementById('hapusRtObjek')?.value.trim() || '').replace(/\D/g, '').padStart(3, '0').slice(-3);
+                    recordData.rwObjek = (document.getElementById('hapusRwObjek')?.value.trim() || '').replace(/\D/g, '').padStart(2, '0').slice(-2);
+                    recordData.letakObjek = window.combineAddressWithRtRw(recordData.letakObjekBase, recordData.rtObjek, recordData.rwObjek);
+
+                    recordData.luasTanah = document.getElementById('hapusLuasTanah')?.value || '';
+                    recordData.luasBangunan = document.getElementById('hapusLuasBangunan')?.value || '';
+                    recordData.alasan = (document.getElementById('hapusAlasan')?.value.trim() || '').toUpperCase();
+                }
+
                 if (recId) {
                     const itemRef = ref(db, `pbb_2026/${category}/${recId}`);
                     await update(itemRef, recordData);
-                    window.showToast("Data berhasil diperbarui di Realtime Database!", "success");
+                    window.showToast("Data berhasil diperbarui di database!", "success");
                 } else {
-                    const catRef = ref(db, `pbb_2026/${category}`);
-                    const newRef = push(catRef);
                     recordData.createdAt = new Date().toISOString();
+                    const listRef = ref(db, `pbb_2026/${category}`);
+                    const newRef = push(listRef);
                     await set(newRef, recordData);
-                    window.showToast("Data baru berhasil disimpan ke Realtime Database!", "success");
+                    window.showToast("Data baru berhasil disimpan ke database!", "success");
                 }
+
                 window.resetForm(category);
             } catch (err) {
                 console.error("Save error:", err);
@@ -1306,20 +1379,12 @@
             try {
                 const itemRef = ref(db, `pbb_2026/${category}/${id}`);
                 await remove(itemRef);
-                window.showToast("Data berhasil dihapus dari database!", "success");
+                window.showToast("Data berhasil dihapus dari database.", "success");
             } catch (err) {
                 console.error("Delete error:", err);
                 window.showToast("Gagal menghapus data: " + err.message, "error");
             }
         };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedUrl = window.getAppsScriptUrl();
-            const inputEl = document.getElementById('cfgAppsScriptUrl');
-            if (inputEl && savedUrl) inputEl.value = savedUrl;
-
-            window.switchTab('pendaftaran');
-        });
     </script>
 </body>
 </html>
