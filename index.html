@@ -685,7 +685,7 @@
                 <!-- Table injected dynamically for print -->
             </div>
 
-            <div class="flex justify-end text-center text-xs mt-12 pt-4">
+            <div id="printSignSection" class="flex justify-end text-center text-xs mt-12 pt-4">
                 <div class="w-80">
                     <p class="mb-14"><span id="printPlaceName">BANGKO</span>, .................................. <span id="printTahunSignText">2026</span><br>Mengetahui,<br>Ketua RT / Kepala Desa / Lurah</p>
                     <p class="font-bold underline">( ..................................................... )</p>
@@ -1546,10 +1546,12 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
             const container = document.getElementById('printTableContainer');
             const metaSection = document.getElementById('printMetaSection');
+            const signSection = document.getElementById('printSignSection');
             if (!container) return;
 
             if (category === 'laporan') {
                 if (metaSection) metaSection.style.display = 'none';
+                if (signSection) signSection.style.display = 'none';
                 let selectedKec = (document.getElementById('filterKecamatanLaporan')?.value || '').toUpperCase();
                 let kecBannerText = selectedKec ? `KECAMATAN : ${selectedKec}` : `SEMUA KECAMATAN (KABUPATEN MERANGIN)`;
                 let colTitle = selectedKec ? 'DESA / KELURAHAN' : 'KECAMATAN';
@@ -1577,6 +1579,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                 container.innerHTML = tableHtml;
             } else {
                 if (metaSection) metaSection.style.display = 'flex';
+                if (signSection) signSection.style.display = 'flex';
                 let tableHtml = `<table class="w-full text-xs">`;
 
                 if (category === 'pendaftaran') {
