@@ -46,10 +46,22 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <div id="authStatusBadge" class="bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Terhubung: projectpbb-ed58e</span>
+                <div id="userProfileBadge" class="hidden bg-indigo-800 border border-indigo-700 rounded-lg px-3 py-1 flex items-center gap-2">
+                    <div class="text-right">
+                        <p id="userProfileName" class="text-xs font-bold text-amber-300 uppercase leading-none">Petugas Desa</p>
+                        <p id="userProfileScope" class="text-[10px] text-indigo-200 uppercase leading-tight">Pematang Kandis (Bangko)</p>
+                    </div>
+                    <button onclick="openLoginModal()" class="bg-indigo-700 hover:bg-indigo-600 text-white p-1.5 rounded text-xs ml-1" title="Ganti Akun / Setting">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </button>
+                    <button onclick="logoutUser()" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded text-xs" title="Keluar / Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
                 </div>
+                <button id="btnLoginHeader" onclick="openLoginModal()" class="bg-amber-500 hover:bg-amber-600 text-indigo-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Login Petugas / Admin</span>
+                </button>
             </div>
         </div>
     </header>
@@ -73,13 +85,13 @@
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">KECAMATAN <span class="text-red-500">*</span></label>
-                    <select id="metaKecamatan" onchange="handleKecamatanHeaderChange(); updateHeaderMetadataState();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
+                    <select id="metaKecamatan" onchange="handleKecamatanHeaderChange(); updateHeaderMetadataState(); renderCurrentTabTable();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
                         <option value="">-- PILIH KECAMATAN --</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">DESA / KELURAHAN <span class="text-red-500">*</span></label>
-                    <select id="metaDesa" onchange="updateHeaderMetadataState();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
+                    <select id="metaDesa" onchange="updateHeaderMetadataState(); renderCurrentTabTable();" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase font-semibold bg-white">
                         <option value="">-- PILIH DESA / KELURAHAN --</option>
                     </select>
                 </div>
@@ -747,95 +759,361 @@
         </div>
     </div>
 
+    <!-- Modal Login Multi-User & Proteksi Akses -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-5 border border-slate-200">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="bg-indigo-900 text-amber-400 p-2 rounded-lg">
+                        <i class="fa-solid fa-user-shield text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 uppercase leading-tight">Login Pengguna PBB-P2</h3>
+                        <p class="text-xs text-slate-500">Kabupaten Merangin Tahun 2026</p>
+                    </div>
+                </div>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">PILIH PERAN / AKSES <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer border border-slate-300 rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/50 has-[:checked]:text-indigo-900">
+                            <input type="radio" name="loginRole" value="petugas" checked onchange="toggleLoginRoleFields()" class="sr-only">
+                            <i class="fa-solid fa-house-user text-lg text-indigo-600"></i>
+                            <span class="text-xs font-bold uppercase text-center">Petugas Desa</span>
+                        </label>
+                        <label class="cursor-pointer border border-slate-300 rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/50 has-[:checked]:text-indigo-900">
+                            <input type="radio" name="loginRole" value="admin" onchange="toggleLoginRoleFields()" class="sr-only">
+                            <i class="fa-solid fa-user-gear text-lg text-amber-600"></i>
+                            <span class="text-xs font-bold uppercase text-center">Admin Kab.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Fields Khusus Petugas Desa -->
+                <div id="loginPetugasFields" class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-700 mb-1 uppercase">KECAMATAN <span class="text-red-500">*</span></label>
+                        <select id="loginKecamatan" onchange="handleLoginKecamatanChange()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 uppercase bg-white font-semibold">
+                            <option value="">-- PILIH KECAMATAN --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-700 mb-1 uppercase">DESA / KELURAHAN <span class="text-red-500">*</span></label>
+                        <select id="loginDesa" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 uppercase bg-white font-semibold">
+                            <option value="">-- PILIH DESA / KELURAHAN --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-700 mb-1 uppercase">NAMA PETUGAS</label>
+                        <input type="text" id="loginNamaPetugas" placeholder="CONTOH: BUDI SANTO (PETUGAS DESA)" oninput="this.value = this.value.toUpperCase()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg uppercase">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1 uppercase">PASSWORD / PIN <span class="text-red-500">*</span></label>
+                    <input type="password" id="loginPassword" required placeholder="Masukkan password..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <p class="text-[10px] text-slate-400 mt-1">Default Petugas: <code class="bg-slate-100 px-1 rounded font-mono">desa2026</code> | Admin: <code class="bg-slate-100 px-1 rounded font-mono">admin2026</code></p>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2 border-t">
+                    <button type="button" onclick="closeLoginModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Batal</button>
+                    <button type="submit" class="px-5 py-2 text-xs font-bold bg-indigo-900 hover:bg-indigo-950 text-white rounded-lg shadow flex items-center gap-1.5 uppercase">
+                        <i class="fa-solid fa-right-to-bracket"></i> Masuk Sistem
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 no-print"></div>
 
     <script>
         window.activeTab = 'pendaftaran';
+        window.currentUser = null; // { role: 'admin'|'petugas', name: '', kecamatan: '', desa: '' }
+
         window.recordsData = {
             pendaftaran: [],
             pemutakhiran: [],
             penghapusan: []
         };
-        
-        // Data Default Master Wilayah Kabupaten Merangin
-        const defaultMeranginWilayahStr = `BANGKO: DESA MUDO, DESA SUNGAI KAPAS, KEL. DUSUN BANGKO, KEL. PASAR BANGKO, DESA KUNGKAI, DESA LANGLING, KEL. PASAR ATAS BANGKO, KEL. PEMATANG KANDIS
-BANGKO BARAT: DESA BEDENG REJO, DESA BIUKU TANJUNG, DESA BUKIT BERINGIN, DESA PULAU RENGAS, DESA PULAU RENGAS ULU, DESA SUNGAI PUTIH
-BATANG MASUMAI: DESA KEDERASAN PANJANG, DESA LUBUK GAUNG, DESA NIBUNG, DESA PELANGKI, DESA PULU BARU, DESA PULAU LAYANG, DESA RANTAU ALAI, DESA SALAM BUKU, DESA TAMBANG BESI, DESA TITIAN TERAS
-JANGKAT: DESA KOTO RENAH, DESA LUBUK MENTILIN, DESA LUBUK PUNGGUK, DESA MUARA MADRAS, DESA PULAU TENGAH, DESA RANTAU KERMAS, DESA RANAH ALAI, DESA RENAH KEMUMU, DESA RENAH PELAAN, DESA KOTO RAWANG, DESA TANJUNG KASRI
-JANGKAT TIMUR: DESA BARU, DESA BERINGIN TINGGI, DESA GEDANG, DESA JANGKAT, DESA KOTO TEGUH, DESA PEMATANG PAUH, DESA RANTAU SULI, DESA SIMPANG TALANG TEMBAGO, DESA TALANG TEMBAGO, DESA TANJUNG ALAM, DESA TANJUNG BENUANG, DESA KOTO BARU, DESA TANJUNG MUDO
-LEMBAH MASURAI: DESA KOTO RAMI, DESA MUARA PANGI, DESA NILO DINGIN, DESA PASAR MASURAI, DESA RANCAN, DESA RANTAU JERING, DESA TANJUNG BERUGO, DESA TANJUNG DALAM, DESA TUO, MUARO LENGAYO, MUARO KELUKUP, TALANG PARUH, DURIAN MUKUT, SUNGAI LALANG
-MARGO TABIR: DESA LUBUK BUMBUN, DESA SIDO RUKUN, DESA SUKO REJO, DESA TANJUNG REJO, DESA TEGAL REJO, DESA SUMBER AGUNG
-MUARA SIAU: DESA AIR LAGO, DESA BADAK TEKURUNG, DESA DURIAN RAMBUN, DESA LUBUK BARINGIN, DESA LUBUK BIRAH, DESA MUARA SIAU, DESA PARADUN TEMERAS, DESA PASAR MUARA SIAU, DESA PULAU BIDARO, DESA PULAU RAMAN, DESA RANTAU BAYUR, DESA RANTAU MACANG, DESA RANTAU PANJANG, DESA SEPANTAI RENAH, DESA SUNGAI ULAS, DESA TELUK SIKUMBANG, DESA TIARO
-NALO TANTAN: DESA AUR DURI, DESA BARU NALO, DESA DANAU, DESA MENTAWAK, DESA NALO GEDANG, DESA SUNGAI ULAK, DESA TELUN
-PAMENANG: DESA EMPANG BENAO, DESA JELATANG, DESA KARANG BERAHI, DESA MUARO BELENGO, DESA PELAKAR JAYA, DESA TANJUNG GEDANG, KELURAHAN PAMENANG, DESA KEROYA, DESA PAUH MENANG, DESA REJO SARI, DESA SIALANG, DESA SUNGAI UDANG, DESA TANAH ABANG, DESA PEMATANG KANCIL
-PAMENANG BARAT: DESA KARANG ANYAR, DESA LIMBUR MERANGIN, DESA PAPIT, DESA SIMPANG LIMBUR MERANGIN, DESA MAMPUN BARU, DESA PINANG MERAH, DESA PULAU TUJUH, DESA TANJUNG LAMIN
-PAMENANG SELATAN: DESA PULAU BAYUR, DESA SELANGO, DESA TAMBANG EMAS, DESA TANJUNG BENUANG
-PANGKALAN JAMBU: DESA TIGO ALUR PANGKALAN JAMBU, DESA BARU PANGKALAN JAMBU, DESA BUKIT PERENTAK, DESA BUNGO TANJUNG, DESA KAMPUNG LIMO, DESA SUNGAI JERING, DESA TANJUNG MUDO, DESA BIRUN
-RENAH PAMENANG: DESA LANTAK SERIBU, DESA RASAU, DESA MERANTI, DESA BUKIT BUNGKUL
-RENAH PEMBARAP: DESA AIR BATU, DESA DURIAN BETAKUK, DESA GUGUK, DESA MARUS JAYA, DESA MERKEH, DESA MUARO PANCO BARAT, DESA MUARO PANCO TIMUR, DESA PARIT UJUNG TANJUNG, DESA RENAH MEDAN, DESA SIMPANG PARIT, DESA TALANG SEGEGAH, DESA MUARA BANTAN
-SUNGAI MANAU: DESA BENTENG, DESA BUKIT BATU, DESA DURIAN LECAH, DESA GELANGGANG, DESA PALIPAN, DESA SERINGAT, DESA SUNGAI MANAU, DESA SUNGAI NILAU, DESA SUNGAI PINANG, DESA TIANGKO
-TABIR: DESA BULURAN PANJANG, KELURAHAN KAMPUNG BARU, DESA KANDANG, DESA KOTO RAYO, DESA LUBUK NAPAL, DESA TANJUNG ILIR, KELURAHAN MAMPUN, KELURAHAN PASAR BARU, KELURAHAN PASAR RANTAU PANJANG, KELURAHAN DUSUN BARU, DESA SELING
-TABIR BARAT: DESA AIR LIKI, DESA AIR LIKI BARU, DESA BARU KIBUL, DESA BATANG KIBUL, DESA MUARO KIBUL, DESA MUARO LANGEH, DESA NGAOL, DESA NGAOL ILIR, DESA PULAU LEBAR, DESA PULAU TERBAKAR, DESA SUNGAI TABIR, DESA TANJUNG BERINGIN, DESA TANJUNG PUTUS, DESA TANJUNG TELENTAM
-TABIR ILIR: DESA MEKAR LIMAU MANIS, DESA RANTAU LIMAU MANIS, DESA TUNGGUL BULIN, DESA AIR BATU, DESA KOTO RAJA, DESA REJO SARI, DESA ULAK MAKAM
-TABIR LINTAS: DESA MENSANGO, DESA SIDO HARJO, DESA SIDO LEGO, DESA TAMBANG BARU, DESA KOTO BARU
-TABIR SELATAN: DESA BUNGO ANTOI, DESA BUNGO TANJUNG, DESA SINAR GADING, DESA GADING JAYA, DESA MEKAR JAYA, DESA MUARO DELANG, DESA RAWA JAYA, DESA SUNGAI SAHUT
-TABIR TIMUR: DESA BUKIT SUBUR, DESA SERI SEMBILAN, DESA SUNGAI BULIAN, DESA SUNGAI LIMAU
-TABIR ULU: DESA KAPUK, DESA MEDAN BARU, DESA MUARA JERNIH, DESA MUARA SEKETUK, DESA PULAU ARO, DESA RANTAU NGARAU
-TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SANGGUL, DESA RANTAU LIMAU KAPAS, DESA SEKANCING, DESA SEKANCING ILIR`;
 
-        function loadDefaultWilayah() {
-            let parsed = [];
-            defaultMeranginWilayahStr.split('\n').forEach(line => {
-                let parts = line.split(':');
-                if (parts.length === 2) {
-                    let kec = parts[0].trim().toUpperCase();
-                    parts[1].split(',').forEach(d => {
-                        let dName = d.trim().toUpperCase();
-                        if (dName) parsed.push({ kecamatan: kec, desa: dName });
-                    });
-                }
-            });
-            return parsed;
-        }
-
-        window.masterWilayahList = [];
+        window.defaultMasterWilayahData = [
+            // KECAMATAN BANGKO
+            { kecamatan: "BANGKO", desa: "DESA MUDO" },
+            { kecamatan: "BANGKO", desa: "DESA SUNGAI KAPAS" },
+            { kecamatan: "BANGKO", desa: "KEL. DUSUN BANGKO" },
+            { kecamatan: "BANGKO", desa: "KEL. PASAR BANGKO" },
+            { kecamatan: "BANGKO", desa: "DESA KUNGKAI" },
+            { kecamatan: "BANGKO", desa: "DESA LANGLING" },
+            { kecamatan: "BANGKO", desa: "KEL. PASAR ATAS BANGKO" },
+            { kecamatan: "BANGKO", desa: "KEL. PEMATANG KANDIS" },
+            // KECAMATAN BANGKO BARAT
+            { kecamatan: "BANGKO BARAT", desa: "DESA BEDENG REJO" },
+            { kecamatan: "BANGKO BARAT", desa: "DESA BIUKU TANJUNG" },
+            { kecamatan: "BANGKO BARAT", desa: "DESA BUKIT BERINGIN" },
+            { kecamatan: "BANGKO BARAT", desa: "DESA PULAU RENGAS" },
+            { kecamatan: "BANGKO BARAT", desa: "DESA PULAU RENGAS ULU" },
+            { kecamatan: "BANGKO BARAT", desa: "DESA SUNGAI PUTIH" },
+            // KECAMATAN BATANG MASUMAI
+            { kecamatan: "BATANG MASUMAI", desa: "DESA KEDERASAN PANJANG" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA LUBUK GAUNG" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA NIBUNG" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA PELANGKI" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA PULU BARU" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA PULAU LAYANG" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA RANTAU ALAI" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA SALAM BUKU" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA TAMBANG BESI" },
+            { kecamatan: "BATANG MASUMAI", desa: "DESA TITIAN TERAS" },
+            // KECAMATAN JANGKAT
+            { kecamatan: "JANGKAT", desa: "DESA KOTO RENAH" },
+            { kecamatan: "JANGKAT", desa: "DESA LUBUK MENTILIN" },
+            { kecamatan: "JANGKAT", desa: "DESA LUBUK PUNGGUK" },
+            { kecamatan: "JANGKAT", desa: "DESA MUARA MADRAS" },
+            { kecamatan: "JANGKAT", desa: "DESA PULAU TENGAH" },
+            { kecamatan: "JANGKAT", desa: "DESA RANTAU KERMAS" },
+            { kecamatan: "JANGKAT", desa: "DESA RANAH ALAI" },
+            { kecamatan: "JANGKAT", desa: "DESA RENAH KEMUMU" },
+            { kecamatan: "JANGKAT", desa: "DESA RENAH PELAAN" },
+            { kecamatan: "JANGKAT", desa: "DESA KOTO RAWANG" },
+            { kecamatan: "JANGKAT", desa: "DESA TANJUNG KASRI" },
+            // KECAMATAN JANGKAT TIMUR
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA BARU" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA BERINGIN TINGGI" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA GEDANG" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA JANGKAT" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA KOTO TEGUH" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA PEMATANG PAUH" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA RANTAU SULI" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA SIMPANG TALANG TEMBAGO" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA TALANG TEMBAGO" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA TANJUNG ALAM" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA TANJUNG BENUANG" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA KOTO BARU" },
+            { kecamatan: "JANGKAT TIMUR", desa: "DESA TANJUNG MUDO" },
+            // KECAMATAN LEMBAH MASURAI
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA KOTO RAMI" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA MUARA PANGI" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA NILO DINGIN" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA PASAR MASURAI" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA RANCAN" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA RANTAU JERING" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA TANJUNG BERUGO" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA TANJUNG DALAM" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DESA TUO" },
+            { kecamatan: "LEMBAH MASURAI", desa: "MUARO LENGAYO" },
+            { kecamatan: "LEMBAH MASURAI", desa: "MUARO KELUKUP" },
+            { kecamatan: "LEMBAH MASURAI", desa: "TALANG PARUH" },
+            { kecamatan: "LEMBAH MASURAI", desa: "DURIAN MUKUT" },
+            { kecamatan: "LEMBAH MASURAI", desa: "SUNGAI LALANG" },
+            // KECAMATAN MARGO TABIR
+            { kecamatan: "MARGO TABIR", desa: "DESA LUBUK BUMBUN" },
+            { kecamatan: "MARGO TABIR", desa: "DESA SIDO RUKUN" },
+            { kecamatan: "MARGO TABIR", desa: "DESA SUKO REJO" },
+            { kecamatan: "MARGO TABIR", desa: "DESA TANJUNG REJO" },
+            { kecamatan: "MARGO TABIR", desa: "DESA TEGAL REJO" },
+            { kecamatan: "MARGO TABIR", desa: "DESA SUMBER AGUNG" },
+            // KECAMATAN MUARA SIAU
+            { kecamatan: "MUARA SIAU", desa: "DESA AIR LAGO" },
+            { kecamatan: "MUARA SIAU", desa: "DESA BADAK TEKURUNG" },
+            { kecamatan: "MUARA SIAU", desa: "DESA DURIAN RAMBUN" },
+            { kecamatan: "MUARA SIAU", desa: "DESA LUBUK BARINGIN" },
+            { kecamatan: "MUARA SIAU", desa: "DESA LUBUK BIRAH" },
+            { kecamatan: "MUARA SIAU", desa: "DESA MUARA SIAU" },
+            { kecamatan: "MUARA SIAU", desa: "DESA PARADUN TEMERAS" },
+            { kecamatan: "MUARA SIAU", desa: "DESA PASAR MUARA SIAU" },
+            { kecamatan: "MUARA SIAU", desa: "DESA PULAU BIDARO" },
+            { kecamatan: "MUARA SIAU", desa: "DESA PULAU RAMAN" },
+            { kecamatan: "MUARA SIAU", desa: "DESA RANTAU BAYUR" },
+            { kecamatan: "MUARA SIAU", desa: "DESA RANTAU MACANG" },
+            { kecamatan: "MUARA SIAU", desa: "DESA RANTAU PANJANG" },
+            { kecamatan: "MUARA SIAU", desa: "DESA SEPANTAI RENAH" },
+            { kecamatan: "MUARA SIAU", desa: "DESA SUNGAI ULAS" },
+            { kecamatan: "MUARA SIAU", desa: "DESA TELUK SIKUMBANG" },
+            { kecamatan: "MUARA SIAU", desa: "DESA TIARO" },
+            // KECAMATAN NALO TANTAN
+            { kecamatan: "NALO TANTAN", desa: "DESA AUR DURI" },
+            { kecamatan: "NALO TANTAN", desa: "DESA BARU NALO" },
+            { kecamatan: "NALO TANTAN", desa: "DESA DANAU" },
+            { kecamatan: "NALO TANTAN", desa: "DESA MENTAWAK" },
+            { kecamatan: "NALO TANTAN", desa: "DESA NALO GEDANG" },
+            { kecamatan: "NALO TANTAN", desa: "DESA SUNGAI ULAK" },
+            { kecamatan: "NALO TANTAN", desa: "DESA TELUN" },
+            // KECAMATAN PAMENANG
+            { kecamatan: "PAMENANG", desa: "DESA EMPANG BENAO" },
+            { kecamatan: "PAMENANG", desa: "DESA JELATANG" },
+            { kecamatan: "PAMENANG", desa: "DESA KARANG BERAHI" },
+            { kecamatan: "PAMENANG", desa: "DESA MUARO BELENGO" },
+            { kecamatan: "PAMENANG", desa: "DESA PELAKAR JAYA" },
+            { kecamatan: "PAMENANG", desa: "DESA TANJUNG GEDANG" },
+            { kecamatan: "PAMENANG", desa: "KELURAHAN PAMENANG" },
+            { kecamatan: "PAMENANG", desa: "DESA KEROYA" },
+            { kecamatan: "PAMENANG", desa: "DESA PAUH MENANG" },
+            { kecamatan: "PAMENANG", desa: "DESA REJO SARI" },
+            { kecamatan: "PAMENANG", desa: "DESA SIALANG" },
+            { kecamatan: "PAMENANG", desa: "DESA SUNGAI UDANG" },
+            { kecamatan: "PAMENANG", desa: "DESA TANAH ABANG" },
+            { kecamatan: "PAMENANG", desa: "DESA PEMATANG KANCIL" },
+            // KECAMATAN PAMENANG BARAT
+            { kecamatan: "PAMENANG BARAT", desa: "DESA KARANG ANYAR" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA LIMBUR MERANGIN" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA PAPIT" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA SIMPANG LIMBUR MERANGIN" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA MAMPUN BARU" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA PINANG MERAH" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA PULAU TUJUH" },
+            { kecamatan: "PAMENANG BARAT", desa: "DESA TANJUNG LAMIN" },
+            // KECAMATAN PAMENANG SELATAN
+            { kecamatan: "PAMENANG SELATAN", desa: "DESA PULAU BAYUR" },
+            { kecamatan: "PAMENANG SELATAN", desa: "DESA SELANGO" },
+            { kecamatan: "PAMENANG SELATAN", desa: "DESA TAMBANG EMAS" },
+            { kecamatan: "PAMENANG SELATAN", desa: "DESA TANJUNG BENUANG" },
+            // KECAMATAN PANGKALAN JAMBU
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA TIGO ALUR PANGKALAN JAMBU" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA BARU PANGKALAN JAMBU" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA BUKIT PERENTAK" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA BUNGO TANJUNG" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA KAMPUNG LIMO" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA SUNGAI JERING" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA TANJUNG MUDO" },
+            { kecamatan: "PANGKALAN JAMBU", desa: "DESA BIRUN" },
+            // KECAMATAN RENAH PAMENANG
+            { kecamatan: "RENAH PAMENANG", desa: "DESA LANTAK SERIBU" },
+            { kecamatan: "RENAH PAMENANG", desa: "DESA RASAU" },
+            { kecamatan: "RENAH PAMENANG", desa: "DESA MERANTI" },
+            { kecamatan: "RENAH PAMENANG", desa: "DESA BUKIT BUNGKUL" },
+            // KECAMATAN RENAH PEMBARAP
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA AIR BATU" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA DURIAN BETAKUK" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA GUGUK" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA MARUS JAYA" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA MERKEH" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA MUARO PANCO BARAT" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA MUARO PANCO TIMUR" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA PARIT UJUNG TANJUNG" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA RENAH MEDAN" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA SIMPANG PARIT" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA TALANG SEGEGAH" },
+            { kecamatan: "RENAH PEMBARAP", desa: "DESA MUARA BANTAN" },
+            // KECAMATAN SUNGAI MANAU
+            { kecamatan: "SUNGAI MANAU", desa: "DESA BENTENG" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA BUKIT BATU" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA DURIAN LECAH" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA GELANGGANG" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA PALIPAN" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA SERINGAT" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA SUNGAI MANAU" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA SUNGAI NILAU" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA SUNGAI PINANG" },
+            { kecamatan: "SUNGAI MANAU", desa: "DESA TIANGKO" },
+            // KECAMATAN TABIR
+            { kecamatan: "TABIR", desa: "DESA BULURAN PANJANG" },
+            { kecamatan: "TABIR", desa: "KELURAHAN KAMPUNG BARU" },
+            { kecamatan: "TABIR", desa: "DESA KANDANG" },
+            { kecamatan: "TABIR", desa: "DESA KOTO RAYO" },
+            { kecamatan: "TABIR", desa: "DESA LUBUK NAPAL" },
+            { kecamatan: "TABIR", desa: "DESA TANJUNG ILIR" },
+            { kecamatan: "TABIR", desa: "KELURAHAN MAMPUN" },
+            { kecamatan: "TABIR", desa: "KELURAHAN PASAR BARU" },
+            { kecamatan: "TABIR", desa: "KELURAHAN PASAR RANTAU PANJANG" },
+            { kecamatan: "TABIR", desa: "KELURAHAN DUSUN BARU" },
+            { kecamatan: "TABIR", desa: "DESA SELING" },
+            // KECAMATAN TABIR BARAT
+            { kecamatan: "TABIR BARAT", desa: "DESA AIR LIKI" },
+            { kecamatan: "TABIR BARAT", desa: "DESA AIR LIKI BARU" },
+            { kecamatan: "TABIR BARAT", desa: "DESA BARU KIBUL" },
+            { kecamatan: "TABIR BARAT", desa: "DESA BATANG KIBUL" },
+            { kecamatan: "TABIR BARAT", desa: "DESA MUARO KIBUL" },
+            { kecamatan: "TABIR BARAT", desa: "DESA MUARO LANGEH" },
+            { kecamatan: "TABIR BARAT", desa: "DESA NGAOL" },
+            { kecamatan: "TABIR BARAT", desa: "DESA NGAOL ILIR" },
+            { kecamatan: "TABIR BARAT", desa: "DESA PULAU LEBAR" },
+            { kecamatan: "TABIR BARAT", desa: "DESA PULAU TERBAKAR" },
+            { kecamatan: "TABIR BARAT", desa: "DESA SUNGAI TABIR" },
+            { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG BERINGIN" },
+            { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG PUTUS" },
+            { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG TELENTAM" },
+            // KECAMATAN TABIR ILIR
+            { kecamatan: "TABIR ILIR", desa: "DESA MEKAR LIMAU MANIS" },
+            { kecamatan: "TABIR ILIR", desa: "DESA RANTAU LIMAU MANIS" },
+            { kecamatan: "TABIR ILIR", desa: "DESA TUNGGUL BULIN" },
+            { kecamatan: "TABIR ILIR", desa: "DESA AIR BATU" },
+            { kecamatan: "TABIR ILIR", desa: "DESA KOTO RAJA" },
+            { kecamatan: "TABIR ILIR", desa: "DESA REJO SARI" },
+            { kecamatan: "TABIR ILIR", desa: "DESA ULAK MAKAM" },
+            // KECAMATAN TABIR LINTAS
+            { kecamatan: "TABIR LINTAS", desa: "DESA MENSANGO" },
+            { kecamatan: "TABIR LINTAS", desa: "DESA SIDO HARJO" },
+            { kecamatan: "TABIR LINTAS", desa: "DESA SIDO LEGO" },
+            { kecamatan: "TABIR LINTAS", desa: "DESA TAMBANG BARU" },
+            { kecamatan: "TABIR LINTAS", desa: "DESA KOTO BARU" },
+            // KECAMATAN TABIR SELATAN
+            { kecamatan: "TABIR SELATAN", desa: "DESA BUNGO ANTOI" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA BUNGO TANJUNG" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA SINAR GADING" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA GADING JAYA" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA MEKAR JAYA" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA MUARO DELANG" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA RAWA JAYA" },
+            { kecamatan: "TABIR SELATAN", desa: "DESA SUNGAI SAHUT" },
+            // KECAMATAN TABIR TIMUR
+            { kecamatan: "TABIR TIMUR", desa: "DESA BUKIT SUBUR" },
+            { kecamatan: "TABIR TIMUR", desa: "DESA SERI SEMBILAN" },
+            { kecamatan: "TABIR TIMUR", desa: "DESA SUNGAI BULIAN" },
+            { kecamatan: "TABIR TIMUR", desa: "DESA SUNGAI LIMAU" },
+            // KECAMATAN TABIR ULU
+            { kecamatan: "TABIR ULU", desa: "DESA KAPUK" },
+            { kecamatan: "TABIR ULU", desa: "DESA MEDAN BARU" },
+            { kecamatan: "TABIR ULU", desa: "DESA MUARA JERNIH" },
+            { kecamatan: "TABIR ULU", desa: "DESA MUARA SEKETUK" },
+            { kecamatan: "TABIR ULU", desa: "DESA PULAU ARO" },
+            { kecamatan: "TABIR ULU", desa: "DESA RANTAU NGARAU" },
+            // KECAMATAN TIANG PUMPUNG
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA BARU BUKIT PUNJUNG" },
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA BARU SUNGAI SAKAI" },
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA BERINGIN SANGGUL" },
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA RANTAU LIMAU KAPAS" },
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA SEKANCING" },
+            { kecamatan: "TIANG PUMPUNG", desa: "DESA SEKANCING ILIR" }
+        ];
 
         try {
-            const savedWilayah = localStorage.getItem('merangin_master_wilayah');
-            if (savedWilayah && JSON.parse(savedWilayah).length > 0) {
-                window.masterWilayahList = JSON.parse(savedWilayah);
+            const storedMW = localStorage.getItem('merangin_master_wilayah');
+            if (storedMW) {
+                window.masterWilayahList = JSON.parse(storedMW);
             } else {
-                window.masterWilayahList = loadDefaultWilayah();
+                window.masterWilayahList = window.defaultMasterWilayahData;
+                localStorage.setItem('merangin_master_wilayah', JSON.stringify(window.defaultMasterWilayahData));
             }
-        } catch(e) { 
-            window.masterWilayahList = loadDefaultWilayah();
+        } catch(e) {
+            window.masterWilayahList = window.defaultMasterWilayahData;
         }
 
-        // Helper to normalize village names for smart matching
-        window.normalizeVillageName = function(name) {
-            if (!name) return '';
-            return name.toString().toUpperCase()
-                .replace(/^(DESA|KELURAHAN|KEL\.|DUSUN)\s+/i, '')
-                .replace(/\s+/g, ' ')
+        window.normalizeVillageName = function(str) {
+            if (!str) return '';
+            return str.toString()
+                .toUpperCase()
+                .replace(/\b(DESA|KELURAHAN|KEL\.|DUSUN|KAMPUNG)\b/gi, '')
+                .replace(/[^A-Z0-9]/g, '')
                 .trim();
         };
 
-        // Populate Header Kecamatan & Desa Dropdowns
         window.initHeaderWilayahDropdowns = function() {
             const kecSelect = document.getElementById('metaKecamatan');
             if (!kecSelect) return;
 
-            const currentKec = kecSelect.value;
             const uniqueKec = [...new Set((window.masterWilayahList || []).map(item => item.kecamatan))].sort();
-
             let html = `<option value="">-- PILIH KECAMATAN --</option>`;
             uniqueKec.forEach(k => {
-                const sel = (k === currentKec) ? 'selected' : '';
-                html += `<option value="${window.escapeHtml(k)}" ${sel}>KEC. ${window.escapeHtml(k)}</option>`;
+                html += `<option value="${window.escapeHtml(k)}">KEC. ${window.escapeHtml(k)}</option>`;
             });
             kecSelect.innerHTML = html;
-
             window.handleKecamatanHeaderChange();
         };
 
@@ -845,29 +1123,222 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             if (!kecSelect || !desaSelect) return;
 
             const selectedKec = kecSelect.value.toUpperCase();
-            const currentDesa = desaSelect.value;
-
             if (!selectedKec) {
                 desaSelect.innerHTML = `<option value="">-- PILIH KECAMATAN DAHULU --</option>`;
                 return;
             }
 
-            const desasInKec = (window.masterWilayahList || [])
+            const desas = (window.masterWilayahList || [])
                 .filter(item => item.kecamatan === selectedKec)
                 .map(item => item.desa)
                 .sort();
 
             let html = `<option value="">-- PILIH DESA / KELURAHAN --</option>`;
-            desasInKec.forEach(d => {
-                const sel = (d === currentDesa) ? 'selected' : '';
-                html += `<option value="${window.escapeHtml(d)}" ${sel}>${window.escapeHtml(d)}</option>`;
+            desas.forEach(d => {
+                html += `<option value="${window.escapeHtml(d)}">${window.escapeHtml(d)}</option>`;
             });
             desaSelect.innerHTML = html;
         };
 
+        window.getFilteredCategoryRecords = function(category) {
+            const list = window.recordsData[category] || [];
+            const selKec = (document.getElementById('metaKecamatan')?.value || '').trim().toUpperCase();
+            const selDesa = (document.getElementById('metaDesa')?.value || '').trim().toUpperCase();
+
+            if (!selKec && !selDesa) return list;
+
+            return list.filter(item => {
+                const itemKec = (item.kecamatan || '').trim().toUpperCase();
+                const itemDesa = (item.desa || '').trim().toUpperCase();
+
+                if (selKec && itemKec !== selKec) return false;
+                if (selDesa) {
+                    const normSelDesa = window.normalizeVillageName(selDesa);
+                    const normItemDesa = window.normalizeVillageName(itemDesa);
+                    if (normSelDesa && normItemDesa) {
+                        if (normSelDesa !== normItemDesa) return false;
+                    } else if (itemDesa !== selDesa) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        };
+
+        window.renderCurrentTabTable = function() {
+            if (window.activeTab === 'laporan') {
+                window.renderLaporanTable();
+            } else if (typeof window.renderTable === 'function') {
+                window.renderTable(window.activeTab);
+            }
+        };
+
+        try {
+            const savedUser = localStorage.getItem('pbb_user_session');
+            if (savedUser) {
+                window.currentUser = JSON.parse(savedUser);
+            }
+        } catch(e) { console.warn(e); }
+
+        window.initAuthSession = function() {
+            const badge = document.getElementById('userProfileBadge');
+            const btnLogin = document.getElementById('btnLoginHeader');
+            const kecSelect = document.getElementById('metaKecamatan');
+            const desaSelect = document.getElementById('metaDesa');
+
+            if (window.currentUser) {
+                if (badge) badge.classList.remove('hidden');
+                if (btnLogin) btnLogin.classList.add('hidden');
+
+                const pName = document.getElementById('userProfileName');
+                const pScope = document.getElementById('userProfileScope');
+
+                if (window.currentUser.role === 'admin') {
+                    if (pName) pName.innerText = "ADMIN KABUPATEN";
+                    if (pScope) pScope.innerText = "AKSES PENUH KABUPATEN MERANGIN";
+                    if (kecSelect) kecSelect.disabled = false;
+                    if (desaSelect) desaSelect.disabled = false;
+                } else {
+                    if (pName) pName.innerText = window.currentUser.name || "PETUGAS DESA";
+                    if (pScope) pScope.innerText = `${window.currentUser.desa} (${window.currentUser.kecamatan})`;
+
+                    // Lock Kecamatan & Desa Dropdowns for Petugas Desa
+                    if (kecSelect) {
+                        kecSelect.value = window.currentUser.kecamatan;
+                        kecSelect.disabled = true;
+                    }
+                    window.handleKecamatanHeaderChange();
+                    if (desaSelect) {
+                        desaSelect.value = window.currentUser.desa;
+                        desaSelect.disabled = true;
+                    }
+                }
+            } else {
+                if (badge) badge.classList.add('hidden');
+                if (btnLogin) btnLogin.classList.remove('hidden');
+                if (kecSelect) kecSelect.disabled = false;
+                if (desaSelect) desaSelect.disabled = false;
+            }
+
+            window.updateHeaderMetadataState();
+            window.renderCurrentTabTable();
+        };
+
+        window.openLoginModal = function() {
+            const modal = document.getElementById('loginModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            window.populateLoginWilayahDropdowns();
+            window.toggleLoginRoleFields();
+        };
+
+        window.closeLoginModal = function() {
+            const modal = document.getElementById('loginModal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.toggleLoginRoleFields = function() {
+            const roleEl = document.querySelector('input[name="loginRole"]:checked');
+            const pFields = document.getElementById('loginPetugasFields');
+            if (!roleEl || !pFields) return;
+
+            if (roleEl.value === 'admin') {
+                pFields.classList.add('hidden');
+            } else {
+                pFields.classList.remove('hidden');
+            }
+        };
+
+        window.populateLoginWilayahDropdowns = function() {
+            const kSel = document.getElementById('loginKecamatan');
+            if (!kSel) return;
+            const uniqueKec = [...new Set((window.masterWilayahList || []).map(item => item.kecamatan))].sort();
+            let html = `<option value="">-- PILIH KECAMATAN --</option>`;
+            uniqueKec.forEach(k => {
+                html += `<option value="${window.escapeHtml(k)}">KEC. ${window.escapeHtml(k)}</option>`;
+            });
+            kSel.innerHTML = html;
+            window.handleLoginKecamatanChange();
+        };
+
+        window.handleLoginKecamatanChange = function() {
+            const kSel = document.getElementById('loginKecamatan');
+            const dSel = document.getElementById('loginDesa');
+            if (!kSel || !dSel) return;
+
+            const selectedKec = kSel.value.toUpperCase();
+            if (!selectedKec) {
+                dSel.innerHTML = `<option value="">-- PILIH KECAMATAN DAHULU --</option>`;
+                return;
+            }
+
+            const desas = (window.masterWilayahList || [])
+                .filter(item => item.kecamatan === selectedKec)
+                .map(item => item.desa)
+                .sort();
+
+            let html = `<option value="">-- PILIH DESA / KELURAHAN --</option>`;
+            desas.forEach(d => {
+                html += `<option value="${window.escapeHtml(d)}">${window.escapeHtml(d)}</option>`;
+            });
+            dSel.innerHTML = html;
+        };
+
+        window.handleLoginSubmit = function(event) {
+            event.preventDefault();
+            const role = document.querySelector('input[name="loginRole"]:checked')?.value;
+            const password = document.getElementById('loginPassword')?.value;
+
+            if (role === 'admin') {
+                if (password !== 'admin2026' && password !== 'admin') {
+                    window.showToast("Password Admin Salah! Default: admin2026", "error");
+                    return;
+                }
+                window.currentUser = {
+                    role: 'admin',
+                    name: 'ADMIN KABUPATEN',
+                    kecamatan: '',
+                    desa: ''
+                };
+                window.showToast("Berhasil Login Sebagai Admin Kabupaten!", "success");
+            } else {
+                const kec = document.getElementById('loginKecamatan')?.value.trim().toUpperCase();
+                const desa = document.getElementById('loginDesa')?.value.trim().toUpperCase();
+                const nama = (document.getElementById('loginNamaPetugas')?.value.trim() || 'PETUGAS DESA').toUpperCase();
+
+                if (!kec || !desa) {
+                    window.showToast("Harap pilih Kecamatan dan Desa/Kelurahan!", "error");
+                    return;
+                }
+                if (password !== 'desa2026' && password !== 'desa' && password !== '123456') {
+                    window.showToast("Password Petugas Salah! Default: desa2026", "error");
+                    return;
+                }
+
+                window.currentUser = {
+                    role: 'petugas',
+                    name: nama,
+                    kecamatan: kec,
+                    desa: desa
+                };
+                window.showToast(`Berhasil Login Sebagai Petugas Desa ${desa}`, "success");
+            }
+
+            localStorage.setItem('pbb_user_session', JSON.stringify(window.currentUser));
+            window.closeLoginModal();
+            window.initAuthSession();
+        };
+
+        window.logoutUser = function() {
+            window.currentUser = null;
+            localStorage.removeItem('pbb_user_session');
+            window.showToast("Anda telah keluar dari akun.", "info");
+            window.initAuthSession();
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             window.initHeaderWilayahDropdowns();
-            window.updateHeaderMetadataState();
+            window.initAuthSession();
         });
 
         window.updateHeaderMetadataState = function() {
@@ -1070,6 +1541,9 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             if (!text) {
                 window.masterWilayahList = [];
                 localStorage.removeItem('merangin_master_wilayah');
+                if (typeof window.syncMasterWilayahToFirebase === 'function') {
+                    window.syncMasterWilayahToFirebase([]);
+                }
                 window.showToast("Master data wilayah telah dikosongkan.", "info");
                 window.closeMasterWilayahModal();
                 window.renderLaporanTable();
@@ -1109,7 +1583,12 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
             window.masterWilayahList = parsedList;
             localStorage.setItem('merangin_master_wilayah', JSON.stringify(parsedList));
-            window.showToast(`Berhasil menyimpan ${parsedList.length} master Desa / Kelurahan.`, "success");
+            
+            if (typeof window.syncMasterWilayahToFirebase === 'function') {
+                window.syncMasterWilayahToFirebase(parsedList);
+            }
+
+            window.showToast(`Berhasil menyimpan ${parsedList.length} master Desa / Kelurahan ke Database.`, "success");
             window.closeMasterWilayahModal();
             window.renderLaporanTable();
         };
@@ -1359,7 +1838,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
                 return;
             }
 
-            const list = window.recordsData[category] || [];
+            const list = window.getFilteredCategoryRecords(category);
             let searchInput = '';
             let tbody = null;
             let countBadge = null;
@@ -1390,7 +1869,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
 
             if (filtered.length === 0) {
                 const cols = category === 'pemutakhiran' ? 12 : (category === 'penghapusan' ? 9 : 12);
-                tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center py-6 text-slate-400 font-medium uppercase">Belum ada data ${category}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center py-6 text-slate-400 font-medium uppercase">Belum ada data ${category} untuk wilayah ini.</td></tr>`;
                 return;
             }
 
@@ -1564,7 +2043,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             let desa = (document.getElementById('metaDesa')?.value || '').toString().trim().toUpperCase();
             let rt = (document.getElementById('metaRT')?.value || '').toString().trim().toUpperCase();
 
-            const list = window.recordsData[category] || [];
+            const list = category === 'laporan' ? [] : window.getFilteredCategoryRecords(category);
 
             // Fallback to saved record data if header metadata inputs are empty
             if (category !== 'laporan' && list.length > 0) {
@@ -1766,7 +2245,7 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
         };
 
         window.printReport = function(category) {
-            const list = window.recordsData[category] || [];
+            const list = category === 'laporan' ? [] : window.getFilteredCategoryRecords(category);
 
             // Dynamically detect metadata from header selection or fallback to saved data in records
             let thn = (document.getElementById('metaTahun')?.value || '').toString().toUpperCase();
@@ -2101,6 +2580,40 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
             });
         });
 
+        // Realtime sync for Master Wilayah from Firebase Database
+        const masterRef = ref(db, 'pbb_2026/master_wilayah');
+        onValue(masterRef, (snapshot) => {
+            const val = snapshot.val();
+            if (val && Array.isArray(val) && val.length > 0) {
+                window.masterWilayahList = val;
+                try {
+                    localStorage.setItem('merangin_master_wilayah', JSON.stringify(val));
+                } catch(e) {}
+            } else if (!val && window.defaultMasterWilayahData) {
+                // If not exist in Firebase yet, push default master data to Firebase
+                set(masterRef, window.defaultMasterWilayahData);
+            }
+            if (typeof window.initHeaderWilayahDropdowns === 'function') {
+                window.initHeaderWilayahDropdowns();
+            }
+            if (window.activeTab === 'laporan') {
+                window.renderLaporanTable();
+            }
+        }, (err) => {
+            console.error("Firebase master wilayah fetch error:", err);
+        });
+
+        // Global helper to push updated master wilayah list to Firebase
+        window.syncMasterWilayahToFirebase = async function(list) {
+            try {
+                const mRef = ref(db, 'pbb_2026/master_wilayah');
+                await set(mRef, list);
+            } catch(err) {
+                console.error("Firebase sync master error:", err);
+                window.showToast("Gagal menyinkronkan master data ke Firebase: " + err.message, "error");
+            }
+        };
+
         window.handleFormSubmit = async function(event, category) {
             event.preventDefault();
             try {
@@ -2213,6 +2726,11 @@ TIANG PUMPUNG: DESA BARU BUKIT PUNJUNG, DESA BARU SUNGAI SAKAI, DESA BERINGIN SA
         };
 
         window.deleteRecord = async function(category, id) {
+            if (window.currentUser && window.currentUser.role !== 'admin') {
+                window.showToast("AKSES DITOLAK: Hanya Admin Kabupaten yang diizinkan menghapus data!", "error");
+                return;
+            }
+
             if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
             try {
                 const itemRef = ref(db, `pbb_2026/${category}/${id}`);
