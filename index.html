@@ -25,7 +25,7 @@
             .print-only { display: block !important; }
             body { background: white; color: black; font-size: 11px; }
             table { border-collapse: collapse; width: 100%; }
-            th, td { border: 1px solid #000 !important; padding: 4px 6px !important; text-align: center; vertical-align: middle; }
+            th, td { border: 1px solid #000 !important; padding: 4px 6px !important; text-align: left; }
             th { text-align: center !important; vertical-align: middle !important; }
             .print-header { margin-bottom: 15px; }
         }
@@ -34,32 +34,11 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Welcome Dashboard Landing Page (Shown when logged out) -->
-    <div id="welcomeDashboard" class="fixed inset-0 z-50 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 flex items-center justify-center p-4">
-        <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl max-w-lg w-full p-8 space-y-6 text-center border border-indigo-100">
-            <div class="w-20 h-20 bg-indigo-900 text-amber-400 mx-auto rounded-2xl flex items-center justify-center shadow-lg overflow-hidden border-2 border-amber-400/30">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Coat_of_arms_of_Merangin_Regency.png" alt="Lambang Kabupaten Merangin" class="w-14 h-14 object-contain">
-            </div>
-            <div class="space-y-2">
-                <h1 class="text-xl font-extrabold text-indigo-950 uppercase tracking-wide">PENDATAAN OBJEK & SUBJEK PBB - P2</h1>
-                <p class="text-xs font-bold text-amber-600 uppercase tracking-widest">KABUPATEN MERANGIN • TAHUN 2026</p>
-                <p class="text-[11px] text-slate-500 pt-1 leading-relaxed">Badan Pengelola Pajak dan Retribusi Daerah - Kabupaten Merangin</p>
-                <p class="text-xs text-slate-500 pt-1 leading-relaxed">Sistem aplikasi kolaboratif pengentrian data Pendaftaran, Pemutakhiran, dan Penghapusan PBB-P2 berbasis wilayah administratif.</p>
-            </div>
-            <div class="pt-4">
-                <button onclick="openLoginModal()" class="w-full bg-indigo-900 hover:bg-indigo-950 text-amber-300 font-bold py-3.5 px-6 rounded-xl text-sm transition shadow-xl flex items-center justify-center gap-2 uppercase tracking-wide">
-                    <i class="fa-solid fa-right-to-bracket text-base"></i> Masuk Sistem / Login
-                </button>
-            </div>
-            <p class="text-[11px] text-slate-400">© 2026 Badan Pengelola Pajak dan Retribusi Daerah - Kabupaten Merangin</p>
-        </div>
-    </div>
-
     <header class="bg-indigo-900 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <div class="bg-indigo-800 p-1.5 rounded-xl shadow-inner border border-indigo-700 flex items-center justify-center w-11 h-11">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Coat_of_arms_of_Merangin_Regency.png" alt="Lambang Kabupaten Merangin" class="w-9 h-9 object-contain">
+                <div class="bg-indigo-700 p-2.5 rounded-lg shadow-inner">
+                    <i class="fa-solid fa-file-invoice-dollar text-2xl text-amber-400"></i>
                 </div>
                 <div>
                     <h1 class="font-bold text-lg tracking-wide leading-tight uppercase">PENDATAAN OBJEK & SUBJEK PBB - P2</h1>
@@ -72,10 +51,17 @@
                         <p id="userProfileName" class="text-xs font-bold text-amber-300 uppercase leading-none">Petugas Desa</p>
                         <p id="userProfileScope" class="text-[10px] text-indigo-200 uppercase leading-tight">Pematang Kandis (Bangko)</p>
                     </div>
-                    <button onclick="logoutUser()" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded text-xs ml-1" title="Keluar / Logout">
+                    <button onclick="openLoginModal()" class="bg-indigo-700 hover:bg-indigo-600 text-white p-1.5 rounded text-xs ml-1" title="Ganti Akun / Setting">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </button>
+                    <button onclick="logoutUser()" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded text-xs" title="Keluar / Logout">
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
                 </div>
+                <button id="btnLoginHeader" onclick="openLoginModal()" class="bg-amber-500 hover:bg-amber-600 text-indigo-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Login Petugas / Admin</span>
+                </button>
             </div>
         </div>
     </header>
@@ -156,7 +142,6 @@
             </div>
         </section>
 
-        <!-- Navigation Tabs -->
         <div class="no-print bg-slate-200/80 p-1.5 rounded-xl flex flex-wrap gap-2 text-xs font-semibold">
             <button id="tabBtnPendaftaran" onclick="switchTab('pendaftaran')" class="flex-1 py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 bg-white text-indigo-900 shadow font-bold">
                 <i class="fa-solid fa-file-circle-plus text-indigo-600 text-sm"></i>
@@ -352,7 +337,7 @@
                     <!-- NOP Identifikasi -->
                     <div>
                         <label class="block text-xs font-bold text-indigo-900 mb-1 uppercase">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                        <input type="text" id="pemNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase text-center">
+                        <input type="text" id="pemNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-indigo-300 bg-indigo-50/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase">
                     </div>
 
                     <!-- Comparison Grid: Before vs Actual -->
@@ -369,7 +354,7 @@
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1 uppercase">NIK (SPPT)</label>
-                                <input type="text" id="pemNikLama" placeholder="NIK SPPT" oninput="this.value = this.value.toUpperCase()" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase text-center">
+                                <input type="text" id="pemNikLama" placeholder="NIK SPPT" oninput="this.value = this.value.toUpperCase()" class="w-full px-2.5 py-1.5 text-xs border rounded-md uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-600 mb-1 uppercase">Alamat WP (SPPT)</label>
@@ -382,11 +367,11 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-600 mb-1 uppercase">Luas Bumi (m²)</label>
-                                    <input type="number" step="any" id="pemLuasBumiLama" placeholder="Luas Bumi" class="w-full px-2.5 py-1.5 text-xs border rounded-md text-right">
+                                    <input type="number" step="any" id="pemLuasBumiLama" placeholder="Luas Bumi" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-600 mb-1 uppercase">Luas Bangunan (m²)</label>
-                                    <input type="number" step="any" id="pemLuasBangunanLama" placeholder="Luas Bangunan" class="w-full px-2.5 py-1.5 text-xs border rounded-md text-right">
+                                    <input type="number" step="any" id="pemLuasBangunanLama" placeholder="Luas Bangunan" class="w-full px-2.5 py-1.5 text-xs border rounded-md">
                                 </div>
                             </div>
                         </div>
@@ -403,7 +388,7 @@
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1 uppercase">NIK Sebenarnya</label>
-                                <input type="text" id="pemNikBaru" placeholder="NIK SEBENARNYA" oninput="this.value = this.value.toUpperCase()" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase text-center">
+                                <input type="text" id="pemNikBaru" placeholder="NIK SEBENARNYA" oninput="this.value = this.value.toUpperCase()" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md focus:ring-1 focus:ring-amber-500 uppercase">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-semibold text-amber-900 mb-1 uppercase">Alamat WP Sebenarnya</label>
@@ -424,11 +409,11 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[11px] font-semibold text-amber-900 mb-1 uppercase">Luas Bumi (m²)</label>
-                                    <input type="number" step="any" id="pemLuasBumiBaru" placeholder="Luas Bumi Baru" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md text-right">
+                                    <input type="number" step="any" id="pemLuasBumiBaru" placeholder="Luas Bumi Baru" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-semibold text-amber-900 mb-1 uppercase">Luas Bangunan (m²)</label>
-                                    <input type="number" step="any" id="pemLuasBangunanBaru" placeholder="Luas Bangunan Baru" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md text-right">
+                                    <input type="number" step="any" id="pemLuasBangunanBaru" placeholder="Luas Bangunan Baru" class="w-full px-2.5 py-1.5 text-xs border border-amber-300 rounded-md">
                                 </div>
                             </div>
                         </div>
@@ -533,7 +518,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-red-900 mb-1 uppercase">NOP (NOMOR OBJEK PAJAK) <span class="text-red-500">*</span></label>
-                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase text-center">
+                            <input type="text" id="hapusNOP" required placeholder="15.02.XXX.XXX.XXX.XXXX.0" oninput="formatNopInput(this)" class="w-full px-3 py-2 text-sm font-mono font-bold border border-red-300 bg-red-50/30 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none uppercase">
                         </div>
                     </div>
 
@@ -549,11 +534,11 @@
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1 uppercase">LUAS TANAH (m²)</label>
-                            <input type="number" step="any" id="hapusLuasTanah" placeholder="Luas Tanah" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none text-right">
+                            <input type="number" step="any" id="hapusLuasTanah" placeholder="Luas Tanah" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1 uppercase">LUAS BANGUNAN (m²)</label>
-                            <input type="number" step="any" id="hapusLuasBangunan" placeholder="Luas Bangunan" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none text-right">
+                            <input type="number" step="any" id="hapusLuasBangunan" placeholder="Luas Bangunan" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
                         </div>
                     </div>
 
@@ -694,8 +679,15 @@
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left text-slate-700">
-                        <thead id="laporanTableHead" class="text-[11px] uppercase bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-                            <!-- Injected dynamically based on filter -->
+                        <thead class="text-[11px] uppercase bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="py-3 px-3 text-center border-r w-12">NO</th>
+                                <th id="laporanColHeader" class="py-3 px-3 border-r min-w-[220px]">KECAMATAN</th>
+                                <th class="py-3 px-3 text-center border-r bg-indigo-50/50 text-indigo-900 min-w-[110px]">PENDAFTARAN</th>
+                                <th class="py-3 px-3 text-center border-r bg-amber-50/50 text-amber-900 min-w-[110px]">PEMUTAKHIRAN</th>
+                                <th class="py-3 px-3 text-center border-r bg-red-50/50 text-red-900 min-w-[110px]">PENGHAPUSAN</th>
+                                <th class="py-3 px-3 text-center border-r bg-emerald-100/60 text-emerald-950 min-w-[120px]">TOTAL DATA</th>
+                            </tr>
                         </thead>
                         <tbody id="laporanTableBody" class="divide-y divide-slate-200 bg-white font-medium">
                             <!-- Populated via JS -->
@@ -742,15 +734,21 @@
         <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3">
                 <h3 class="text-base font-bold text-indigo-950 flex items-center gap-2 uppercase">
-                    <i class="fa-solid fa-map-location-dot text-indigo-600"></i> Master Data Kecamatan & Desa Merangin
+                    <i class="fa-solid fa-map-location-dot text-indigo-600"></i> Paste Master Data Kecamatan & Desa Merangin
                 </h3>
                 <button onclick="closeMasterWilayahModal()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Tempelkan (paste) daftar Kecamatan dan Desa sekabupaten Merangin di bawah ini untuk menampilkan rekap data secara lengkap.
+                <br><strong class="text-indigo-900">Format yang didukung:</strong>
+                <br>1. <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-700">KECAMATAN BANGKO: PEMATANG KANDIS, BANGKO, DUSUN BANGKO</code>
+                <br>2. Format baris: <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-700">BANGKO [TAB / - / ,] PEMATANG KANDIS</code>
+            </p>
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1 uppercase">DAFTAR KECAMATAN & DESA</label>
-                <textarea id="masterWilayahInput" rows="10" class="w-full text-xs font-mono p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase"></textarea>
+                <textarea id="masterWilayahInput" rows="10" placeholder="Contoh format:&#10;BANGKO: PEMATANG KANDIS, BANGKO, DUSUN BANGKO&#10;BANGKO BARAT: BEDARO, BUKIT BANGKO&#10;&#10;Atau format baris:&#10;BANGKO - PEMATANG KANDIS&#10;BANGKO - BANGKO VILLAGE" class="w-full text-xs font-mono p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none uppercase"></textarea>
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t">
                 <button onclick="closeMasterWilayahModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Batal</button>
@@ -762,18 +760,21 @@
     </div>
 
     <!-- Modal Login Multi-User & Proteksi Akses -->
-    <div id="loginModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-5 border border-slate-200">
             <div class="flex justify-between items-center border-b pb-3">
                 <div class="flex items-center gap-2.5">
-                    <div class="bg-indigo-900 text-amber-400 p-2 rounded-lg flex items-center justify-center w-10 h-10 overflow-hidden border border-amber-400/30">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Coat_of_arms_of_Merangin_Regency.png" alt="Logo Merangin" class="w-8 h-8 object-contain">
+                    <div class="bg-indigo-900 text-amber-400 p-2 rounded-lg">
+                        <i class="fa-solid fa-user-shield text-xl"></i>
                     </div>
                     <div>
                         <h3 class="text-base font-bold text-slate-900 uppercase leading-tight">Login Pengguna PBB-P2</h3>
                         <p class="text-xs text-slate-500">Kabupaten Merangin Tahun 2026</p>
                     </div>
                 </div>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
             <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
@@ -804,7 +805,7 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-700 mb-1 uppercase">DESA / KELURAHAN <span class="text-red-500">*</span></label>
                         <select id="loginDesa" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 uppercase bg-white font-semibold">
-                            <option value="">-- PILIH KECAMATAN DAHULU --</option>
+                            <option value="">-- PILIH DESA / KELURAHAN --</option>
                         </select>
                     </div>
                     <div>
@@ -820,8 +821,9 @@
                 </div>
 
                 <div class="flex justify-end gap-2 pt-2 border-t">
-                    <button type="submit" class="w-full px-5 py-3 text-xs font-bold bg-indigo-900 hover:bg-indigo-950 text-white rounded-xl shadow-lg flex items-center justify-center gap-1.5 uppercase">
-                        <i class="fa-solid fa-right-to-bracket text-sm"></i> Masuk Sistem
+                    <button type="button" onclick="closeLoginModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Batal</button>
+                    <button type="submit" class="px-5 py-2 text-xs font-bold bg-indigo-900 hover:bg-indigo-950 text-white rounded-lg shadow flex items-center gap-1.5 uppercase">
+                        <i class="fa-solid fa-right-to-bracket"></i> Masuk Sistem
                     </button>
                 </div>
             </form>
@@ -833,7 +835,7 @@
 
     <script>
         window.activeTab = 'pendaftaran';
-        window.currentUser = null;
+        window.currentUser = null; // { role: 'admin'|'petugas', name: '', kecamatan: '', desa: '' }
 
         window.recordsData = {
             pendaftaran: [],
@@ -842,6 +844,7 @@
         };
 
         window.defaultMasterWilayahData = [
+            // KECAMATAN BANGKO
             { kecamatan: "BANGKO", desa: "DESA MUDO" },
             { kecamatan: "BANGKO", desa: "DESA SUNGAI KAPAS" },
             { kecamatan: "BANGKO", desa: "KEL. DUSUN BANGKO" },
@@ -850,12 +853,14 @@
             { kecamatan: "BANGKO", desa: "DESA LANGLING" },
             { kecamatan: "BANGKO", desa: "KEL. PASAR ATAS BANGKO" },
             { kecamatan: "BANGKO", desa: "KEL. PEMATANG KANDIS" },
+            // KECAMATAN BANGKO BARAT
             { kecamatan: "BANGKO BARAT", desa: "DESA BEDENG REJO" },
             { kecamatan: "BANGKO BARAT", desa: "DESA BIUKU TANJUNG" },
             { kecamatan: "BANGKO BARAT", desa: "DESA BUKIT BERINGIN" },
             { kecamatan: "BANGKO BARAT", desa: "DESA PULAU RENGAS" },
             { kecamatan: "BANGKO BARAT", desa: "DESA PULAU RENGAS ULU" },
             { kecamatan: "BANGKO BARAT", desa: "DESA SUNGAI PUTIH" },
+            // KECAMATAN BATANG MASUMAI
             { kecamatan: "BATANG MASUMAI", desa: "DESA KEDERASAN PANJANG" },
             { kecamatan: "BATANG MASUMAI", desa: "DESA LUBUK GAUNG" },
             { kecamatan: "BATANG MASUMAI", desa: "DESA NIBUNG" },
@@ -866,6 +871,7 @@
             { kecamatan: "BATANG MASUMAI", desa: "DESA SALAM BUKU" },
             { kecamatan: "BATANG MASUMAI", desa: "DESA TAMBANG BESI" },
             { kecamatan: "BATANG MASUMAI", desa: "DESA TITIAN TERAS" },
+            // KECAMATAN JANGKAT
             { kecamatan: "JANGKAT", desa: "DESA KOTO RENAH" },
             { kecamatan: "JANGKAT", desa: "DESA LUBUK MENTILIN" },
             { kecamatan: "JANGKAT", desa: "DESA LUBUK PUNGGUK" },
@@ -877,6 +883,7 @@
             { kecamatan: "JANGKAT", desa: "DESA RENAH PELAAN" },
             { kecamatan: "JANGKAT", desa: "DESA KOTO RAWANG" },
             { kecamatan: "JANGKAT", desa: "DESA TANJUNG KASRI" },
+            // KECAMATAN JANGKAT TIMUR
             { kecamatan: "JANGKAT TIMUR", desa: "DESA BARU" },
             { kecamatan: "JANGKAT TIMUR", desa: "DESA BERINGIN TINGGI" },
             { kecamatan: "JANGKAT TIMUR", desa: "DESA GEDANG" },
@@ -890,6 +897,7 @@
             { kecamatan: "JANGKAT TIMUR", desa: "DESA TANJUNG BENUANG" },
             { kecamatan: "JANGKAT TIMUR", desa: "DESA KOTO BARU" },
             { kecamatan: "JANGKAT TIMUR", desa: "DESA TANJUNG MUDO" },
+            // KECAMATAN LEMBAH MASURAI
             { kecamatan: "LEMBAH MASURAI", desa: "DESA KOTO RAMI" },
             { kecamatan: "LEMBAH MASURAI", desa: "DESA MUARA PANGI" },
             { kecamatan: "LEMBAH MASURAI", desa: "DESA NILO DINGIN" },
@@ -904,12 +912,14 @@
             { kecamatan: "LEMBAH MASURAI", desa: "TALANG PARUH" },
             { kecamatan: "LEMBAH MASURAI", desa: "DURIAN MUKUT" },
             { kecamatan: "LEMBAH MASURAI", desa: "SUNGAI LALANG" },
+            // KECAMATAN MARGO TABIR
             { kecamatan: "MARGO TABIR", desa: "DESA LUBUK BUMBUN" },
             { kecamatan: "MARGO TABIR", desa: "DESA SIDO RUKUN" },
             { kecamatan: "MARGO TABIR", desa: "DESA SUKO REJO" },
             { kecamatan: "MARGO TABIR", desa: "DESA TANJUNG REJO" },
             { kecamatan: "MARGO TABIR", desa: "DESA TEGAL REJO" },
             { kecamatan: "MARGO TABIR", desa: "DESA SUMBER AGUNG" },
+            // KECAMATAN MUARA SIAU
             { kecamatan: "MUARA SIAU", desa: "DESA AIR LAGO" },
             { kecamatan: "MUARA SIAU", desa: "DESA BADAK TEKURUNG" },
             { kecamatan: "MUARA SIAU", desa: "DESA DURIAN RAMBUN" },
@@ -927,6 +937,7 @@
             { kecamatan: "MUARA SIAU", desa: "DESA SUNGAI ULAS" },
             { kecamatan: "MUARA SIAU", desa: "DESA TELUK SIKUMBANG" },
             { kecamatan: "MUARA SIAU", desa: "DESA TIARO" },
+            // KECAMATAN NALO TANTAN
             { kecamatan: "NALO TANTAN", desa: "DESA AUR DURI" },
             { kecamatan: "NALO TANTAN", desa: "DESA BARU NALO" },
             { kecamatan: "NALO TANTAN", desa: "DESA DANAU" },
@@ -934,6 +945,7 @@
             { kecamatan: "NALO TANTAN", desa: "DESA NALO GEDANG" },
             { kecamatan: "NALO TANTAN", desa: "DESA SUNGAI ULAK" },
             { kecamatan: "NALO TANTAN", desa: "DESA TELUN" },
+            // KECAMATAN PAMENANG
             { kecamatan: "PAMENANG", desa: "DESA EMPANG BENAO" },
             { kecamatan: "PAMENANG", desa: "DESA JELATANG" },
             { kecamatan: "PAMENANG", desa: "DESA KARANG BERAHI" },
@@ -948,6 +960,7 @@
             { kecamatan: "PAMENANG", desa: "DESA SUNGAI UDANG" },
             { kecamatan: "PAMENANG", desa: "DESA TANAH ABANG" },
             { kecamatan: "PAMENANG", desa: "DESA PEMATANG KANCIL" },
+            // KECAMATAN PAMENANG BARAT
             { kecamatan: "PAMENANG BARAT", desa: "DESA KARANG ANYAR" },
             { kecamatan: "PAMENANG BARAT", desa: "DESA LIMBUR MERANGIN" },
             { kecamatan: "PAMENANG BARAT", desa: "DESA PAPIT" },
@@ -956,10 +969,12 @@
             { kecamatan: "PAMENANG BARAT", desa: "DESA PINANG MERAH" },
             { kecamatan: "PAMENANG BARAT", desa: "DESA PULAU TUJUH" },
             { kecamatan: "PAMENANG BARAT", desa: "DESA TANJUNG LAMIN" },
+            // KECAMATAN PAMENANG SELATAN
             { kecamatan: "PAMENANG SELATAN", desa: "DESA PULAU BAYUR" },
             { kecamatan: "PAMENANG SELATAN", desa: "DESA SELANGO" },
             { kecamatan: "PAMENANG SELATAN", desa: "DESA TAMBANG EMAS" },
             { kecamatan: "PAMENANG SELATAN", desa: "DESA TANJUNG BENUANG" },
+            // KECAMATAN PANGKALAN JAMBU
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA TIGO ALUR PANGKALAN JAMBU" },
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA BARU PANGKALAN JAMBU" },
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA BUKIT PERENTAK" },
@@ -968,10 +983,12 @@
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA SUNGAI JERING" },
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA TANJUNG MUDO" },
             { kecamatan: "PANGKALAN JAMBU", desa: "DESA BIRUN" },
+            // KECAMATAN RENAH PAMENANG
             { kecamatan: "RENAH PAMENANG", desa: "DESA LANTAK SERIBU" },
             { kecamatan: "RENAH PAMENANG", desa: "DESA RASAU" },
             { kecamatan: "RENAH PAMENANG", desa: "DESA MERANTI" },
             { kecamatan: "RENAH PAMENANG", desa: "DESA BUKIT BUNGKUL" },
+            // KECAMATAN RENAH PEMBARAP
             { kecamatan: "RENAH PEMBARAP", desa: "DESA AIR BATU" },
             { kecamatan: "RENAH PEMBARAP", desa: "DESA DURIAN BETAKUK" },
             { kecamatan: "RENAH PEMBARAP", desa: "DESA GUGUK" },
@@ -984,6 +1001,7 @@
             { kecamatan: "RENAH PEMBARAP", desa: "DESA SIMPANG PARIT" },
             { kecamatan: "RENAH PEMBARAP", desa: "DESA TALANG SEGEGAH" },
             { kecamatan: "RENAH PEMBARAP", desa: "DESA MUARA BANTAN" },
+            // KECAMATAN SUNGAI MANAU
             { kecamatan: "SUNGAI MANAU", desa: "DESA BENTENG" },
             { kecamatan: "SUNGAI MANAU", desa: "DESA BUKIT BATU" },
             { kecamatan: "SUNGAI MANAU", desa: "DESA DURIAN LECAH" },
@@ -994,6 +1012,7 @@
             { kecamatan: "SUNGAI MANAU", desa: "DESA SUNGAI NILAU" },
             { kecamatan: "SUNGAI MANAU", desa: "DESA SUNGAI PINANG" },
             { kecamatan: "SUNGAI MANAU", desa: "DESA TIANGKO" },
+            // KECAMATAN TABIR
             { kecamatan: "TABIR", desa: "DESA BULURAN PANJANG" },
             { kecamatan: "TABIR", desa: "KELURAHAN KAMPUNG BARU" },
             { kecamatan: "TABIR", desa: "DESA KANDANG" },
@@ -1005,6 +1024,7 @@
             { kecamatan: "TABIR", desa: "KELURAHAN PASAR RANTAU PANJANG" },
             { kecamatan: "TABIR", desa: "KELURAHAN DUSUN BARU" },
             { kecamatan: "TABIR", desa: "DESA SELING" },
+            // KECAMATAN TABIR BARAT
             { kecamatan: "TABIR BARAT", desa: "DESA AIR LIKI" },
             { kecamatan: "TABIR BARAT", desa: "DESA AIR LIKI BARU" },
             { kecamatan: "TABIR BARAT", desa: "DESA BARU KIBUL" },
@@ -1019,6 +1039,7 @@
             { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG BERINGIN" },
             { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG PUTUS" },
             { kecamatan: "TABIR BARAT", desa: "DESA TANJUNG TELENTAM" },
+            // KECAMATAN TABIR ILIR
             { kecamatan: "TABIR ILIR", desa: "DESA MEKAR LIMAU MANIS" },
             { kecamatan: "TABIR ILIR", desa: "DESA RANTAU LIMAU MANIS" },
             { kecamatan: "TABIR ILIR", desa: "DESA TUNGGUL BULIN" },
@@ -1026,11 +1047,13 @@
             { kecamatan: "TABIR ILIR", desa: "DESA KOTO RAJA" },
             { kecamatan: "TABIR ILIR", desa: "DESA REJO SARI" },
             { kecamatan: "TABIR ILIR", desa: "DESA ULAK MAKAM" },
+            // KECAMATAN TABIR LINTAS
             { kecamatan: "TABIR LINTAS", desa: "DESA MENSANGO" },
             { kecamatan: "TABIR LINTAS", desa: "DESA SIDO HARJO" },
             { kecamatan: "TABIR LINTAS", desa: "DESA SIDO LEGO" },
             { kecamatan: "TABIR LINTAS", desa: "DESA TAMBANG BARU" },
             { kecamatan: "TABIR LINTAS", desa: "DESA KOTO BARU" },
+            // KECAMATAN TABIR SELATAN
             { kecamatan: "TABIR SELATAN", desa: "DESA BUNGO ANTOI" },
             { kecamatan: "TABIR SELATAN", desa: "DESA BUNGO TANJUNG" },
             { kecamatan: "TABIR SELATAN", desa: "DESA SINAR GADING" },
@@ -1039,16 +1062,19 @@
             { kecamatan: "TABIR SELATAN", desa: "DESA MUARO DELANG" },
             { kecamatan: "TABIR SELATAN", desa: "DESA RAWA JAYA" },
             { kecamatan: "TABIR SELATAN", desa: "DESA SUNGAI SAHUT" },
+            // KECAMATAN TABIR TIMUR
             { kecamatan: "TABIR TIMUR", desa: "DESA BUKIT SUBUR" },
             { kecamatan: "TABIR TIMUR", desa: "DESA SERI SEMBILAN" },
             { kecamatan: "TABIR TIMUR", desa: "DESA SUNGAI BULIAN" },
             { kecamatan: "TABIR TIMUR", desa: "DESA SUNGAI LIMAU" },
+            // KECAMATAN TABIR ULU
             { kecamatan: "TABIR ULU", desa: "DESA KAPUK" },
             { kecamatan: "TABIR ULU", desa: "DESA MEDAN BARU" },
             { kecamatan: "TABIR ULU", desa: "DESA MUARA JERNIH" },
             { kecamatan: "TABIR ULU", desa: "DESA MUARA SEKETUK" },
             { kecamatan: "TABIR ULU", desa: "DESA PULAU ARO" },
             { kecamatan: "TABIR ULU", desa: "DESA RANTAU NGARAU" },
+            // KECAMATAN TIANG PUMPUNG
             { kecamatan: "TIANG PUMPUNG", desa: "DESA BARU BUKIT PUNJUNG" },
             { kecamatan: "TIANG PUMPUNG", desa: "DESA BARU SUNGAI SAKAI" },
             { kecamatan: "TIANG PUMPUNG", desa: "DESA BERINGIN SANGGUL" },
@@ -1057,7 +1083,17 @@
             { kecamatan: "TIANG PUMPUNG", desa: "DESA SEKANCING ILIR" }
         ];
 
-        window.masterWilayahList = window.defaultMasterWilayahData;
+        try {
+            const storedMW = localStorage.getItem('merangin_master_wilayah');
+            if (storedMW) {
+                window.masterWilayahList = JSON.parse(storedMW);
+            } else {
+                window.masterWilayahList = window.defaultMasterWilayahData;
+                localStorage.setItem('merangin_master_wilayah', JSON.stringify(window.defaultMasterWilayahData));
+            }
+        } catch(e) {
+            window.masterWilayahList = window.defaultMasterWilayahData;
+        }
 
         window.normalizeVillageName = function(str) {
             if (!str) return '';
@@ -1137,15 +1173,24 @@
             }
         };
 
+        try {
+            const savedUser = localStorage.getItem('pbb_user_session');
+            if (savedUser) {
+                window.currentUser = JSON.parse(savedUser);
+            }
+        } catch(e) { console.warn(e); }
+
         window.initAuthSession = function() {
             const badge = document.getElementById('userProfileBadge');
-            const welcomeDash = document.getElementById('welcomeDashboard');
+            const btnLogin = document.getElementById('btnLoginHeader');
             const kecSelect = document.getElementById('metaKecamatan');
             const desaSelect = document.getElementById('metaDesa');
+            const mainContentEl = document.querySelector('main');
 
             if (window.currentUser) {
-                if (welcomeDash) welcomeDash.classList.add('hidden');
                 if (badge) badge.classList.remove('hidden');
+                if (btnLogin) btnLogin.classList.add('hidden');
+                if (mainContentEl) mainContentEl.classList.remove('hidden');
 
                 const pName = document.getElementById('userProfileName');
                 const pScope = document.getElementById('userProfileScope');
@@ -1172,10 +1217,14 @@
                 window.updateHeaderMetadataState();
                 window.renderCurrentTabTable();
             } else {
-                if (welcomeDash) welcomeDash.classList.remove('hidden');
                 if (badge) badge.classList.add('hidden');
+                if (btnLogin) btnLogin.classList.remove('hidden');
                 if (kecSelect) kecSelect.disabled = false;
                 if (desaSelect) desaSelect.disabled = false;
+                if (mainContentEl) mainContentEl.classList.add('hidden');
+
+                // Force show login modal immediately on load if not logged in
+                window.openLoginModal();
             }
         };
 
@@ -1188,6 +1237,11 @@
         };
 
         window.closeLoginModal = function() {
+            // If user is not logged in, prevent closing the login modal
+            if (!window.currentUser) {
+                window.showToast("Anda harus login terlebih dahulu untuk mengakses sistem!", "error");
+                return;
+            }
             const modal = document.getElementById('loginModal');
             if (modal) modal.classList.add('hidden');
         };
@@ -1279,17 +1333,14 @@
                 window.showToast(`Berhasil Login Sebagai Petugas Desa ${desa}`, "success");
             }
 
+            localStorage.setItem('pbb_user_session', JSON.stringify(window.currentUser));
             window.closeLoginModal();
             window.initAuthSession();
         };
 
         window.logoutUser = function() {
             window.currentUser = null;
-            const pwdInput = document.getElementById('loginPassword');
-            if (pwdInput) pwdInput.value = '';
-            const petugasInput = document.getElementById('loginNamaPetugas');
-            if (petugasInput) petugasInput.value = '';
-
+            localStorage.removeItem('pbb_user_session');
             window.showToast("Anda telah keluar dari akun.", "info");
             window.initAuthSession();
             window.openLoginModal();
@@ -1298,7 +1349,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             window.initHeaderWilayahDropdowns();
             window.initAuthSession();
-            window.openLoginModal();
         });
 
         window.updateHeaderMetadataState = function() {
@@ -1465,6 +1515,7 @@
             }
         };
 
+        /* Master Wilayah Modal Controls */
         window.openMasterWilayahModal = function() {
             const modal = document.getElementById('masterWilayahModal');
             if (!modal) return;
@@ -1472,6 +1523,7 @@
 
             const textarea = document.getElementById('masterWilayahInput');
             if (textarea && window.masterWilayahList.length > 0) {
+                // reconstruct text format
                 let grouped = {};
                 window.masterWilayahList.forEach(item => {
                     let k = (item.kecamatan || '').toUpperCase();
@@ -1498,6 +1550,7 @@
             const text = textarea.value.trim();
             if (!text) {
                 window.masterWilayahList = [];
+                localStorage.removeItem('merangin_master_wilayah');
                 if (typeof window.syncMasterWilayahToFirebase === 'function') {
                     window.syncMasterWilayahToFirebase([]);
                 }
@@ -1515,6 +1568,7 @@
                 if (!trimmed) return;
 
                 if (trimmed.includes(':')) {
+                    // Format: KECAMATAN: DESA1, DESA2
                     let parts = trimmed.split(':');
                     let kec = parts[0].trim().toUpperCase();
                     let desasStr = parts.slice(1).join(':').trim();
@@ -1526,6 +1580,7 @@
                         }
                     });
                 } else if (trimmed.includes('\t') || trimmed.includes('-') || trimmed.includes(',')) {
+                    // Format: KECAMATAN - DESA or KECAMATAN [TAB] DESA
                     let sep = trimmed.includes('\t') ? '\t' : (trimmed.includes('-') ? '-' : ',');
                     let parts = trimmed.split(sep);
                     let kec = parts[0].trim().toUpperCase();
@@ -1537,6 +1592,8 @@
             });
 
             window.masterWilayahList = parsedList;
+            localStorage.setItem('merangin_master_wilayah', JSON.stringify(parsedList));
+            
             if (typeof window.syncMasterWilayahToFirebase === 'function') {
                 window.syncMasterWilayahToFirebase(parsedList);
             }
@@ -1550,19 +1607,20 @@
             if (document.readyState === 'loading') return;
 
             const tbody = document.getElementById('laporanTableBody');
-            const thead = document.getElementById('laporanTableHead');
             const tfoot = document.getElementById('laporanTableFoot');
             const selectKec = document.getElementById('filterKecamatanLaporan');
             const searchInput = (document.getElementById('searchLaporan')?.value || '').trim().toUpperCase();
             const countBadge = document.getElementById('laporanCount');
+            const colHeader = document.getElementById('laporanColHeader');
             const bannerText = document.getElementById('laporanSelectedKecText');
             const bannerDesaCount = document.getElementById('laporanDesaCountText');
 
-            if (!tbody || !thead) return;
+            if (!tbody) return;
 
-            let mapWilayah = {};
-            let normMap = {};
+            let mapWilayah = {}; // key: KECAMATAN__DESA (actual name in master)
+            let normMap = {};   // key: KECAMATAN__NORMALIZED_DESA -> KECAMATAN__DESA
 
+            // Helper to get or create map entry
             function getEntry(kec, desa) {
                 let k = (kec || 'TANPA KECAMATAN').trim().toUpperCase();
                 let d = (desa || 'DESA / WILAYAH BELUM DIISI').trim().toUpperCase();
@@ -1570,6 +1628,7 @@
                 let normDesa = window.normalizeVillageName(d);
                 let normKey = `${k}__${normDesa}`;
 
+                // Check if matching master village key exists
                 if (normMap[normKey]) {
                     return mapWilayah[normMap[normKey]];
                 }
@@ -1589,24 +1648,28 @@
                 return mapWilayah[key];
             }
 
+            // 1. Populate from Master Wilayah list first
             (window.masterWilayahList || []).forEach(m => {
                 if (m.kecamatan && m.desa) {
                     getEntry(m.kecamatan, m.desa);
                 }
             });
 
+            // 2. Aggregate Pendaftaran
             (window.recordsData.pendaftaran || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.pendaftaran += 1;
                 entry.total += 1;
             });
 
+            // 3. Aggregate Pemutakhiran
             (window.recordsData.pemutakhiran || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.pemutakhiran += 1;
                 entry.total += 1;
             });
 
+            // 4. Aggregate Penghapusan
             (window.recordsData.penghapusan || []).forEach(r => {
                 let entry = getEntry(r.kecamatan, r.desa);
                 entry.penghapusan += 1;
@@ -1615,10 +1678,11 @@
 
             let rawList = Object.values(mapWilayah);
 
+            // Populate Dropdown Kecamatan Filter options in Laporan tab
             if (selectKec) {
                 let currentKecVal = selectKec.value;
                 let uniqueKec = [...new Set(rawList.map(item => item.kecamatan))].filter(k => k !== 'TANPA KECAMATAN').sort();
-                let optHtml = `<option value="">-- SEMUA KECAMATAN --</option>`;
+                let optHtml = `<option value="">-- SEMUA KECAMATAN (${uniqueKec.length}) --</option>`;
                 uniqueKec.forEach(k => {
                     let sel = (k === currentKecVal) ? 'selected' : '';
                     optHtml += `<option value="${window.escapeHtml(k)}" ${sel}>KEC. ${window.escapeHtml(k)}</option>`;
@@ -1626,8 +1690,10 @@
                 selectKec.innerHTML = optHtml;
             }
 
+            // Apply filters
             let filterKecVal = (selectKec?.value || '').toUpperCase();
 
+            // Update Summary Stats Cards
             let grandPend = 0, grandPem = 0, grandHapus = 0, grandTotal = 0;
             rawList.forEach(item => {
                 grandPend += item.pendaftaran;
@@ -1642,17 +1708,8 @@
             window.safeSetText('statGrandTotal', grandTotal);
 
             if (!filterKecVal) {
-                thead.innerHTML = `
-                    <tr>
-                        <th class="py-3 px-3 text-center border-r w-12">NO</th>
-                        <th class="py-3 px-3 text-center border-r min-w-[220px]">KECAMATAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-indigo-50/50 text-indigo-900 min-w-[110px]">PENDAFTARAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-amber-50/50 text-amber-900 min-w-[110px]">PEMUTAKHIRAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-red-50/50 text-red-900 min-w-[110px]">PENGHAPUSAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-emerald-100/60 text-emerald-950 min-w-[120px]">TOTAL DATA</th>
-                    </tr>
-                `;
-
+                // --- MODE 1: SEMUA KECAMATAN ---
+                if (colHeader) colHeader.innerText = "KECAMATAN";
                 if (bannerText) {
                     bannerText.innerHTML = `<i class="fa-solid fa-building-columns text-amber-400 text-sm"></i> KECAMATAN : <span class="text-amber-300">SEMUA KECAMATAN (KABUPATEN MERANGIN)</span>`;
                 }
@@ -1697,9 +1754,9 @@
                     html += `
                         <tr class="hover:bg-emerald-50/40 transition">
                             <td class="py-2.5 px-3 text-center border-r font-mono text-slate-500">${idx + 1}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-bold text-indigo-950">
+                            <td class="py-2.5 px-3 border-r font-bold text-indigo-950 flex items-center justify-between">
                                 <span>KEC. ${window.escapeHtml(item.kecamatan)}</span>
-                                <span class="text-[10px] font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full ml-1">${item.desaCount} Desa</span>
+                                <span class="text-[10px] font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">${item.desaCount} Desa</span>
                             </td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-semibold text-indigo-700 bg-indigo-50/30">${item.pendaftaran}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-semibold text-amber-700 bg-amber-50/30">${item.pemutakhiran}</td>
@@ -1714,7 +1771,7 @@
                 if (tfoot) {
                     tfoot.innerHTML = `
                         <tr class="bg-slate-100 font-bold border-t-2 border-slate-300">
-                            <td colspan="2" class="py-3 px-4 text-center border-r">TOTAL REKAPITULASI :</td>
+                            <td colspan="2" class="py-3 px-4 text-right border-r">TOTAL REKAPITULASI :</td>
                             <td class="py-3 px-3 text-center border-r text-indigo-900 font-mono text-sm">${sumPend}</td>
                             <td class="py-3 px-3 text-center border-r text-amber-900 font-mono text-sm">${sumPem}</td>
                             <td class="py-3 px-3 text-center border-r text-red-900 font-mono text-sm">${sumHapus}</td>
@@ -1724,17 +1781,8 @@
                 }
 
             } else {
-                thead.innerHTML = `
-                    <tr>
-                        <th class="py-3 px-3 text-center border-r w-12">NO</th>
-                        <th class="py-3 px-3 text-center border-r min-w-[220px]">DESA / KELURAHAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-indigo-50/50 text-indigo-900 min-w-[110px]">PENDAFTARAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-amber-50/50 text-amber-900 min-w-[110px]">PEMUTAKHIRAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-red-50/50 text-red-900 min-w-[110px]">PENGHAPUSAN</th>
-                        <th class="py-3 px-3 text-center border-r bg-emerald-100/60 text-emerald-950 min-w-[120px]">TOTAL DATA</th>
-                    </tr>
-                `;
-
+                // --- MODE 2: SPESIFIK KECAMATAN ---
+                if (colHeader) colHeader.innerText = "DESA / KELURAHAN";
                 if (bannerText) {
                     bannerText.innerHTML = `<i class="fa-solid fa-building-columns text-amber-400 text-sm"></i> KECAMATAN : <span class="text-amber-300">${window.escapeHtml(filterKecVal)}</span>`;
                 }
@@ -1768,7 +1816,7 @@
                     html += `
                         <tr class="hover:bg-emerald-50/40 transition">
                             <td class="py-2.5 px-3 text-center border-r font-mono text-slate-500">${idx + 1}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-semibold text-indigo-950">${window.escapeHtml(item.desa)}</td>
+                            <td class="py-2.5 px-3 border-r font-semibold text-indigo-950">${window.escapeHtml(item.desa)}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-semibold text-indigo-700 bg-indigo-50/30">${item.pendaftaran}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-semibold text-amber-700 bg-amber-50/30">${item.pemutakhiran}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-semibold text-red-700 bg-red-50/30">${item.penghapusan}</td>
@@ -1782,7 +1830,7 @@
                 if (tfoot) {
                     tfoot.innerHTML = `
                         <tr class="bg-slate-100 font-bold border-t-2 border-slate-300">
-                            <td colspan="2" class="py-3 px-4 text-center border-r">TOTAL REKAPITULASI (${window.escapeHtml(filterKecVal)}) :</td>
+                            <td colspan="2" class="py-3 px-4 text-right border-r">TOTAL REKAPITULASI (${window.escapeHtml(filterKecVal)}) :</td>
                             <td class="py-3 px-3 text-center border-r text-indigo-900 font-mono text-sm">${sumPend}</td>
                             <td class="py-3 px-3 text-center border-r text-amber-900 font-mono text-sm">${sumPem}</td>
                             <td class="py-3 px-3 text-center border-r text-red-900 font-mono text-sm">${sumHapus}</td>
@@ -1837,24 +1885,26 @@
 
             let html = '';
             filtered.forEach((item, index) => {
+                const linkDrive = item.suratPengantarUrl ? `<a href="${window.escapeHtml(item.suratPengantarUrl)}" target="_blank" class="text-emerald-600 hover:text-emerald-800 font-semibold inline-flex items-center gap-1 ml-1" title="Lihat Surat Pengantar"><i class="fa-brands fa-google-drive"></i></a>` : '';
+
                 if (category === 'pendaftaran') {
                     html += `
                         <tr class="hover:bg-indigo-50/50 transition">
                             <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)}</td>
+                            <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.nik || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-medium">${window.escapeHtml(item.letakObjek)}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono">${item.luasBumi ? item.luasBumi + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-medium">${window.escapeHtml(item.letakObjek)}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBumi ? item.luasBumi + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.thnDbgn || '-')}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.thnRenov || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono">${window.escapeHtml(item.listrik || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r text-slate-500">${window.escapeHtml(item.keterangan || '-')}</td>
+                            <td class="py-2.5 px-3 text-center border-r">${window.escapeHtml(item.listrik || '-')}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-500">${window.escapeHtml(item.keterangan || '-')}</td>
                             <td class="py-2.5 px-3 text-center">
                                 <div class="flex justify-center gap-1.5">
                                     <button onclick="editRecord('pendaftaran', '${item.id}')" class="text-indigo-600 hover:text-indigo-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                    ${window.currentUser && window.currentUser.role === 'admin' ? `<button onclick="deleteRecord('pendaftaran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                    <button onclick="deleteRecord('pendaftaran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -1863,20 +1913,20 @@
                     html += `
                         <tr class="hover:bg-amber-50/40 transition">
                             <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-indigo-900">${window.escapeHtml(item.nop)}</td>
-                            <td class="py-2.5 px-3 text-center border-r text-slate-600">${window.escapeHtml(item.namaLama || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r text-slate-600">${window.escapeHtml(item.letakObjekLama || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono text-slate-600">${item.luasBumiLama ? item.luasBumiLama + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono text-slate-600">${item.luasBangunanLama ? item.luasBangunanLama + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-bold text-amber-950 bg-amber-50/50">${window.escapeHtml(item.namaBaru || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-medium text-amber-950 bg-amber-50/50">${window.escapeHtml(item.letakObjekBaru || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBumiBaru ? item.luasBumiBaru + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBangunanBaru ? item.luasBangunanBaru + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r text-amber-900 font-medium">${window.escapeHtml(item.alasan || '-')}</td>
+                            <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-indigo-900">${window.escapeHtml(item.nop)} ${linkDrive}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-600">${window.escapeHtml(item.namaLama || '-')}</td>
+                            <td class="py-2.5 px-3 border-r text-slate-600">${window.escapeHtml(item.letakObjekLama || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono text-slate-600">${item.luasBumiLama ? item.luasBumiLama + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono text-slate-600">${item.luasBangunanLama ? item.luasBangunanLama + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r font-bold text-amber-950 bg-amber-50/50">${window.escapeHtml(item.namaBaru || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-medium text-amber-950 bg-amber-50/50">${window.escapeHtml(item.letakObjekBaru || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBumiBaru ? item.luasBumiBaru + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono font-bold text-amber-950 bg-amber-50/50">${item.luasBangunanBaru ? item.luasBangunanBaru + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r text-amber-900 font-medium">${window.escapeHtml(item.alasan || '-')}</td>
                             <td class="py-2.5 px-3 text-center">
                                 <div class="flex justify-center gap-1.5">
                                     <button onclick="editRecord('pemutakhiran', '${item.id}')" class="text-amber-600 hover:text-amber-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                    ${window.currentUser && window.currentUser.role === 'admin' ? `<button onclick="deleteRecord('pemutakhiran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                    <button onclick="deleteRecord('pemutakhiran', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -1885,17 +1935,17 @@
                     html += `
                         <tr class="hover:bg-red-50/40 transition">
                             <td class="py-2.5 px-3 text-center border-r font-medium">${index + 1}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)}</td>
-                            <td class="py-2.5 px-3 text-center border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
+                            <td class="py-2.5 px-3 border-r font-semibold text-slate-900">${window.escapeHtml(item.nama)} ${linkDrive}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.alamatWp || '-')}</td>
                             <td class="py-2.5 px-3 text-center border-r font-mono font-bold text-red-900">${window.escapeHtml(item.nop)}</td>
-                            <td class="py-2.5 px-3 text-center border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono">${item.luasTanah ? item.luasTanah + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
-                            <td class="py-2.5 px-3 text-center border-r font-medium text-red-800">${window.escapeHtml(item.alasan)}</td>
+                            <td class="py-2.5 px-3 border-r">${window.escapeHtml(item.letakObjek || '-')}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasTanah ? item.luasTanah + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 text-right border-r font-mono">${item.luasBangunan ? item.luasBangunan + ' m²' : '-'}</td>
+                            <td class="py-2.5 px-3 border-r font-medium text-red-800">${window.escapeHtml(item.alasan)}</td>
                             <td class="py-2.5 px-3 text-center">
                                 <div class="flex justify-center gap-1.5">
                                     <button onclick="editRecord('penghapusan', '${item.id}')" class="text-red-600 hover:text-red-900 p-1 rounded" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                    ${window.currentUser && window.currentUser.role === 'admin' ? `<button onclick="deleteRecord('penghapusan', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                    <button onclick="deleteRecord('penghapusan', '${item.id}')" class="text-red-500 hover:text-red-800 p-1 rounded" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -1937,6 +1987,7 @@
             }
             if (item.desa) document.getElementById('metaDesa').value = item.desa;
             if (item.rt) document.getElementById('metaRT').value = item.rt;
+            if (item.suratPengantarUrl) document.getElementById('metaSuratPengantarUrl').value = item.suratPengantarUrl;
 
             if (category === 'pendaftaran') {
                 document.getElementById('pendaftaranRecordId').value = item.id;
@@ -2004,6 +2055,7 @@
 
             const list = category === 'laporan' ? [] : window.getFilteredCategoryRecords(category);
 
+            // Fallback to saved record data if header metadata inputs are empty
             if (category !== 'laporan' && list.length > 0) {
                 if (!kec && list[0].kecamatan) kec = list[0].kecamatan;
                 if (!desa && list[0].desa) desa = list[0].desa;
@@ -2022,6 +2074,7 @@
 
             let rows = [];
 
+            // 1. Kop / Header Laporan Excel
             rows.push([`DATA ${titleText} TAHUN ${thn}`]);
             rows.push(["KABUPATEN MERANGIN"]);
             if (category !== 'laporan') {
@@ -2031,10 +2084,11 @@
                 const selectedKec = (selectKec && selectKec.value) ? selectKec.value.toUpperCase() : 'SEMUA KECAMATAN (KABUPATEN MERANGIN)';
                 rows.push([`KECAMATAN: ${selectedKec}`]);
             }
-            rows.push([]);
+            rows.push([]); // Baris kosong pembatas Kop dan Tabel
 
-            const headerRowIndex = rows.length;
+            const headerRowIndex = rows.length; // Index baris header tabel
 
+            // 2. Baris Header Tabel & Data
             if (category === 'laporan') {
                 const selectKec = document.getElementById('filterKecamatanLaporan');
                 const isSemua = !(selectKec && selectKec.value);
@@ -2064,6 +2118,7 @@
                     }
                 });
             } else {
+                const list = window.recordsData[category] || [];
                 if (list.length === 0) {
                     window.showToast("Tidak ada data untuk diexport.", "error");
                     return;
@@ -2125,10 +2180,12 @@
 
             const worksheet = XLSX.utils.aoa_to_sheet(rows);
 
+            // Styling Kop & Garis Tabel Excel
             if (worksheet['!ref']) {
                 const range = XLSX.utils.decode_range(worksheet['!ref']);
                 const colCount = range.e.c - range.s.c + 1;
 
+                // Merge baris Kop Title sejajar kolom tabel
                 worksheet['!merges'] = [
                     { s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } },
                     { s: { r: 1, c: 0 }, e: { r: 1, c: colCount - 1 } },
@@ -2143,25 +2200,26 @@
                         }
 
                         if (R < 3) {
+                            // Style Kop Judul (Baris 1, 2, 3)
                             worksheet[cellAddress].s = {
                                 font: { name: 'Calibri', sz: R === 0 ? 13 : 11, bold: true },
                                 alignment: { horizontal: 'center', vertical: 'center' }
                             };
                         } else if (R === 3) {
+                            // Baris kosong
                             worksheet[cellAddress].s = {};
                         } else {
+                            // Style Baris Header & Isi Data Tabel
                             const isHeader = (R === headerRowIndex);
                             const headerVal = String(rows[headerRowIndex]?.[C] || '').toUpperCase();
 
-                            let horizAlign = 'center';
-                            if (!isHeader) {
-                                if (C === 0 || headerVal.includes('NOP') || headerVal.includes('NIK') || headerVal.includes('TAHUN') || headerVal.includes('THN') || headerVal.includes('LISTRIK')) {
-                                    horizAlign = 'center';
-                                } else if (headerVal.includes('LUAS') || headerVal.includes('BUMI') || headerVal.includes('BANGUNAN') || headerVal.includes('TANAH') || headerVal.includes('JUMLAH') || headerVal.includes('TOTAL')) {
-                                    horizAlign = 'right';
-                                } else {
-                                    horizAlign = 'left';
-                                }
+                            let horizAlign = 'left';
+                            if (isHeader) {
+                                horizAlign = 'center';
+                            } else if (C === 0 || headerVal.includes('NOP') || headerVal.includes('NIK') || headerVal.includes('TAHUN') || headerVal.includes('THN') || headerVal.includes('LISTRIK')) {
+                                horizAlign = 'center';
+                            } else if (headerVal.includes('LUAS') || headerVal.includes('BUMI') || headerVal.includes('BANGUNAN') || headerVal.includes('TANAH') || headerVal.includes('PENDAFTARAN') || headerVal.includes('PEMUTAKHIRAN') || headerVal.includes('PENGHAPUSAN') || headerVal.includes('TOTAL')) {
+                                horizAlign = 'right';
                             }
 
                             worksheet[cellAddress].s = {
@@ -2199,6 +2257,7 @@
         window.printReport = function(category) {
             const list = category === 'laporan' ? [] : window.getFilteredCategoryRecords(category);
 
+            // Dynamically detect metadata from header selection or fallback to saved data in records
             let thn = (document.getElementById('metaTahun')?.value || '').toString().toUpperCase();
             let rt = (document.getElementById('metaRT')?.value || '').toString().toUpperCase();
             let desa = (document.getElementById('metaDesa')?.value || '').toString().toUpperCase();
@@ -2251,7 +2310,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">NO</th>
-                                <th class="text-center">${colTitle}</th>
+                                <th>${colTitle}</th>
                                 <th class="text-center">PENDAFTARAN</th>
                                 <th class="text-center">PEMUTAKHIRAN</th>
                                 <th class="text-center">PENGHAPUSAN</th>
@@ -2287,6 +2346,9 @@
                                 <th class="text-center">THN RENOV</th>
                                 <th class="text-center">LISTRIK</th>
                             </tr>
+                            <tr class="text-center">
+                                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th>
+                            </tr>
                         </thead>
                         <tbody>
                     `;
@@ -2294,16 +2356,16 @@
                         tableHtml += `
                             <tr>
                                 <td class="text-center">${i + 1}</td>
-                                <td class="text-center">${window.escapeHtml(item.nama)}</td>
+                                <td>${window.escapeHtml(item.nama)}</td>
                                 <td class="text-center">${window.escapeHtml(item.nik || '')}</td>
-                                <td class="text-center">${window.escapeHtml(item.alamatWp || '')}</td>
-                                <td class="text-center">${window.escapeHtml(item.letakObjek)}</td>
-                                <td class="text-center">${item.luasBumi || ''}</td>
-                                <td class="text-center">${item.luasBangunan || ''}</td>
+                                <td>${window.escapeHtml(item.alamatWp || '')}</td>
+                                <td>${window.escapeHtml(item.letakObjek)}</td>
+                                <td class="text-right">${item.luasBumi || ''}</td>
+                                <td class="text-right">${item.luasBangunan || ''}</td>
                                 <td class="text-center">${item.thnDbgn || ''}</td>
                                 <td class="text-center">${item.thnRenov || ''}</td>
                                 <td class="text-center">${item.listrik || ''}</td>
-                                <td class="text-center">${window.escapeHtml(item.keterangan || '')}</td>
+                                <td>${window.escapeHtml(item.keterangan || '')}</td>
                             </tr>
                         `;
                     });
@@ -2335,15 +2397,15 @@
                             <tr>
                                 <td class="text-center">${i + 1}</td>
                                 <td class="text-center">${window.escapeHtml(item.nop)}</td>
-                                <td class="text-center">${window.escapeHtml(item.namaLama || '')}</td>
-                                <td class="text-center">${window.escapeHtml(item.letakObjekLama || '')}</td>
-                                <td class="text-center">${item.luasBumiLama || ''}</td>
-                                <td class="text-center">${item.luasBangunanLama || ''}</td>
-                                <td class="text-center">${window.escapeHtml(item.namaBaru || '')}</td>
-                                <td class="text-center">${window.escapeHtml(item.letakObjekBaru || '')}</td>
-                                <td class="text-center">${item.luasBumiBaru || ''}</td>
-                                <td class="text-center">${item.luasBangunanBaru || ''}</td>
-                                <td class="text-center">${window.escapeHtml(item.alasan || '')}</td>
+                                <td>${window.escapeHtml(item.namaLama || '')}</td>
+                                <td>${window.escapeHtml(item.letakObjekLama || '')}</td>
+                                <td class="text-right">${item.luasBumiLama || ''}</td>
+                                <td class="text-right">${item.luasBangunanLama || ''}</td>
+                                <td>${window.escapeHtml(item.namaBaru || '')}</td>
+                                <td>${window.escapeHtml(item.letakObjekBaru || '')}</td>
+                                <td class="text-right">${item.luasBumiBaru || ''}</td>
+                                <td class="text-right">${item.luasBangunanBaru || ''}</td>
+                                <td>${window.escapeHtml(item.alasan || '')}</td>
                             </tr>
                         `;
                     });
@@ -2360,6 +2422,9 @@
                                 <th class="text-center">LUAS BANGUNAN (M2)</th>
                                 <th class="text-center">ALASAN PENGHAPUSAN</th>
                             </tr>
+                            <tr class="text-center">
+                                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+                            </tr>
                         </thead>
                         <tbody>
                     `;
@@ -2367,13 +2432,13 @@
                         tableHtml += `
                             <tr>
                                 <td class="text-center">${i + 1}</td>
-                                <td class="text-center">${window.escapeHtml(item.nama)}</td>
-                                <td class="text-center">${window.escapeHtml(item.alamatWp || '')}</td>
+                                <td>${window.escapeHtml(item.nama)}</td>
+                                <td>${window.escapeHtml(item.alamatWp || '')}</td>
                                 <td class="text-center">${window.escapeHtml(item.nop)}</td>
-                                <td class="text-center">${window.escapeHtml(item.letakObjek || '')}</td>
-                                <td class="text-center">${item.luasTanah || ''}</td>
-                                <td class="text-center">${item.luasBangunan || ''}</td>
-                                <td class="text-center">${window.escapeHtml(item.alasan || '')}</td>
+                                <td>${window.escapeHtml(item.letakObjek || '')}</td>
+                                <td class="text-right">${item.luasTanah || ''}</td>
+                                <td class="text-right">${item.luasBangunan || ''}</td>
+                                <td>${window.escapeHtml(item.alasan || '')}</td>
                             </tr>
                         `;
                     });
@@ -2476,6 +2541,7 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
+        // Integrated Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAZmImhnXnOBqeUG35WkF2qWp0u9aKgZmo",
             authDomain: "projectpbb-ed58e.firebaseapp.com",
@@ -2491,10 +2557,18 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        signInAnonymously(auth).catch(err => {
+        // Authenticate anonymously
+        signInAnonymously(auth).then(() => {
+            const statusBadge = document.getElementById('authStatusBadge');
+            if (statusBadge) {
+                statusBadge.className = "bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2";
+                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>Terhubung: projectpbb-ed58e</span>`;
+            }
+        }).catch(err => {
             console.warn("Auth info:", err);
         });
 
+        // Realtime sync for all 3 categories
         ['pendaftaran', 'pemutakhiran', 'penghapusan'].forEach(cat => {
             const catRef = ref(db, `pbb_2026/${cat}`);
             onValue(catRef, (snapshot) => {
@@ -2516,12 +2590,17 @@
             });
         });
 
+        // Realtime sync for Master Wilayah from Firebase Database
         const masterRef = ref(db, 'pbb_2026/master_wilayah');
         onValue(masterRef, (snapshot) => {
             const val = snapshot.val();
             if (val && Array.isArray(val) && val.length > 0) {
                 window.masterWilayahList = val;
+                try {
+                    localStorage.setItem('merangin_master_wilayah', JSON.stringify(val));
+                } catch(e) {}
             } else if (!val && window.defaultMasterWilayahData) {
+                // If not exist in Firebase yet, push default master data to Firebase
                 set(masterRef, window.defaultMasterWilayahData);
             }
             if (typeof window.initHeaderWilayahDropdowns === 'function') {
@@ -2534,6 +2613,7 @@
             console.error("Firebase master wilayah fetch error:", err);
         });
 
+        // Global helper to push updated master wilayah list to Firebase
         window.syncMasterWilayahToFirebase = async function(list) {
             try {
                 const mRef = ref(db, 'pbb_2026/master_wilayah');
